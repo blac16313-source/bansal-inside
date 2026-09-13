@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webidex - Bhopal Chats</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { font-family: 'Inter', sans-serif; }
+#chatBox::-webkit-scrollbar { width: 4px; }
+#chatBox::-webkit-scrollbar-thumb { background: #555; border-radius: 10px; }
+</style>
+</head>
+<body class="bg-[#0a0a0a] text-white h-screen flex flex-col">
+
+<!-- Header -->
+<div class="p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
+  <div>
+    <h1 class="text-xl font-bold">Webidex<span class="text-cyan-400">.net</span></h1>
+    <p class="text-xs text-zinc-400">Bhopal Campus Hub • <span id="online">12</span> online</p>
+  </div>
+  <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+</div>
+
+<!-- Chat Messages -->
+<div id="chatBox" class="flex-1 overflow-y-auto p-4 space-y-3 bg-[#111]">
+  <div class="text-center text-xs text-zinc-500 my-4">Welcome to Webidex! Say hi 👋</div>
+</div>
+
+<!-- Input -->
+<div class="p-3 border-t border-zinc-800 bg-zinc-900 flex gap-2">
+  <input id="msgInput" type="text" placeholder="Type a message..." 
+  class="flex-1 bg-zinc-800 border border-zinc-700 rounded-full px-5 py-3 text-sm outline-none focus:border-cyan-400">
+  <button onclick="sendMsg()" class="bg-cyan-400 text-black font-bold px-6 py-3 rounded-full text-sm hover:bg-cyan-300">Send</button>
+</div>
+
+<script>
+const chatBox = document.getElementById('chatBox');
+const msgInput = document.getElementById('msgInput');
+
+// Load old chats
+let chats = JSON.parse(localStorage.getItem('webidex_chats') || '[]');
+chats.forEach(c => addToUI(c.text, c.time, false));
+
+function addToUI(text, time, save=true){
+  const div = document.createElement('div');
+  div.className = "bg-zinc-800 border border-zinc-700/50 p-3 rounded-2xl rounded-bl-sm max-w-[85%]";
+  div.innerHTML = `<p class="text-sm">${text}</p><span class="text-[10px] text-zinc-500">${time}</span>`;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  if(save){
+    chats.push({text, time});
+    localStorage.setItem('webidex_chats', JSON.stringify(chats));
+  }
+}
+
+function sendMsg(){
+  const text = msgInput.value.trim();
+  if(!text) return;
+  const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  addToUI(text, time, true);
+  msgInput.value = "";
+  
+  // Fake reply for testing output
+  if(Math.random() > 0.5){
+    setTimeout(()=>{
+      addToUI("Bhai sahi hai! 🔥", time, true);
+    }, 1000);
+  }
+}
+
+msgInput.addEventListener('keydown', e => { if(e.key === 'Enter') sendMsg(); });
+
+// Fake online count
+setInterval(()=>{
+  document.getElementById('online').innerText = Math.floor(Math.random()*20)+8;
+}, 3000);
+</script>
+</body>
+</html>
