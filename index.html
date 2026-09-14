@@ -510,55 +510,21 @@ function previewWebsite(){
     let code = codeEditor.value;
     if(!code.trim()){
         previewStatus.textContent = "No code";
-        preview.srcdoc = `<html><body style="margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial;color:#555;"><div><h2>No website code</h2><p>Paste your HTML code.</p></div></body></html>`;
+        preview.srcdoc = "<html><body style='margin:0;display:flex;align-items:center;justify-content:center;font-family:Arial'>No code</body></html>";
         return;
     }
     let finalCode = code;
-    if(code.includes("export default") || code.includes("className=") || code.includes("return (")){
-        finalCode = finalCode.replace(/export default function App\(\)\s*\{\s*return\s*\(/s, "");
+    if(code.includes("export default") || code.includes("className=")){
+        finalCode = finalCode.replace(/export default function App\(\)[\s\S]*?return\s*\(/, "");
         finalCode = finalCode.replace(/\)\s*\}\s*\}\s*;?\s*$/, "");
         finalCode = finalCode.replace(/\}\s*\)\s*\}\s*$/, "");
         finalCode = finalCode.replace(/className=/g, "class=");
-        finalCode = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script src="https://cdn.tailwindcss.com"></script></head><body>${finalCode}</body></html>`;
+        finalCode = "<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width'><script src='https://cdn.tailwindcss.com'></" + "script></head><body>" + finalCode + "</body></html>";
     }
     preview.srcdoc = finalCode;
     previewStatus.textContent = "Preview loaded";
     showToast("Your website preview is updated.");
 }
-  
-  
-/* =========================================  
-   SAVE  
-========================================= */  
-  
-function saveWebsite(){  
-  
-    const data = {  
-  
-        name:  
-            siteName.value.trim() ||  
-            "My Website",  
-  
-        code:  
-            codeEditor.value,  
-  
-        savedAt:  
-            new Date().toISOString()  
-  
-    };  
-  
-    localStorage.setItem(  
-        "forge_current_project",  
-        JSON.stringify(data)  
-    );  
-  
-    codeStatus.textContent =  
-        "Saved";  
-  
-    showToast(  
-        "Saved on this device."  
-    );  
-}  
   
   
 /* =========================================  
