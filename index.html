@@ -506,57 +506,25 @@ function showToast(message){
    PREVIEW  
 ========================================= */  
   
-function previewWebsite(){  
-  
-    const code =  
-        codeEditor.value;  
-  
-    if(!code.trim()){  
-  
-        previewStatus.textContent =  
-            "No code";  
-  
-        preview.srcdoc =  
-            `  
-            <html>  
-            <body style="  
-                margin:0;  
-                min-height:100vh;  
-                display:flex;  
-                align-items:center;  
-                justify-content:center;  
-                font-family:Arial;  
-                color:#555;  
-            ">  
-                <div>  
-                    <h2>No website code</h2>  
-                    <p>Paste your HTML code into the editor.</p>  
-                </div>  
-            </body>  
-            </html>  
-            `;  
-  
-        return;  
-    }  
-  
-    /*  
-       IMPORTANT:  
-       Whatever the user puts in the editor  
-       goes directly into srcdoc.  
-  
-       So if you paste your Bhopal Campus Hub  
-       HTML, THAT website should appear here.  
-    */  
-  
-    preview.srcdoc = code;  
-  
-    previewStatus.textContent =  
-        "Preview loaded";  
-  
-    showToast(  
-        "Your website preview is updated."  
-    );  
-}  
+function previewWebsite(){
+    let code = codeEditor.value;
+    if(!code.trim()){
+        previewStatus.textContent = "No code";
+        preview.srcdoc = `<html><body style="margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial;color:#555;"><div><h2>No website code</h2><p>Paste your HTML code.</p></div></body></html>`;
+        return;
+    }
+    let finalCode = code;
+    if(code.includes("export default") || code.includes("className=") || code.includes("return (")){
+        finalCode = finalCode.replace(/export default function App\(\)\s*\{\s*return\s*\(/s, "");
+        finalCode = finalCode.replace(/\)\s*\}\s*\}\s*;?\s*$/, "");
+        finalCode = finalCode.replace(/\}\s*\)\s*\}\s*$/, "");
+        finalCode = finalCode.replace(/className=/g, "class=");
+        finalCode = `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script src="https://cdn.tailwindcss.com"></script></head><body>${finalCode}</body></html>`;
+    }
+    preview.srcdoc = finalCode;
+    previewStatus.textContent = "Preview loaded";
+    showToast("Your website preview is updated.");
+}
   
   
 /* =========================================  
