@@ -38,6 +38,6 @@ function downloadWebsite(){let blob=new Blob([codeEditor.value],{type:"text/html
 function clearWebsite(){codeEditor.value="";siteName.value="";localStorage.removeItem("forge_current_project");preview.srcdoc="";}
 document.getElementById("previewBtn").onclick=previewWebsite;document.getElementById("saveBtn").onclick=saveWebsite;document.getElementById("downloadBtn").onclick=downloadWebsite;document.getElementById("clearBtn").onclick=clearWebsite;
 document.getElementById("deployBtn").onclick=()=>{let b=new Blob([codeEditor.value],{type:"text/html"});let u=URL.createObjectURL(b);window.open(u,"_blank");};
-(function(){let p=new URLSearchParams(location.search);let g=document.getElementById('gate'),c=document.querySelector('.container');if(p.get('admin')==='true'){g.style.display='none';c.classList.remove('blur');}else{c.classList.add('blur');}setInterval(()=>{let e=document.getElementById('eruda');if(e)e.remove();},1000);})();
+(function(){let p=new URLSearchParams(location.search);let g=document.getElementById('gate'),c=document.querySelector('.container');if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes')}if(localStorage.getItem('webidex_admin')==='yes'){g.style.display='none';c.classList.remove('blur')}else{c.classList.add('blur')}else{c.classList.add('blur');}setInterval(()=>{let e=document.getElementById('eruda');if(e)e.remove();},1000);})();
 loadWebsite();
 </script></body></html>
