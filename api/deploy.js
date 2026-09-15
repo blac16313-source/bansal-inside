@@ -9,7 +9,9 @@ export default async function handler(req, res) {
     const { code, name } = req.body || {};
 
     if (!code || typeof code !== "string") {
-      return res.status(400).json({ error: "Website code is required" });
+      return res.status(400).json({
+        error: "Website code is required"
+      });
     }
 
     const safeName = (name || "website")
@@ -18,7 +20,7 @@ export default async function handler(req, res) {
 
     const id = crypto.randomUUID();
 
-    const blob = await put(
+    await put(
       `websites/${id}/${safeName}.html`,
       code,
       {
@@ -31,15 +33,15 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      url: blob.url,
+      url: `/api/site?id=${encodeURIComponent(id)}&file=${encodeURIComponent(`${safeName}.html`)}`,
       id: id
     });
 
   } catch (error) {
     console.error(error);
 
- return res.status(200).json({
-  success: true,
-  url: `/api/site?id=${encodeURIComponent(id)}&file=${encodeURIComponent(`${safeName}.html`)}`,
-  id: id
-});
+    return res.status(500).json({
+      error: "Deployment failed"
+    });
+  }
+}
