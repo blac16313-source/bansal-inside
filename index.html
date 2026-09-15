@@ -38,7 +38,37 @@ function loadWebsite(){let s=localStorage.getItem("forge_current_project");if(s)
 function downloadWebsite(){let blob=new Blob([codeEditor.value],{type:"text/html"});let url=URL.createObjectURL(blob);let a=document.createElement("a");a.href=url;a.download="website.html";a.click();}
 function clearWebsite(){codeEditor.value="";siteName.value="";localStorage.removeItem("forge_current_project");preview.srcdoc="";}
 document.getElementById("previewBtn").onclick=previewWebsite;document.getElementById("saveBtn").onclick=saveWebsite;document.getElementById("downloadBtn").onclick=downloadWebsite;document.getElementById("clearBtn").onclick=clearWebsite;
-document.getElementById("deployBtn").onclick=()=>{let b=new Blob([codeEditor.value],{type:"text/html"});let u=URL.createObjectURL(b);window.open(u,"_blank");};
+
+document.getElementById("deployBtn").onclick=async()=>{
+  try{
+    const code=codeEditor.value;
+    const name=siteName.value||"website";
+
+    if(!code.trim()){
+      alert("Please enter website code first.");
+      return;
+    }
+
+    const res=await fetch("/api/deploy",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({code,name})
+    });
+
+    const data=await res.json();
+
+    if(!res.ok){
+      throw new Error(data.error||"Deployment failed");
+    }
+
+    alert("Website deployed successfully!");
+    window.open(data.url,"_blank");
+
+  }catch(error){
+    alert("Deployment failed: "+error.message);
+  }
+};
+
 (function(){let p=new URLSearchParams(location.search);let g=document.getElementById('gate'),c=document.querySelector('.container');if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes')}if(localStorage.getItem('webidex_admin')==='yes'){g.style.display='none';c.classList.remove('blur')}else{c.classList.add('blur')}setInterval(()=>{let e=document.getElementById('eruda');if(e)e.remove()},1000);})();
 loadWebsite();
 </script></body></html>
