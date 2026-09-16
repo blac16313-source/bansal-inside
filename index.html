@@ -1,218 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Webidex - Luxury Builder</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Webidex</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--cream:#FFFBF2;--cream2:#FFF8EB;--border:#E9E0C8;--black:#0A0A0F;--gold:#FFD700;--green:#10B981}
-body{min-height:100vh;background:#050507;font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;position:relative;color:#111}
-
-/* ===== EMPIRE DENSE GOLD GALAXY BACKGROUND - CANVAS + CSS ===== */
+*{box-sizing:border-box;margin:0;padding:0}:root{--cream:#FFFBF2;--border:#E9E0C8;--gold:#FFD700}
+body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:hidden}
 #starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-.silk{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-radial-gradient(ellipse 800px 600px at 15% 20%, rgba(255,215,0,0.08), transparent 60%),
-radial-gradient(ellipse 600px 800px at 85% 30%, rgba(255,215,0,0.06), transparent 60%),
-radial-gradient(ellipse 1000px 500px at 50% 85%, rgba(212,175,55,0.05), transparent 70%),
-linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.02) 20%, transparent 40%, rgba(255,255,255,0.015) 65%, transparent 85%)}
+.silk{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 800px 600px at 15% 20%,rgba(255,215,0,0.08),transparent 60%),radial-gradient(ellipse 600px 800px at 85% 30%,rgba(255,215,0,0.06),transparent 60%)}
 
-/* ===== WAITLIST GATE ===== */
+/* GLASS SHELL - THE SHINY BOX YOU WANTED */
+.glass-shell{position:relative;z-index:2;width:min(1280px,96%);margin:18px auto 60px;background:rgba(255,251,242,0.10);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.22);border-radius:28px;padding:18px;box-shadow:0 30px 90px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.35)}
+.glass-shell::before{content:"";position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);pointer-events:none}
+.glass-shell::after{content:"";position:absolute;top:-40%;left:-15%;width:50%;height:180%;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,0.07) 50%,transparent 70%);transform:rotate(10deg);pointer-events:none}
+
 .waitlist-gate{position:fixed;inset:0;z-index:9999;background:#050507;display:flex;align-items:center;justify-content:center;padding:20px}
-.waitlist-gate .bg{position:absolute;inset:0}
-.gate-card{position:relative;z-index:1;width:min(440px,92%);background:var(--cream);border:1px solid var(--border);border-radius:24px;padding:36px 28px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.8)}
-.gate-logo{width:56px;height:56px;background:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:28px;margin:0 auto 18px;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
-.gate-badge{display:inline-block;background:#FFF3CD;border:1px solid var(--gold);padding:6px 14px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.5px;margin-bottom:14px}
-.gate-title{font-size:28px;font-weight:800;line-height:1.2;margin-bottom:10px}
-.gate-sub{font-size:14px;color:#666;line-height:1.6;margin-bottom:24px}
-.gate-cta{display:block;width:100%;background:#111;color:white;padding:14px;border-radius:999px;text-decoration:none;font-weight:800;font-size:15px;transition:0.2s}
-.gate-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,0.3)}
+.gate-card{position:relative;z-index:1;width:min(440px,92%);background:var(--cream);border:1px solid var(--border);border-radius:24px;padding:36px 28px;text-align:center}
 
-/* ===== TOPBAR - EXACT REFERENCE ===== */
-.topbar{position:relative;z-index:2;width:min(1240px,96%);height:70px;margin:20px auto 0;background:var(--cream);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;box-shadow:0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8)}
-.top-left{display:flex;align-items:center;gap:14px}
-.logo-box{width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
-.logo-text{font-size:26px;font-weight:800;letter-spacing:-0.5px}
-.top-right{display:flex;align-items:center;gap:10px}
-.pill-btn{padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px;cursor:pointer;transition:0.15s}
-.pill-btn:hover{background:#FFF8EB}
-.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:0.15s}
-.icon-btn:hover{background:#FFF8EB}
-.profile{width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
-
-/* ===== MAIN LAYOUT ===== */
-.main{position:relative;z-index:2;width:min(1240px,96%);margin:20px auto 60px;display:grid;grid-template-columns:1fr 390px;gap:20px;align-items:start}
-
-/* ===== CODE PANEL - EXACT REFERENCE ===== */
-.code-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9);display:flex;flex-direction:column;height:680px}
-.code-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #EDE5D3;background:linear-gradient(to bottom, #FFFDf7, #FFF8EB)}
-.code-head-left{display:flex;align-items:center;gap:10px}
-.code-fname{font-weight:700;font-size:15px}
-.badge-html{background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700}
-.badge-saved{display:flex;align-items:center;gap:5px;color:#059669;font-size:13px;font-weight:600}
-.badge-saved::before{content:"✔";width:16px;height:16px;background:#10B981;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px}
-.code-tabs{padding:12px 16px;display:flex;gap:8px;background:#FFF8EB;border-bottom:1px solid #EDE5D3}
-.tab{padding:8px 16px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer;transition:0.15s}
-.tab.active{background:#111;color:white;border-color:#111;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.editor-wrap{flex:1;position:relative;background:#FFFEFB;display:flex;overflow:hidden}
-.gutter{width:48px;background:#FFF8EB;border-right:1px solid #EDE5D3;padding:12px 0;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#999;line-height:20px;user-select:none}
-.code-area{flex:1;position:relative}
-#codeEditor{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:20px;resize:none;outline:none;white-space:pre;overflow-wrap:normal;overflow-x:auto;color:#1a1a1a}
-#preview{position:absolute;inset:0;width:100%;height:100%;border:0;background:white;display:none}
-.bottom-bar{padding:12px 16px;background:#F5EEE0;border-top:1px solid #EDE5D3;display:flex;flex-direction:column;gap:10px}
-.bottom-label{font-size:11px;font-weight:700;letter-spacing:0.5px;color:#8B7D60;text-transform:uppercase;background:#EDE5D3;padding:3px 8px;border-radius:999px;width:fit-content}
-.bottom-actions{display:flex;gap:8px}
-.action-btn{padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:0.15s}
-.action-btn:hover{background:#FFFBF2;transform:translateY(-1px)}
-
-/* ===== DEPLOY PANEL - EXACT REFERENCE WITH SPARKLE ===== */
-.deploy-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9);position:relative;overflow:hidden}
-.deploy-panel::before{content:"";position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);pointer-events:none}
-.deploy-btn{position:relative;width:100%;background:#0F0F0F;color:white;border:0;border-radius:999px;padding:18px;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);overflow:hidden;transition:0.2s}
-.deploy-btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(0,0,0,0.5)}
-.deploy-btn::after{content:"✦";position:absolute;top:12px;right:24px;color:#FFD700;font-size:14px;animation:twinkle 2s infinite}
-.deploy-btn::before{content:"✦";position:absolute;bottom:14px;left:20px;color:#FFD700;font-size:10px;animation:twinkle 2.5s infinite reverse}
-@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
-.deploy-sub{text-align:center;font-size:13.5px;line-height:1.4;color:#444}
-.deploy-sub b{font-weight:600}
-.live-section{margin-top:4px}
-.live-label{font-size:12px;font-weight:600;color:#555;margin-bottom:6px}
-.live-url-row{display:flex;align-items:center;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px}
-.live-url{flex:1;font-size:12.5px;color:#2563EB;word-break:break-all;text-decoration:none}
-.copy-btn{padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap}
-.site-input{width:100%;padding:12px 14px;border:1px solid #E5DDC8;border-radius:12px;font-size:14px;background:white;outline:none}
-.site-input:focus{border-color:#111}
-.go-projects{margin-top:6px;width:100%;padding:14px;border-radius:999px;border:1px solid #111;background:transparent;font-weight:600;font-size:14px;cursor:pointer;transition:0.15s}
-.go-projects:hover{background:#111;color:white}
+.topbar{width:100%;height:70px;background:var(--cream);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;box-shadow:0 12px 40px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.8)}
+.main{width:100%;margin-top:18px;display:grid;grid-template-columns:1fr 390px;gap:20px;align-items:start}
+.code-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,0.55);display:flex;flex-direction:column;height:680px}
+.deploy-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 16px 50px rgba(0,0,0,0.55);position:relative;overflow:hidden}
+.deploy-btn{position:relative;width:100%;background:#0F0F0F;color:white;border:0;border-radius:999px;padding:18px;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.deploy-btn::after{content:"✦";position:absolute;top:12px;right:24px;color:var(--gold);font-size:14px;animation:twinkle 2s infinite}
+@keyframes twinkle{0%,100%{opacity:1}50%{opacity:0.3}}
 .hidden{display:none!important}
-@media(max-width:900px){.main{grid-template-columns:1fr}.code-panel{height:560px}.topbar{height:auto;padding:12px;flex-wrap:wrap;gap:10px}}
+.tab{padding:8px 16px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer}
+.tab.active{background:#111;color:white;border-color:#111}
+@media(max-width:900px){.main{grid-template-columns:1fr}.code-panel{height:560px}}
 </style>
 </head>
 <body>
-<canvas id="starCanvas"></canvas>
-<div class="silk"></div>
+<canvas id="starCanvas"></canvas><div class="silk"></div>
 
-<div id="gate" class="waitlist-gate">
-<canvas id="gateCanvas" style="position:absolute;inset:0"></canvas>
-<div class="gate-card">
-<div class="gate-logo">W</div>
-<div class="gate-badge">✨ LUXURY BUILDER</div>
-<h1 class="gate-title">Webidex is coming soon</h1>
-<p class="gate-sub">First 30 users can get <b>free access forever</b><br>Build & deploy luxury sites in seconds</p>
-<a class="gate-cta" href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank">Join Waiting List →</a>
-</div>
-</div>
+<div id="gate" class="waitlist-gate"><canvas id="gateCanvas" style="position:absolute;inset:0"></canvas><div class="gate-card"><div style="width:56px;height:56px;background:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:28px;margin:0 auto 18px">W</div><div style="display:inline-block;background:#FFF3CD;border:1px solid #FFD700;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:800">✨ LUXURY BUILDER</div><h1 style="font-size:28px;font-weight:800;margin:14px 0 10px">Webidex is coming soon</h1><p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:24px">First 30 users free forever</p><a href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank" style="display:block;width:100%;background:#111;color:white;padding:14px;border-radius:999px;text-decoration:none;font-weight:800">Join Waiting List →</a></div></div>
 
-<div id="newUI" class="hidden" style="width:100%;display:flex;flex-direction:column;align-items:center">
+<div id="newUI" class="hidden" style="width:100%;display:flex;justify-content:center">
+<div class="glass-shell">
 <header class="topbar">
-<div class="top-left"><div class="logo-box">W</div><div class="logo-text">Webidex</div><button class="pill-btn">Your Projects</button></div>
-<div class="top-right">
-<button class="icon-btn" title="Notifications">🔔</button>
-<button class="icon-btn" title="Settings">⚙️</button>
-<button class="icon-btn" title="Apps">⋮⋮</button>
-<div class="profile">JK</div>
-<button class="pill-btn" onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname" style="margin-left:6px">Exit Admin</button>
-</div>
+<div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px">W</div><div style="font-size:26px;font-weight:800">Webidex</div><button style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600">Your Projects</button></div>
+<div style="display:flex;align-items:center;gap:10px"><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white">🔔</button><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white">⚙️</button><div style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800">JK</div><button onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname" style="padding:9px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-size:12px">Exit</button></div>
 </header>
 
 <main class="main">
 <div class="code-panel">
-<div class="code-head"><div class="code-head-left"><span class="code-fname">index.html</span><span class="badge-html">HTML</span><span class="badge-saved" id="savedBadge">Saved</span></div></div>
-<div class="code-tabs"><button class="tab active" id="codeTab">Code</button><button class="tab" id="previewTab">Preview</button></div>
-<div class="editor-wrap"><div class="gutter" id="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div><div class="code-area"><textarea id="codeEditor" spellcheck="false" placeholder="<!DOCTYPE html>
-<html>
-<head>..."></textarea><iframe id="preview" sandbox="allow-scripts allow-forms allow-same-origin"></iframe></div></div>
-<div class="bottom-bar"><div class="bottom-label">CODE ACTIONS:</div><div class="bottom-actions"><button class="action-btn" id="saveBtn">💾 Save</button><button class="action-btn" id="downloadBtn">⬇ Download</button><button class="action-btn" id="clearBtn">🗑 Clear</button></div></div>
+<div style="padding:16px 20px;display:flex;justify-content:space-between;border-bottom:1px solid #EDE5D3;background:linear-gradient(to bottom,#FFFDf7,#FFF8EB)"><div style="display:flex;gap:10px;align-items:center"><span style="font-weight:700">index.html</span><span style="background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700">HTML</span><span id="savedBadge" style="color:#059669;font-size:13px;font-weight:600">✔ Saved</span></div></div>
+<div style="padding:12px 16px;display:flex;gap:8px;background:#FFF8EB;border-bottom:1px solid #EDE5D3"><button class="tab active" id="codeTab">Code</button><button class="tab" id="previewTab">Preview</button></div>
+<div style="flex:1;display:flex;position:relative;background:#FFFEFB"><div id="gutter" style="width:48px;background:#FFF8EB;border-right:1px solid #EDE5D3;padding:12px 0;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#999;line-height:20px">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div><div style="flex:1;position:relative"><textarea id="codeEditor" style="position:absolute;inset:0;width:100%;height:100%;border:0;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:20px;resize:none;outline:none;background:transparent"></textarea><iframe id="preview" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:white;display:none" sandbox="allow-scripts allow-forms allow-same-origin"></iframe></div></div>
+<div style="padding:12px 16px;background:#F5EEE0;border-top:1px solid #EDE5D3;display:flex;flex-direction:column;gap:10px"><div style="font-size:11px;font-weight:700;color:#8B7D60;background:#EDE5D3;padding:3px 8px;border-radius:999px;width:fit-content">CODE ACTIONS:</div><div style="display:flex;gap:8px"><button id="saveBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px">💾 Save</button><button id="downloadBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px">⬇ Download</button><button id="clearBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px">🗑 Clear</button></div></div>
 </div>
 
 <div class="deploy-panel">
 <button class="deploy-btn" id="deployBtn">Deploy</button>
-<div class="deploy-sub">Ready to make your site live?<br><b>Go live on the internet in 1.2s</b></div>
-<input class="site-input" id="siteName" placeholder="My Website">
-<div class="live-section"><div class="live-label">Live URL</div><div class="live-url-row"><a class="live-url" id="liveUrl" href="#" target="_blank">https://my-website.webidex.app</a><button class="copy-btn" id="copyBtn">📋 Copy URL</button></div></div>
-<button class="go-projects" onclick="alert('Projects page coming soon!')">Go to Your Projects</button>
+<div style="text-align:center;font-size:13.5px;color:#444">Ready to make your site live?<br><b>Go live on the internet in 1.2s</b></div>
+<input id="siteName" placeholder="My Website" style="width:100%;padding:12px 14px;border:1px solid #E5DDC8;border-radius:12px;font-size:14px">
+<div><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL</div><div style="display:flex;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12.5px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;white-space:nowrap">📋 Copy URL</button></div></div>
+<button style="margin-top:6px;width:100%;padding:14px;border-radius:999px;border:1px solid #111;background:transparent;font-weight:600">Go to Your Projects</button>
 </div>
 </main>
 </div>
+</div>
 
 <script>
-// ===== ADMIN GATE =====
 (function(){let p=new URLSearchParams(location.search);if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname)}let a=localStorage.getItem('webidex_admin')==='yes';document.getElementById('gate').classList.toggle('hidden',a);document.getElementById('newUI').classList.toggle('hidden',!a)})();
-
-// ===== DENSE GOLD STARFIELD - 350 STARS =====
-function drawStars(canvasId, count){
-let c=document.getElementById(canvasId);if(!c)return;let ctx=c.getContext('2d');
-function resize(){c.width=window.innerWidth;c.height=window.innerHeight;draw()} 
-function draw(){
-ctx.clearRect(0,0,c.width,c.height);
-for(let i=0;i<count;i++){
-let x=Math.random()*c.width, y=Math.random()*c.height;
-let r=Math.random()*2.2+0.3;
-let alpha=Math.random()*0.9+0.1;
-let gold=Math.random()>0.3;
-let color=gold?`rgba(255,${200+Math.random()*55},${Math.random()*80},${alpha})`:`rgba(255,255,255,${alpha*0.6})`;
-ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();
-if(Math.random()>0.92){
-ctx.beginPath();let s=r*3;ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);ctx.strokeStyle=color;ctx.lineWidth=0.5;ctx.stroke();
-}
-}
-}
-resize();window.addEventListener('resize',resize);
-}
-drawStars('starCanvas', 380);
-drawStars('gateCanvas', 250);
-
-// ===== EDITOR LOGIC =====
+function drawStars(id,count){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');function rs(){c.width=innerWidth;c.height=innerHeight;ctx.clearRect(0,0,c.width,c.height);for(let i=0;i<count;i++){let x=Math.random()*c.width,y=Math.random()*c.height,r=Math.random()*2.2+0.3,a=Math.random()*0.9+0.1,g=Math.random()>0.3,col=g?`rgba(255,${200+Math.random()*55},${Math.random()*80},${a})`:`rgba(255,255,255,${a*0.6})`;ctx.beginPath();ctx.arc(x,y,r,0,6.28);ctx.fillStyle=col;ctx.fill();if(Math.random()>0.92){ctx.beginPath();let s=r*3;ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);ctx.strokeStyle=col;ctx.lineWidth=0.5;ctx.stroke()}}}rs();addEventListener('resize',rs)}drawStars('starCanvas',380);drawStars('gateCanvas',250);
 const codeEl=document.getElementById('codeEditor'), gutter=document.getElementById('gutter'), preview=document.getElementById('preview'), siteEl=document.getElementById('siteName'), liveEl=document.getElementById('liveUrl'), savedBadge=document.getElementById('savedBadge');
-function updateGutter(){
-let lines=codeEl.value.split('\n').length;if(lines<15)lines=15;
-let html='';for(let i=1;i<=lines;i++)html+=i+'<br>';gutter.innerHTML=html;
-}
-function load(){
-let s=localStorage.getItem('forge_current_project');if(s){try{let d=JSON.parse(s);codeEl.value=d.code||`<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Site</title>
-</head>
-<body>
-<h1>Hello, Webidex.</h1>
-<p>Building something great.</p>
-</body>
-</html>`;siteEl.value=d.name||'my-website';liveEl.textContent=`https://${(d.name||'my-website').toLowerCase().replace(/\\s+/g,'-')}.webidex.app`;preview.srcdoc=d.code||'';updateGutter();}catch(e){}}else{codeEl.value=`<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Site</title>
-</head>
-<body>
-<h1>Hello, Webidex.</h1>
-<p>Building something great.</p>
-</body>
-</html>`;updateGutter()}
-}
-function save(){localStorage.setItem('forge_current_project',JSON.stringify({name:siteEl.value,code:codeEl.value}));savedBadge.style.opacity='1';savedBadge.textContent='Saved';setTimeout(()=>savedBadge.style.opacity='0.8',100);updateGutter()}
+function updateGutter(){let l=codeEl.value.split('\n').length;if(l<15)l=15;let h='';for(let i=1;i<=l;i++)h+=i+'<br>';gutter.innerHTML=h}
+function load(){let s=localStorage.getItem('forge_current_project');if(s){try{let d=JSON.parse(s);codeEl.value=d.code||'';siteEl.value=d.name||'';updateGutter()}catch{}} else {codeEl.value=`<!DOCTYPE html><html><body><h1>Hello, Webidex.</h1></body></html>`;updateGutter()}}
+function save(){localStorage.setItem('forge_current_project',JSON.stringify({name:siteEl.value,code:codeEl.value}));savedBadge.textContent='✔ Saved';}
 function showCode(){codeEl.style.display='block';preview.style.display='none';document.getElementById('codeTab').classList.add('active');document.getElementById('previewTab').classList.remove('active')}
 function showPreview(){preview.srcdoc=codeEl.value;preview.style.display='block';codeEl.style.display='none';document.getElementById('previewTab').classList.add('active');document.getElementById('codeTab').classList.remove('active')}
-function download(){let blob=new Blob([codeEl.value],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=(siteEl.value||'website')+'.html';a.click()}
-function clearAll(){if(confirm('Clear code?')){codeEl.value='';siteEl.value='';localStorage.removeItem('forge_current_project');updateGutter();showCode()}}
-async function deploy(){
-let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim()){alert('Enter code first');return}
-let btn=document.getElementById('deployBtn');btn.textContent='Deploying...';btn.disabled=true;
-try{let res=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});let data=await res.json();if(!res.ok)throw new Error(data.error||'Deploy failed');liveEl.textContent=data.url;liveEl.href=data.url;window.open(data.url,'_blank')}catch(e){alert(e.message)}finally{btn.textContent='Deploy';btn.disabled=false}
-}
-document.getElementById('codeTab').onclick=showCode;
-document.getElementById('previewTab').onclick=showPreview;
+document.getElementById('codeTab').onclick=showCode;document.getElementById('previewTab').onclick=showPreview;
 document.getElementById('saveBtn').onclick=save;
-document.getElementById('downloadBtn').onclick=download;
-document.getElementById('clearBtn').onclick=clearAll;
-document.getElementById('deployBtn').onclick=deploy;
+document.getElementById('downloadBtn').onclick=()=>{let b=new Blob([codeEl.value],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(siteEl.value||'site')+'.html';a.click()};
+document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear?')){codeEl.value='';localStorage.removeItem('forge_current_project');updateGutter()}};
+document.getElementById('deployBtn').onclick=async()=>{let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim())return alert('Enter code');let btn=document.getElementById('deployBtn');btn.textContent='Deploying...';btn.disabled=true;try{let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});let d=await r.json();if(!r.ok)throw new Error(d.error);liveEl.textContent=d.url;liveEl.href=d.url;window.open(d.url,'_blank')}catch(e){alert(e.message)}finally{btn.textContent='Deploy';btn.disabled=false}};
 document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
-codeEl.addEventListener('input',()=>{updateGutter();savedBadge.textContent='Unsaved';savedBadge.style.color='#D97706'});
-siteEl.addEventListener('input',()=>{liveEl.textContent=`https://${siteEl.value.toLowerCase().replace(/\\s+/g,'-')||'my-website'}.webidex.app`});
+codeEl.addEventListener('input',()=>{updateGutter();savedBadge.textContent='● Unsaved';});
 load();
 </script>
 </body>
