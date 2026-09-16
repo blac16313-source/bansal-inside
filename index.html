@@ -1,74 +1,66 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Forge</title> <style>
-*{box-sizing:border-box;}body{margin:0;background:#0b0f19;color:#e5e7eb;font-family:system-ui,sans-serif;}
-.topbar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:#0d111c;border-bottom:1px solid #202737;}
-.logo{font-size:21px;font-weight:700;} .logo span{color:#8b5cf6;}
-.topbar-right{color:#8b93a7;font-size:13px;display:flex;align-items:center;gap:10px;}
-.container{width:min(1250px,100%);margin:auto;padding:28px 18px 50px;}
-.project-bar{display:flex;gap:12px;align-items:end;background:#111827;border:1px solid #202737;border-radius:12px;padding:16px;margin-bottom:18px;}
-input{width:100%;padding:11px 12px;background:#0b0f19;color:white;border:1px solid #30394d;border-radius:8px;}
-.workspace{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-.panel{background:#111827;border:1px solid #202737;border-radius:12px;overflow:hidden;}
-textarea,iframe{width:100%;height:560px;background:#080c14;color:#dbe3f0;}
-button{border:0;border-radius:8px;padding:10px 15px;cursor:pointer;font-weight:600;}
-.primary{background:#7c3aed;color:white;} .secondary{background:#202737;color:#e5e7eb;} .danger{background:#3b1d25;color:#fca5a5;}
-.waitlist-banner{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:white;text-align:center;padding:10px 15px;font-size:14px;font-weight:600;position:sticky;top:0;z-index:10000;display:flex;justify-content:center;align-items:center;gap:12px;}
-.waitlist-banner a{background:white;color:#7c3aed;padding:5px 14px;border-radius:20px;text-decoration:none;font-weight:800;}
-.waitlist-btn-top{background:#7c3aed;color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;}
-.waitlist-gate{position:fixed;inset:0;top:46px;background:#0b0f19;z-index:9998;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;}
-.gate-card{max-width:520px;background:#111827;border:1px solid #202737;border-radius:18px;padding:36px 26px;}
-.gate-card h1{font-size:34px;margin:0 0 12px;color:white;} .gate-card p{color:#8b93a7;font-size:15px;line-height:1.6;margin:0 0 20px;}
-.gate-card .cta{display:inline-block;background:#7c3aed;color:white;padding:13px 28px;border-radius:10px;text-decoration:none;font-weight:800;font-size:16px;}
-.blur{filter:blur(14px);pointer-events:none;user-select:none;}
-#eruda,.eruda-container,#__eruda,#vConsole{display:none!important;}
-@media(max-width:850px){.workspace{grid-template-columns:1fr;}}
-</style></head><body>
-<div class="waitlist-banner">🚀 First 100 users get FREE FOREVER access to Webidex Pro! <a href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank">Join Waitlist →</a></div>
-<div class="waitlist-gate" id="gate"><div class="gate-card"><h1>🚀 Webidex is almost here</h1><p>We are building the fastest AI website builder. First 100 users will get <b style="color:white;">FREE FOREVER Pro access</b>. Join the waitlist now.</p><a class="cta" href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank">Join Waitlist →</a></div></div>
-<header class="topbar"><div class="logo">Forge<span>.</span></div><div class="topbar-right">Website Builder <a class="waitlist-btn-top" href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank">Join Waitlist</a></div></header>
-<main class="container"><div class="heading"><h1>Create your website</h1><p>Write or paste your website code and preview the exact result.</p></div>
-<section class="project-bar"><div class="project-name-wrap"><label>Website name</label><input id="siteName" placeholder="My Website"></div><button class="secondary" id="saveBtn">Save</button></section>
-<section class="workspace"><div class="panel"><textarea id="codeEditor" placeholder="Paste your complete HTML code here..."></textarea></div><div class="panel"><iframe id="preview" sandbox="allow-scripts allow-forms"></iframe></div></section>
-<div class="actions"><button class="primary" id="previewBtn">Preview</button><button class="secondary" id="downloadBtn">Download</button><button class="danger" id="clearBtn">Clear</button><button class="primary" id="deployBtn">Deploy</button></div>
-</main><script>
-const codeEditor=document.getElementById("codeEditor"),preview=document.getElementById("preview"),siteName=document.getElementById("siteName");
-function previewWebsite(){preview.srcdoc=codeEditor.value||"<h2 style='text-align:center'>No code</h2>";}
-function saveWebsite(){localStorage.setItem("forge_current_project",JSON.stringify({name:siteName.value,code:codeEditor.value}));}
-function loadWebsite(){let s=localStorage.getItem("forge_current_project");if(s){let d=JSON.parse(s);siteName.value=d.name||"";codeEditor.value=d.code||"";preview.srcdoc=d.code||"";}}
-function downloadWebsite(){let blob=new Blob([codeEditor.value],{type:"text/html"});let url=URL.createObjectURL(blob);let a=document.createElement("a");a.href=url;a.download="website.html";a.click();}
-function clearWebsite(){codeEditor.value="";siteName.value="";localStorage.removeItem("forge_current_project");preview.srcdoc="";}
-document.getElementById("previewBtn").onclick=previewWebsite;document.getElementById("saveBtn").onclick=saveWebsite;document.getElementById("downloadBtn").onclick=downloadWebsite;document.getElementById("clearBtn").onclick=clearWebsite;
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Webidex</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;background:#050508;background-image:radial-gradient(circle at 15% 20%, #FFD700 0 2.5px, transparent 3px),radial-gradient(circle at 70% 15%, #D4AF37 0 2.5px, transparent 3px),radial-gradient(circle at 80% 60%, #FFD700 0 2px, transparent 2.5px),radial-gradient(circle at 50% 85%, #FFD700 0 2.5px, transparent 3px);background-attachment:fixed;font-family:system-ui,sans-serif}
+.waitlist-gate{position:fixed;inset:0;background:#050508;background-image:radial-gradient(circle at 15% 20%, #FFD700 0 2.5px, transparent 3px),radial-gradient(circle at 70% 15%, #D4AF37 0 2.5px, transparent 3px),radial-gradient(circle at 80% 60%, #FFD700 0 2px, transparent 2.5px),radial-gradient(circle at 50% 85%, #FFD700 0 2.5px, transparent 3px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:9999}
+.gate-card{width:min(420px,92%);background:#FFFBF2;border:1px solid #EADFC5;border-radius:24px;padding:34px 28px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.7)}
+.gate-logo{width:52px;height:52px;background:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:26px;margin:0 auto 16px}
+.gate-title{font-size:27px;font-weight:800;color:#111;margin:0 0 10px;line-height:1.2}
+.gate-sub{font-size:14px;color:#555;line-height:1.6;margin:0 0 22px}
+.gate-badge{display:inline-block;background:#FFF3CD;border:1px solid #FFD700;color:#111;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.5px;margin-bottom:16px}
+.gate-cta{display:block;width:100%;background:#111;color:white;padding:14px;border-radius:999px;text-decoration:none;font-weight:800;font-size:15px}
+.new-topbar{width:min(1280px,96%);margin:16px auto 0;background:#FFFBF0;border:1px solid #EADFC5;border-radius:20px;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.new-container{width:min(1280px,96%);margin:24px auto 50px;display:grid;grid-template-columns:1fr 380px;gap:22px;flex:1}
+.new-panel{background:#FFFBF2;border:1px solid #EADFC5;border-radius:22px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.45);height:600px;display:flex;flex-direction:column}
+.new-tabs{display:flex;gap:8px;padding:12px 16px;background:#FFF8EB;border-bottom:1px solid #EDE5D3}.new-tab{border-radius:999px;padding:7px 14px;border:1px solid #E5DDC8;background:#FFFBF0;font-weight:600;cursor:pointer}.new-tab.active{background:#111;color:white}
+.old-btn{border:0;border-radius:8px;padding:10px 15px;cursor:pointer;font-weight:600;background:#FFFBF0;border:1px solid #E5DDC8}
+.hidden{display:none!important}
+@media(max-width:900px){.new-container{grid-template-columns:1fr}.new-panel{height:auto;min-height:500px}}
+</style></head><body id="body">
 
-document.getElementById("deployBtn").onclick=async()=>{
-  try{
-    const code=codeEditor.value;
-    const name=siteName.value||"website";
+<!-- PUBLIC = ONLY THIS SINGLE BOX IN MIDDLE -->
+<div id="gate" class="waitlist-gate">
+  <div class="gate-card">
+    <div class="gate-logo">W</div>
+    <div class="gate-badge">✨ LUXURY BUILDER</div>
+    <h1 class="gate-title">Webidex is coming soon</h1>
+    <p class="gate-sub">First 30 users can get <b style="color:#111">free access forever</b></p>
+    <a class="gate-cta" href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank">Join Waiting List →</a>
+  </div>
+</div>
 
-    if(!code.trim()){
-      alert("Please enter website code first.");
-      return;
-    }
+<!-- ADMIN = YOUR FULL EDITOR -->
+<div id="newUI" class="hidden">
+<header class="new-topbar"><div style="display:flex;gap:10px;align-items:center"><div style="width:42px;height:42px;background:#111;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px">W</div><div style="font-weight:700;font-size:26px">Webidex</div></div><button class="old-btn" onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname">Exit Admin</button></header>
+<main class="new-container">
+<div class="new-panel"><div style="padding:16px 18px;display:flex;justify-content:space-between;border-bottom:1px solid #EDE5D3;font-weight:700">index.html <span style="background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px">HTML</span></div><div class="new-tabs"><button class="new-tab active" id="codeBtnNew">Code</button><button class="new-tab" id="previewTabBtnNew">Preview</button><button class="old-btn" id="saveBtnNew" style="margin-left:auto">Save</button></div><div style="flex:1;position:relative;background:white"><textarea id="codeEditorNew" style="position:absolute;inset:0;width:100%;height:100%;border:0;padding:16px;font-family:monospace;font-size:13px;resize:none" placeholder="Paste code..."></textarea><iframe id="previewNew" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:none" sandbox="allow-scripts allow-forms"></iframe></div><div style="padding:12px 14px;background:#F5EEE0;border-top:1px solid #EDE5D3;display:flex;gap:10px"><button class="old-btn" id="downloadBtnNew">⬇ Download</button><button class="old-btn" id="clearBtnNew">🗑 Clear</button></div></div>
+<div class="new-panel" style="justify-content:space-between"><div style="padding:32px 24px;text-align:center"><button id="deployBtnNew" style="width:100%;background:#111;color:white;border-radius:999px;padding:16px;font-size:20px;font-weight:700;cursor:pointer">Deploy</button></div><div style="padding:24px"><input id="siteNameNew" placeholder="My Website" style="width:100%;padding:10px;border:1px solid #E5DDC8;border-radius:10px"><div id="liveUrlNew" style="margin-top:12px;color:#2563EB;font-size:13px;word-break:break-all">https://my-website.webidex.app</div></div></div>
+</main>
+</div>
 
-    const res=await fetch("/api/deploy",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({code,name})
-    });
-
-    const data=await res.json();
-
-    if(!res.ok){
-      throw new Error(data.error||"Deployment failed");
-    }
-
-    alert("Website deployed successfully!");
-    window.open(data.url,"_blank");
-
-  }catch(error){
-    alert("Deployment failed: "+error.message);
+<script>
+(function(){
+  let p=new URLSearchParams(location.search);
+  if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes'); history.replaceState({},'',location.pathname);}
+  let isAdmin=localStorage.getItem('webidex_admin')==='yes';
+  if(isAdmin){
+    document.getElementById('gate').classList.add('hidden');
+    document.getElementById('newUI').classList.remove('hidden');
+  }else{
+    document.getElementById('gate').classList.remove('hidden');
+    document.getElementById('newUI').classList.add('hidden');
   }
-};
-
-(function(){let p=new URLSearchParams(location.search);let g=document.getElementById('gate'),c=document.querySelector('.container');if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes')}if(localStorage.getItem('webidex_admin')==='yes'){g.style.display='none';c.classList.remove('blur')}else{c.classList.add('blur')}setInterval(()=>{let e=document.getElementById('eruda');if(e)e.remove()},1000);})();
-loadWebsite();
+})();
+function setup(){
+  const codeEl=document.getElementById("codeEditorNew"), prevEl=document.getElementById("previewNew"), siteEl=document.getElementById("siteNameNew");
+  function load(){let s=localStorage.getItem("forge_current_project");if(s){try{let d=JSON.parse(s);if(d.code){siteEl.value=d.name||"";codeEl.value=d.code||"";prevEl.srcdoc=d.code||"";}}catch(e){}}}
+  function save(){localStorage.setItem("forge_current_project",JSON.stringify({name:siteEl.value,code:codeEl.value}));}
+  function previewF(){prevEl.srcdoc=codeEl.value||"<h2 style='text-align:center'>No code</h2>"; prevEl.style.display='block';codeEl.style.display='none';}
+  function download(){let blob=new Blob([codeEl.value],{type:"text/html"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(siteEl.value||"website")+".html";a.click();}
+  function clear(){codeEl.value="";siteEl.value="";localStorage.removeItem("forge_current_project");prevEl.srcdoc="";codeEl.style.display='block';prevEl.style.display='none';}
+  async function deploy(){try{let code=codeEl.value,name=siteEl.value||"website";if(!code.trim()){alert("Enter code");return}let res=await fetch("/api/deploy",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code,name})});let data=await res.json();if(!res.ok)throw new Error(data.error);alert("Deployed!");window.open(data.url,"_blank");document.getElementById("liveUrlNew").textContent=data.url;}catch(e){alert(e.message)}}
+  document.getElementById("saveBtnNew").onclick=save; document.getElementById("codeBtnNew").onclick=()=>{codeEl.style.display='block';prevEl.style.display='none';}; document.getElementById("previewTabBtnNew").onclick=previewF; document.getElementById("downloadBtnNew").onclick=download; document.getElementById("clearBtnNew").onclick=clear; document.getElementById("deployBtnNew").onclick=deploy; load();
+}
+setup();
 </script></body></html>
