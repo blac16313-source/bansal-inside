@@ -7,11 +7,8 @@ export default async function handler(req, res) {
 
   try {
     const { code, name } = req.body || {};
-
     if (!code || typeof code !== "string") {
-      return res.status(400).json({
-        error: "Website code is required"
-      });
+      return res.status(400).json({ error: "Website code is required" });
     }
 
     const safeName = (name || "website")
@@ -20,28 +17,28 @@ export default async function handler(req, res) {
 
     const id = crypto.randomUUID();
 
-    await put(
-      `websites/${id}/${safeName}.html`,
-      code,
-      {
-        access: "public",
-        contentType: "text/html",
-        contentDisposition: "inline",
-        addRandomSuffix: false
-      }
-    );
+    await put(`websites/${id}/${safeName}.html`, code, {
+      access: "public",
+      contentType: "text/html",
+      contentDisposition: "inline",
+      addRandomSuffix: false
+    });
+
+    // FIX: Build absolute URL so frontend box shows correct link
+    const proto = req.headers["x-forwarded-proto"] || "https";
+    const host = req.headers["x-forwarded-host"] || req.headers.host;
+    const baseUrl = `${proto}://${host}`;
+
+    const finalUrl = `${baseUrl}/api/site?id=${encodeURIComponent(id)}&file=${encodeURIComponent(`${safeName}.html`)}`;
 
     return res.status(200).json({
       success: true,
-      url: `/api/site?id=${encodeURIComponent(id)}&file=${encodeURIComponent(`${safeName}.html`)}`,
+      url: finalUrl, // NOW ABSOLUTE: https://webidex.vercel.app/api/site?id=...
       id: id
     });
 
   } catch (error) {
     console.error(error);
-
-    return res.status(500).json({
-      error: "Deployment failed"
-    });
+    return res.status(500).json({ error: "Deployment failed" });
   }
 }
