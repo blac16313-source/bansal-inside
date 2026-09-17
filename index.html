@@ -25,8 +25,6 @@ body{min-height:100vh;background:#050507;font-family:Inter,sans-serif;overflow-x
 </head>
 <body>
 <canvas id="starCanvas"></canvas><div class="silk"></div>
-
-<!-- WAITING LIST - ONLY FOR OTHERS -->
 <div id="gate" class="waitlist-gate">
 <canvas id="gateCanvas" style="position:absolute;inset:0"></canvas>
 <div class="gate-card">
@@ -37,7 +35,6 @@ body{min-height:100vh;background:#050507;font-family:Inter,sans-serif;overflow-x
 <a href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank" style="display:block;width:100%;background:#111;color:white;padding:14px;border-radius:999px;text-decoration:none;font-weight:800;text-align:center">Join Waiting List →</a>
 </div>
 </div>
-
 <div id="loginPage" class="login-page">
 <canvas id="loginCanvas" style="position:absolute;inset:0"></canvas>
 <div style="position:relative;z-index:1;width:min(400px,92%);background:var(--cream);border-radius:24px;padding:32px;text-align:center">
@@ -47,18 +44,16 @@ body{min-height:100vh;background:#050507;font-family:Inter,sans-serif;overflow-x
 <button id="loginBtn" style="width:100%;padding:13px;background:#111;color:white;border-radius:999px;border:0;font-weight:700;cursor:pointer;font-size:14px">Continue →</button>
 </div>
 </div>
-
 <div id="projectsPage" class="projects-page">
 <div style="width:min(1000px,96%)">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 style="color:white;font-size:24px;font-weight:800">Your Projects</h2><button id="closeProjects" style="padding:8px 16px;border-radius:999px;background:white;border:0;font-weight:600;cursor:pointer">Close ✕</button></div>
 <div id="projectsList"></div>
 <div id="projectDetail" style="display:none;background:var(--cream);border-radius:20px;overflow:hidden;margin-top:20px">
 <div style="padding:20px;border-bottom:1px solid #EDE5D3;display:flex;justify-content:space-between;align-items:center"><div><div id="detailName" style="font-weight:800;font-size:20px"></div><div style="display:flex;gap:8px;margin-top:6px"><span style="background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px">● Live</span><span id="detailDate" style="background:#FFF8EB;border:1px solid #E5DDC8;padding:3px 10px;border-radius:999px;font-size:11px;color:#666"></span></div></div><button onclick="document.getElementById('projectDetail').style.display='none'" style="padding:8px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;cursor:pointer">Back</button></div>
-<div style="display:grid;grid-template-columns:1fr 320px"><div style="padding:16px;border-right:1px solid #EDE5D3"><div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px">PREVIEW</div><iframe id="detailPreview" style="width:100%;height:400px;border:1px solid #E5DDC8;border-radius:12px;background:white"></iframe></div><div style="padding:16px;display:flex;flex-direction:column;gap:14px"><div><div style="font-size:11px;font-weight:700;color:#888">DOMAIN</div><div id="detailUrl" style="margin-top:6px;color:#2563EB;font-size:13px;word-break:break-all"></div></div><button id="detailEditBtn" style="padding:10px;border-radius:10px;border:0;background:#111;color:white;font-weight:600;cursor:pointer">Edit in Builder</button><button id="detailDeleteBtn" style="padding:10px;border-radius:10px;border:1px solid #EF4444;background:white;color:#EF4444;font-weight:600;cursor:pointer">Delete</button></div></div>
+<div style="display:grid;grid-template-columns:1fr 320px"><div style="padding:16px;border-right:1px solid #EDE5D3"><div style="font-size:11px;font-weight:700;color:#888;margin-bottom:8px">PREVIEW</div><iframe id="detailPreview" style="width:100%;height:400px;border:1px solid #E5DDC8;border-radius:12px;background:white"></iframe></div><div style="padding:16px;display:flex;flex-direction:column;gap:14px"><div><div style="font-size:11px;font-weight:700;color:#888">LIVE URL</div><div id="detailUrl" style="margin-top:6px;color:#2563EB;font-size:13px;word-break:break-all"></div></div><button id="detailEditBtn" style="padding:10px;border-radius:10px;border:0;background:#111;color:white;font-weight:600;cursor:pointer">Edit in Builder</button><button id="detailDeleteBtn" style="padding:10px;border-radius:10px;border:1px solid #EF4444;background:white;color:#EF4444;font-weight:600;cursor:pointer">Delete</button></div></div>
 </div>
 </div>
 </div>
-
 <div id="newUI" style="width:100%;display:none;justify-content:center">
 <div class="glass-shell">
 <header class="topbar">
@@ -79,152 +74,57 @@ body{min-height:100vh;background:#050507;font-family:Inter,sans-serif;overflow-x
 <div style="display:flex;gap:8px"><input id="siteName" placeholder="my-awesome-site" style="flex:1;padding:11px;border:1px solid #E5DDC8;border-radius:10px;font-size:14px;outline:none"><button id="saveNameBtn" style="padding:11px 18px;border-radius:10px;background:#111;color:white;border:0;font-weight:700;font-size:12px;cursor:pointer">Save</button></div>
 <div id="nameSavedTag" style="font-size:11px;color:#059669;margin-top:8px;display:none">✔ Saved: <b id="savedNameText"></b></div>
 </div>
-<div><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL</div><div style="display:flex;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer">Copy</button></div></div>
+<div><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL (Actual Working Link)</div><div style="display:flex;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer">Copy</button></div></div>
 <div id="status" style="font-size:11px;color:#666;text-align:center;min-height:14px"></div>
 </div>
 </main>
 </div>
 </div>
-
 <script>
 function drawStars(id,count){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');function rs(){c.width=innerWidth;c.height=innerHeight;ctx.clearRect(0,0,c.width,c.height);for(let i=0;i<count;i++){let x=Math.random()*c.width,y=Math.random()*c.height,r=Math.random()*2.2+0.3,a=Math.random()*0.9+0.15,col=`rgba(255,${200+Math.random()*55},${Math.random()*80},${a})`;ctx.beginPath();ctx.arc(x,y,r,0,6.28);ctx.fillStyle=col;ctx.fill()}}rs();addEventListener('resize',rs)}drawStars('starCanvas',600);drawStars('loginCanvas',300);drawStars('gateCanvas',400);
-
 let isNameSaved=false,isCodeSaved=false,currentName='';
 const codeEl=document.getElementById('codeEditor'),gutter=document.getElementById('gutter'),preview=document.getElementById('preview'),siteEl=document.getElementById('siteName'),liveEl=document.getElementById('liveUrl'),loginPage=document.getElementById('loginPage'),newUI=document.getElementById('newUI'),gate=document.getElementById('gate');
+function checkLogin(){let g=localStorage.getItem('webidex_user_gmail');if(g){loginPage.style.display='none';newUI.style.display='flex';document.getElementById('userGmail').textContent=g;load();}else{loginPage.style.display='flex';newUI.style.display='none';}}
+(function(){let params=new URLSearchParams(location.search);if(params.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname);}let isAdmin=localStorage.getItem('webidex_admin')==='yes';if(!isAdmin){gate.style.display='flex';loginPage.style.display='none';newUI.style.display='none';}else{gate.style.display='none';checkLogin();}})();
+document.getElementById('loginBtn').onclick=()=>{let v=document.getElementById('gmailInput').value.trim();if(!v.includes('@')) return alert('Enter valid Gmail');localStorage.setItem('webidex_user_gmail',v);checkLogin();};
+function updateGutter(){let l=codeEl.value.split('\n').length; if(l<15) l=15; let h=''; for(let i=1;i<=l;i++) h+=i+'<br>'; gutter.innerHTML=h;}
+function saveCurrent(){localStorage.setItem('forge_current_project',JSON.stringify({name:siteEl.value,code:codeEl.value,nameSaved:isNameSaved,codeSaved:isCodeSaved,realName:currentName}));}
+function checkDeploy(){let b=document.getElementById('deployBtn');if(isNameSaved&&isCodeSaved){b.disabled=false;b.textContent='Deploy → '+currentName;}else{b.disabled=true;b.textContent=!isNameSaved?'Save Name First':'Save Code to Deploy';}}
+function load(){let s=localStorage.getItem('forge_current_project');if(s){try{let d=JSON.parse(s);codeEl.value=d.code||'';siteEl.value=d.name||'';currentName=d.realName||d.name||'';isNameSaved=!!d.nameSaved;isCodeSaved=!!d.codeSaved;if(isNameSaved){document.getElementById('nameSavedTag').style.display='block';document.getElementById('savedNameText').textContent=currentName}if(isCodeSaved)document.getElementById('codeSavedTag').style.display='block';}catch{}}if(!codeEl.value) codeEl.value=`<!DOCTYPE html>\n<html><head><meta charset="UTF-8"><title>My Site</title><style>body{font-family:Inter;display:flex;align-items:center;justify-content:center;height:100vh;background:#FFFBF2}h1{font-size:48px}</style></head><body><h1>Hello Webidex 👋</h1></body></html>`;updateGutter(); checkDeploy();}
+document.getElementById('saveNameBtn').onclick=()=>{let n=siteEl.value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/--+/g,'-');if(!n||n.length<3) return alert('Min 3 chars');currentName=n; siteEl.value=n; isNameSaved=true;document.getElementById('nameSavedTag').style.display='block';document.getElementById('savedNameText').textContent=n;saveCurrent(); checkDeploy();};
+document.getElementById('saveBtn').onclick=()=>{if(!codeEl.value.trim()) return alert('Write code');isCodeSaved=true;document.getElementById('codeSavedTag').style.display='block';document.getElementById('savedBadge').style.display='inline';saveCurrent(); checkDeploy();document.getElementById('status').textContent='Code saved ✔';};
+document.getElementById('downloadBtn').onclick=()=>{let b=new Blob([codeEl.value],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(currentName||'site')+'.html';a.click();};
+document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear code?')){codeEl.value='';isCodeSaved=false;document.getElementById('codeSavedTag').style.display='none';document.getElementById('savedBadge').style.display='none';updateGutter(); saveCurrent(); checkDeploy();}};
+document.getElementById('codeTab').onclick=()=>{codeEl.style.display='block';preview.style.display='none';document.getElementById('codeTab').classList.add('active');document.getElementById('previewTab').classList.remove('active');};
+document.getElementById('previewTab').onclick=()=>{preview.srcdoc=codeEl.value;preview.style.display='block';codeEl.style.display='none';document.getElementById('previewTab').classList.add('active');document.getElementById('codeTab').classList.remove('active');};
 
-function checkLogin(){
-  let g=localStorage.getItem('webidex_user_gmail');
-  if(g){
-    loginPage.style.display='none';
-    newUI.style.display='flex';
-    document.getElementById('userGmail').textContent=g;
-    load();
-  }else{
-    loginPage.style.display='flex';
-    newUI.style.display='none';
-  }
-}
-
-// ADMIN CHECK - GATE FOR OTHERS ONLY
-(function(){
-  let params=new URLSearchParams(location.search);
-  if(params.get('key')==='webidex_91_x_mast3r_2026'){
-    localStorage.setItem('webidex_admin','yes');
-    history.replaceState({},'',location.pathname);
-  }
-  let isAdmin=localStorage.getItem('webidex_admin')==='yes';
-  if(!isAdmin){
-    gate.style.display='flex';
-    loginPage.style.display='none';
-    newUI.style.display='none';
-  }else{
-    gate.style.display='none';
-    checkLogin();
-  }
-})();
-
-document.getElementById('loginBtn').onclick=()=>{
-  let v=document.getElementById('gmailInput').value.trim();
-  if(!v.includes('@')) return alert('Enter valid Gmail');
-  localStorage.setItem('webidex_user_gmail',v);
-  checkLogin();
-};
-
-function updateGutter(){
-  let l=codeEl.value.split('\n').length; if(l<15) l=15;
-  let h=''; for(let i=1;i<=l;i++) h+=i+'<br>';
-  gutter.innerHTML=h;
-}
-function saveCurrent(){
-  localStorage.setItem('forge_current_project',JSON.stringify({name:siteEl.value,code:codeEl.value,nameSaved:isNameSaved,codeSaved:isCodeSaved,realName:currentName}));
-}
-function checkDeploy(){
-  let b=document.getElementById('deployBtn');
-  if(isNameSaved&&isCodeSaved){b.disabled=false;b.textContent='Deploy → '+currentName+'.webidex.app';}
-  else{b.disabled=true;b.textContent=!isNameSaved?'Save Name First':'Save Code to Deploy';}
-}
-function load(){
-  let s=localStorage.getItem('forge_current_project');
-  if(s){try{let d=JSON.parse(s);codeEl.value=d.code||'';siteEl.value=d.name||'';currentName=d.realName||d.name||'';isNameSaved=!!d.nameSaved;isCodeSaved=!!d.codeSaved;if(isNameSaved){document.getElementById('nameSavedTag').style.display='block';document.getElementById('savedNameText').textContent=currentName}if(isCodeSaved)document.getElementById('codeSavedTag').style.display='block';}catch{}}
-  if(!codeEl.value) codeEl.value=`<!DOCTYPE html>\n<html><head><meta charset="UTF-8"><title>My Site</title><style>body{font-family:Inter;display:flex;align-items:center;justify-content:center;height:100vh;background:#FFFBF2}h1{font-size:48px}</style></head><body><h1>Hello Webidex 👋</h1></body></html>`;
-  updateGutter(); checkDeploy();
-}
-
-document.getElementById('saveNameBtn').onclick=()=>{
-  let n=siteEl.value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/--+/g,'-');
-  if(!n||n.length<3) return alert('Min 3 chars');
-  currentName=n; siteEl.value=n; isNameSaved=true;
-  document.getElementById('nameSavedTag').style.display='block';
-  document.getElementById('savedNameText').textContent=n;
-  saveCurrent(); checkDeploy();
-};
-document.getElementById('saveBtn').onclick=()=>{
-  if(!codeEl.value.trim()) return alert('Write code');
-  isCodeSaved=true;
-  document.getElementById('codeSavedTag').style.display='block';
-  document.getElementById('savedBadge').style.display='inline';
-  saveCurrent(); checkDeploy();
-  document.getElementById('status').textContent='Code saved ✔';
-};
-document.getElementById('downloadBtn').onclick=()=>{
-  let b=new Blob([codeEl.value],{type:'text/html'});
-  let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(currentName||'site')+'.html';a.click();
-};
-document.getElementById('clearBtn').onclick=()=>{
-  if(confirm('Clear code?')){
-    codeEl.value='';isCodeSaved=false;
-    document.getElementById('codeSavedTag').style.display='none';
-    document.getElementById('savedBadge').style.display='none';
-    updateGutter(); saveCurrent(); checkDeploy();
-  }
-};
-document.getElementById('codeTab').onclick=()=>{
-  codeEl.style.display='block';preview.style.display='none';
-  document.getElementById('codeTab').classList.add('active');
-  document.getElementById('previewTab').classList.remove('active');
-};
-document.getElementById('previewTab').onclick=()=>{
-  preview.srcdoc=codeEl.value;
-  preview.style.display='block';codeEl.style.display='none';
-  document.getElementById('previewTab').classList.add('active');
-  document.getElementById('codeTab').classList.remove('active');
-};
+// FINAL DEPLOY - SHOWS REAL LINK
 document.getElementById('deployBtn').onclick=async()=>{
   if(!isNameSaved||!isCodeSaved) return;
   let btn=document.getElementById('deployBtn');btn.textContent='Deploying...';btn.disabled=true;
-  let name=currentName; let clean=`https://${name}.webidex.app`; let blobUrl='';
+  let name=currentName;
   try{
-    let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:codeEl.value,name})});
-    if(r.ok){let d=await r.json();liveEl.textContent=clean;liveEl.href=d.url;blobUrl=d.url;}
-    else throw 0;
-  }catch{
-    let blob=new Blob([codeEl.value],{type:'text/html'});blobUrl=URL.createObjectURL(blob);
-    liveEl.textContent=clean;liveEl.href=blobUrl;
+    let gmail=localStorage.getItem('webidex_user_gmail')||'anon';
+    let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:codeEl.value,name,gmail})});
+    let d=await r.json();
+    if(!r.ok) throw new Error(d.error);
+    let fullUrl = location.origin + d.realUrl;
+    liveEl.textContent = fullUrl;
+    liveEl.href = fullUrl;
+    let projects=JSON.parse(localStorage.getItem('webidex_projects')||'[]');
+    projects.unshift({name:d.name,url:fullUrl,realUrl:fullUrl,code:codeEl.value,date:new Date().toLocaleString()});
+    localStorage.setItem('webidex_projects',JSON.stringify(projects));
+    document.getElementById('status').textContent='Live! '+fullUrl;
+    window.open(fullUrl,'_blank');
+  }catch(e){
+    let blob=new Blob([codeEl.value],{type:'text/html'});let blobUrl=URL.createObjectURL(blob);
+    liveEl.textContent=blobUrl;liveEl.href=blobUrl;window.open(blobUrl,'_blank');
+  }finally{
+    btn.textContent='Deployed ✔';setTimeout(()=>{btn.textContent='Deploy → '+name;btn.disabled=false;},2000);
   }
-  let projects=JSON.parse(localStorage.getItem('webidex_projects')||'[]');
-  projects.unshift({name,url:clean,realUrl:blobUrl,code:codeEl.value,date:new Date().toLocaleString()});
-  localStorage.setItem('webidex_projects',JSON.stringify(projects));
-  document.getElementById('status').textContent='Live! '+clean;
-  window.open(blobUrl,'_blank');
-  btn.textContent='Deployed ✔';setTimeout(()=>{btn.textContent='Deploy → '+name+'.webidex.app';btn.disabled=false;},2000);
 };
-document.getElementById('copyBtn').onclick=()=>{
-  navigator.clipboard.writeText(liveEl.textContent);
-  let b=document.getElementById('copyBtn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1200);
-};
+document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1200);};
 document.getElementById('yourProjectsBtn').onclick=()=>{renderProjects();document.getElementById('projectsPage').style.display='flex';};
 document.getElementById('closeProjects').onclick=()=>document.getElementById('projectsPage').style.display='none';
-function renderProjects(){
-  let list=document.getElementById('projectsList');
-  let projects=JSON.parse(localStorage.getItem('webidex_projects')||'[]');
-  if(!projects.length){list.innerHTML='<div style="color:#999;text-align:center;margin:60px">No projects yet - Deploy your first site</div>';return;}
-  list.innerHTML=projects.map((p,i)=>`<div style="background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;cursor:pointer" onclick="openProject(${i})"><div><div style="font-weight:700">${p.name}.webidex.app</div><div style="font-size:11px;color:#888">${p.date}</div></div><div style="color:#2563EB;font-size:12px">Open →</div></div>`).join('');
-}
-window.openProject=(i)=>{
-  let projects=JSON.parse(localStorage.getItem('webidex_projects')||'[]');let p=projects[i];
-  document.getElementById('projectDetail').style.display='block';
-  document.getElementById('detailName').textContent=p.name+'.webidex.app';
-  document.getElementById('detailDate').textContent=p.date;
-  document.getElementById('detailUrl').textContent=p.url;
-  document.getElementById('detailPreview').srcdoc=p.code;
-  document.getElementById('detailEditBtn').onclic
+function renderProjects(){let list=document.getElementById('projectsList');let projects=JSON.parse(localStorage.getItem('webidex_projects')||'[]');if(!projects.length){list.innerHTML='<div style="color:#999;text-align:center;margin:60px">No projects yet - Deploy your first site</div>';return;}list.innerHTML=projects.map((p,i)=>`<div style="background:var(--cream);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;cursor:pointer" onclick="openProject(${i})"><div><div style="font-weight:700">${p.name}</div><div style="font-size:11px;color:#888">${p.date}</div></div><div style="color:#2563EB;font-size:12px">Open →</div></div>`).join('');}
+window.openProject=(i)=>{let projects=JSON.parse(localStorage.getItem('webidex_projects')||'[]');let p=projects[i];document.getElementById('projectDetail').style.display='block';document.getElementById('detailName').textContent=p.name;document.getElementById('detailDate').textContent=p.date;document.getElementById('detailUrl').textContent=p.url;document.getElementById('detailPreview').srcdoc=p.code;document.getElementById('detailEditBtn').onclick=()=>{document.getElementById('projectsPage').style.display='none';siteEl.value=p.name;codeEl.value=p.code;currentName=p.name;isNameSaved=true;isCodeSaved=true;updateGutter();saveCurrent();checkDeploy();liveEl.textCont
