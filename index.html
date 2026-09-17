@@ -1,136 +1,2396 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Webidex - Luxury Builder</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}:root{--cream:#FFFBF2;--border:#E9E0C8;--gold:#FFD700}
-body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:hidden}
-#starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-.silk{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 800px 600px at 15% 20%,rgba(255,215,0,0.10),transparent 60%),radial-gradient(ellipse 600px 800px at 85% 30%,rgba(255,215,0,0.08),transparent 60%),radial-gradient(ellipse 1000px 500px at 50% 85%,rgba(212,175,55,0.07),transparent 70%)}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webidex - Luxury Builder</title>
 
-/* ===== SUPER SHINY LIQUID GLASS - YOUR MAIN ASK ===== */
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --cream:#FFFBF2;
+  --border:#E9E0C8;
+  --gold:#FFD700;
+}
+
+body{
+  min-height:100vh;
+  background:#050507;
+  font-family:Inter,system-ui;
+  overflow-x:hidden;
+}
+
+#starCanvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+.silk{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 800px 600px at 15% 20%,rgba(255,215,0,0.10),transparent 60%),
+    radial-gradient(ellipse 600px 800px at 85% 30%,rgba(255,215,0,0.08),transparent 60%),
+    radial-gradient(ellipse 1000px 500px at 50% 85%,rgba(212,175,55,0.07),transparent 70%);
+}
+
 .glass-shell{
-  position:relative;z-index:2;
+  position:relative;
+  z-index:2;
   width:min(1280px,96%);
   margin:20px auto 70px;
-  background: linear-gradient(180deg, rgba(255,251,242,0.22) 0%, rgba(255,251,242,0.08) 100%);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.35);
-  border-top: 1px solid rgba(255,255,255,0.75);
+  background:linear-gradient(
+    180deg,
+    rgba(255,251,242,0.22) 0%,
+    rgba(255,251,242,0.08) 100%
+  );
+  backdrop-filter:blur(32px) saturate(180%);
+  -webkit-backdrop-filter:blur(32px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.35);
+  border-top:1px solid rgba(255,255,255,0.75);
   border-radius:28px;
   padding:22px;
-  box-shadow: 
+  box-shadow:
     inset 0 1px 1px rgba(255,255,255,0.9),
     inset 0 -1px 1px rgba(0,0,0,0.1),
     inset 0 0 30px rgba(255,255,255,0.12),
     0 30px 90px rgba(0,0,0,0.85),
     0 0 0 1px rgba(255,255,255,0.15);
 }
+
 .glass-shell::before{
   content:"";
   position:absolute;
-  top:0;left:1%;right:1%;
+  top:0;
+  left:1%;
+  right:1%;
   height:55%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.12) 18%, rgba(255,255,255,0.02) 45%, transparent 70%);
+  background:linear-gradient(
+    180deg,
+    rgba(255,255,255,0.4) 0%,
+    rgba(255,255,255,0.12) 18%,
+    rgba(255,255,255,0.02) 45%,
+    transparent 70%
+  );
   border-radius:28px 28px 100% 100% / 28px 28px 60% 60%;
   pointer-events:none;
 }
+
 .glass-shell::after{
   content:"";
   position:absolute;
-  top:0;left:10%;right:10%;
+  top:0;
+  left:10%;
+  right:10%;
   height:1.5px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,1) 20%, rgba(255,255,255,0.9) 80%, transparent);
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,1) 20%,
+    rgba(255,255,255,0.9) 80%,
+    transparent
+  );
   pointer-events:none;
-  filter: blur(0.2px);
+  filter:blur(0.2px);
 }
 
-.waitlist-gate{position:fixed;inset:0;z-index:9999;background:#050507;display:flex;align-items:center;justify-content:center;padding:20px}
-.gate-card{position:relative;z-index:1;width:min(440px,92%);background:var(--cream);border:1px solid var(--border);border-radius:24px;padding:36px 28px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.8)}
+.waitlist-gate{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:#050507;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
 
-.topbar{width:100%;height:70px;background:var(--cream);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;box-shadow:0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8)}
-.main{width:100%;margin-top:18px;display:grid;grid-template-columns:1fr 390px;gap:20px;align-items:start}
-.code-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9);display:flex;flex-direction:column;height:700px}
-.deploy-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9);position:relative;overflow:hidden}
-.deploy-panel::before{content:"";position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 70%);pointer-events:none}
-.deploy-btn{position:relative;width:100%;background:#0F0F0F;color:white;border:0;border-radius:999px;padding:18px;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);transition:0.2s}
-.deploy-btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(0,0,0,0.5)}
-.deploy-btn::after{content:"✦";position:absolute;top:12px;right:24px;color:var(--gold);font-size:14px;animation:twinkle 2s infinite}
-.deploy-btn::before{content:"✦";position:absolute;bottom:14px;left:20px;color:var(--gold);font-size:10px;animation:twinkle 2.5s infinite reverse}
-@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
-.hidden{display:none!important}
-.tab{padding:8px 16px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer;transition:0.15s}
-.tab.active{background:#111;color:white;border-color:#111;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-@media(max-width:900px){.main{grid-template-columns:1fr}.code-panel{height:560px}.glass-shell{width:96%;padding:12px;border-radius:20px}}
+.gate-card{
+  position:relative;
+  z-index:1;
+  width:min(440px,92%);
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:36px 28px;
+  text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,0.8);
+}
+
+.topbar{
+  width:100%;
+  min-height:70px;
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 18px;
+  gap:15px;
+  box-shadow:
+    0 12px 40px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.main{
+  width:100%;
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 390px;
+  gap:20px;
+  align-items:start;
+}
+
+.code-panel{
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:
+    0 16px 50px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  display:flex;
+  flex-direction:column;
+  height:700px;
+}
+
+.deploy-panel{
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  box-shadow:
+    0 16px 50px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+  position:relative;
+  overflow:hidden;
+}
+
+.deploy-panel::before{
+  content:"";
+  position:absolute;
+  top:-30px;
+  right:-30px;
+  width:140px;
+  height:140px;
+  background:radial-gradient(
+    circle,
+    rgba(255,215,0,0.18) 0%,
+    transparent 70%
+  );
+  pointer-events:none;
+}
+
+.deploy-btn{
+  position:relative;
+  width:100%;
+  background:#0F0F0F;
+  color:white;
+  border:0;
+  border-radius:999px;
+  padding:18px;
+  font-size:20px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  transition:0.2s;
+}
+
+.deploy-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 12px 30px rgba(0,0,0,0.5);
+}
+
+.deploy-btn:disabled{
+  opacity:0.45;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.deploy-btn::after{
+  content:"✦";
+  position:absolute;
+  top:12px;
+  right:24px;
+  color:var(--gold);
+  font-size:14px;
+  animation:twinkle 2s infinite;
+}
+
+.deploy-btn::before{
+  content:"✦";
+  position:absolute;
+  bottom:14px;
+  left:20px;
+  color:var(--gold);
+  font-size:10px;
+  animation:twinkle 2.5s infinite reverse;
+}
+
+@keyframes twinkle{
+  0%,100%{
+    opacity:1;
+    transform:scale(1);
+  }
+  50%{
+    opacity:0.3;
+    transform:scale(0.7);
+  }
+}
+
+.hidden{
+  display:none!important;
+}
+
+.tab{
+  padding:8px 16px;
+  border-radius:999px;
+  border:1px solid #E5DDC8;
+  background:white;
+  font-weight:600;
+  font-size:13px;
+  cursor:pointer;
+  transition:0.15s;
+}
+
+.tab.active{
+  background:#111;
+  color:white;
+  border-color:#111;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* PROJECT NAME */
+
+.project-name-box{
+  background:#FFF8EB;
+  border:1px solid #EDE5D3;
+  border-radius:14px;
+  padding:12px;
+}
+
+.project-label{
+  font-size:12px;
+  font-weight:700;
+  color:#555;
+  margin-bottom:7px;
+}
+
+.name-row{
+  display:flex;
+  gap:8px;
+}
+
+.name-row input{
+  min-width:0;
+  flex:1;
+  padding:11px 12px;
+  border:1px solid #E5DDC8;
+  border-radius:10px;
+  font-size:14px;
+  background:white;
+  outline:none;
+}
+
+.name-row input:focus{
+  border-color:#C8A900;
+}
+
+.save-name-btn{
+  padding:10px 14px;
+  border-radius:10px;
+  border:1px solid #111;
+  background:#111;
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.name-status{
+  margin-top:7px;
+  font-size:11px;
+  font-weight:600;
+  color:#D97706;
+}
+
+/* VISIBILITY */
+
+.visibility-box{
+  display:flex;
+  gap:8px;
+}
+
+.visibility-btn{
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #E5DDC8;
+  background:white;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.visibility-btn.active{
+  background:#111;
+  color:white;
+  border-color:#111;
+}
+
+/* PROJECTS PAGE */
+
+.projects-page{
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:25px;
+  box-shadow:
+    0 16px 50px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.projects-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.projects-title{
+  font-size:26px;
+  font-weight:800;
+}
+
+.back-btn{
+  padding:9px 16px;
+  border-radius:999px;
+  border:1px solid #E5DDC8;
+  background:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.project-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.project-card{
+  background:white;
+  border:1px solid #E9E0C8;
+  border-radius:15px;
+  padding:16px;
+  cursor:pointer;
+  transition:0.18s;
+}
+
+.project-card:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.project-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.project-card-name{
+  font-weight:800;
+  font-size:16px;
+}
+
+.project-status{
+  padding:4px 9px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.status-live{
+  background:#DCFCE7;
+  color:#15803D;
+}
+
+.status-draft{
+  background:#FEF3C7;
+  color:#92400E;
+}
+
+.project-card-meta{
+  margin-top:8px;
+  font-size:12px;
+  color:#777;
+}
+
+.project-card-url{
+  margin-top:7px;
+  color:#2563EB;
+  font-size:12px;
+  word-break:break-all;
+}
+
+.empty-projects{
+  padding:40px 20px;
+  text-align:center;
+  color:#777;
+  border:1px dashed #D9CFB7;
+  border-radius:15px;
+}
+
+.project-details{
+  background:white;
+  border:1px solid #E9E0C8;
+  border-radius:16px;
+  padding:20px;
+}
+
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:13px 0;
+  border-bottom:1px solid #EFE8D9;
+  font-size:13px;
+}
+
+.detail-row:last-child{
+  border-bottom:0;
+}
+
+.detail-label{
+  font-weight:700;
+  color:#666;
+}
+
+.detail-value{
+  text-align:right;
+  word-break:break-word;
+}
+
+.detail-actions{
+  display:flex;
+  gap:8px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+
+.detail-action{
+  padding:10px 14px;
+  border-radius:10px;
+  border:1px solid #E5DDC8;
+  background:white;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  color:#111;
+}
+
+@media(max-width:900px){
+  .main{
+    grid-template-columns:1fr;
+  }
+
+  .code-panel{
+    height:560px;
+  }
+
+  .glass-shell{
+    width:96%;
+    padding:12px;
+    border-radius:20px;
+  }
+
+  .topbar{
+    flex-wrap:wrap;
+  }
+
+  .topbar > div{
+    flex-wrap:wrap;
+  }
+}
 </style>
 </head>
+
 <body>
-<canvas id="starCanvas"></canvas><div class="silk"></div>
 
+<canvas id="starCanvas"></canvas>
+<div class="silk"></div>
+
+<!-- ACCESS GATE -->
 <div id="gate" class="waitlist-gate">
-<canvas id="gateCanvas" style="position:absolute;inset:0"></canvas>
-<div class="gate-card">
-<div style="width:56px;height:56px;background:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:28px;margin:0 auto 18px">W</div>
-<div style="display:inline-block;background:#FFF3CD;border:1px solid #FFD700;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.5px">✨ LUXURY BUILDER</div>
-<h1 style="font-size:28px;font-weight:800;margin:14px 0 10px;line-height:1.2">Webidex is coming soon</h1>
-<p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:24px">First 30 users can get <b>free access forever</b></p>
-<a href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank" style="display:block;width:100%;background:#111;color:white;padding:14px;border-radius:999px;text-decoration:none;font-weight:800">Join Waiting List →</a>
-</div>
+
+  <canvas id="gateCanvas" style="position:absolute;inset:0"></canvas>
+
+  <div class="gate-card">
+
+    <div style="
+      width:56px;
+      height:56px;
+      background:#111;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#D4AF37;
+      font-weight:900;
+      font-size:28px;
+      margin:0 auto 18px
+    ">W</div>
+
+    <div style="
+      display:inline-block;
+      background:#FFF3CD;
+      border:1px solid #FFD700;
+      padding:6px 14px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:0.5px
+    ">✨ LUXURY BUILDER</div>
+
+    <h1 style="
+      font-size:28px;
+      font-weight:800;
+      margin:14px 0 10px;
+      line-height:1.2
+    ">Webidex is coming soon</h1>
+
+    <p style="
+      font-size:14px;
+      color:#666;
+      line-height:1.6;
+      margin-bottom:24px
+    ">
+      First 30 users can get <b>free access forever</b>
+    </p>
+
+    <a
+      href="https://forms.gle/TVdL6k5CvrteFB4B8"
+      target="_blank"
+      style="
+        display:block;
+        width:100%;
+        background:#111;
+        color:white;
+        padding:14px;
+        border-radius:999px;
+        text-decoration:none;
+        font-weight:800
+      "
+    >Join Waiting List →</a>
+
+  </div>
 </div>
 
+
+<!-- MAIN APP -->
 <div id="newUI" class="hidden" style="width:100%;display:flex;justify-content:center">
-<!-- GLASS SHELL START - CONTAINS HEADING + BOTH BOXES -->
+
 <div class="glass-shell">
-<header class="topbar">
-<div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">W</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">Webidex</div><button style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px">Your Projects</button></div>
-<div style="display:flex;align-items:center;gap:10px"><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">🔔</button><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">⚙️</button><div style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800">JK</div><button onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname" style="padding:9px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-size:12px">Exit</button></div>
-</header>
 
-<main class="main">
-<div class="code-panel">
-<div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #EDE5D3;background:linear-gradient(to bottom, #FFFDf7, #FFF8EB)"><div style="display:flex;align-items:center;gap:10px"><span style="font-weight:700;font-size:15px">index.html</span><span style="background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700">HTML</span><span id="savedBadge" style="display:flex;align-items:center;gap:5px;color:#059669;font-size:13px;font-weight:600">✔ Saved</span></div></div>
-<div style="padding:12px 16px;display:flex;gap:8px;background:#FFF8EB;border-bottom:1px solid #EDE5D3"><button class="tab active" id="codeTab">Code</button><button class="tab" id="previewTab">Preview</button></div>
-<div style="flex:1;position:relative;background:#FFFEFB;display:flex;overflow:hidden"><div id="gutter" style="width:48px;background:#FFF8EB;border-right:1px solid #EDE5D3;padding:12px 0;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#999;line-height:20px;user-select:none">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div><div style="flex:1;position:relative"><textarea id="codeEditor" spellcheck="false" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:20px;resize:none;outline:none;color:#1a1a1a;white-space:pre"></textarea><iframe id="preview" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:white;display:none" sandbox="allow-scripts allow-forms allow-same-origin"></iframe></div></div>
-<div style="padding:12px 16px;background:#F5EEE0;border-top:1px solid #EDE5D3;display:flex;flex-direction:column;gap:10px"><div style="font-size:11px;font-weight:700;letter-spacing:0.5px;color:#8B7D60;background:#EDE5D3;padding:3px 8px;border-radius:999px;width:fit-content">CODE ACTIONS:</div><div style="display:flex;gap:8px"><button id="saveBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">💾 Save</button><button id="downloadBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">⬇ Download</button><button id="clearBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">🗑 Clear</button></div></div>
-</div>
+  <!-- TOP BAR -->
+  <header class="topbar">
 
-<div class="deploy-panel">
-<button class="deploy-btn" id="deployBtn">Deploy</button>
-<div style="text-align:center;font-size:13.5px;line-height:1.4;color:#444">Ready to make your site live?<br><b>Go live on the internet in 1.2s</b></div>
-<input id="siteName" placeholder="My Website" style="width:100%;padding:12px 14px;border:1px solid #E5DDC8;border-radius:12px;font-size:14px;background:white;outline:none">
-<div style="margin-top:4px"><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL</div><div style="display:flex;align-items:center;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">📋 Copy URL</button></div></div>
-<button style="margin-top:6px;width:100%;padding:14px;border-radius:999px;border:1px solid #111;background:transparent;font-weight:600;font-size:14px;cursor:pointer">Go to Your Projects</button>
-</div>
-</main>
-</div>
-<!-- GLASS SHELL END -->
-</div>
+    <div style="display:flex;align-items:center;gap:14px">
+
+      <div style="
+        width:42px;
+        height:42px;
+        background:#111;
+        border-radius:10px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#D4AF37;
+        font-weight:900;
+        font-size:22px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.3)
+      ">W</div>
+
+      <div style="
+        font-size:26px;
+        font-weight:800;
+        letter-spacing:-0.5px
+      ">Webidex</div>
+
+      <button
+        id="topProjectsBtn"
+        style="
+          padding:9px 18px;
+          border-radius:999px;
+          border:1px solid #E5DDC8;
+          background:white;
+          font-weight:600;
+          font-size:14px;
+          cursor:pointer
+        "
+      >Your Projects</button>
+
+    </div>
+
+    <div style="display:flex;align-items:center;gap:10px">
+
+      <button style="
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        border:1px solid #E5DDC8;
+        background:white
+      ">🔔</button>
+
+      <button style="
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        border:1px solid #E5DDC8;
+        background:white
+      ">⚙️</button>
+
+      <div style="
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        background:#111;
+        color:white;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-weight:800
+      ">JK</div>
+
+      <button
+        onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname"
+        style="
+          padding:9px 14px;
+          border-radius:999px;
+          border:1px solid #E5DDC8;
+          background:white;
+          font-size:12px;
+          cursor:pointer
+        "
+      >Exit</button>
+
+    </div>
+
+  </header>
+
+
+  <!-- BUILDER PAGE -->
+  <div id="builderPage">
+
+    <main class="main">
+
+      <!-- CODE PANEL -->
+      <div class="code-panel">
+
+        <div style="
+          padding:16px 20px;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          border-bottom:1px solid #EDE5D3;
+          background:linear-gradient(to bottom,#FFFDf7,#FFF8EB)
+        ">
+
+          <div style="display:flex;align-items:center;gap:10px">
+
+            <span style="font-weight:700;font-size:15px">
+              index.html
+            </span>
+
+            <span style="
+              background:#10B981;
+              color:white;
+              padding:3px 10px;
+              border-radius:999px;
+              font-size:11px;
+              font-weight:700
+            ">HTML</span>
+
+            <span
+              id="savedBadge"
+              style="
+                display:flex;
+                align-items:center;
+                gap:5px;
+                color:#D97706;
+                font-size:13px;
+                font-weight:600
+              "
+            >● Unsaved</span>
+
+          </div>
+        </div>
+
+
+        <!-- TABS -->
+        <div style="
+          padding:12px 16px;
+          display:flex;
+          gap:8px;
+          background:#FFF8EB;
+          border-bottom:1px solid #EDE5D3
+        ">
+
+          <button class="tab active" id="codeTab">
+            Code
+          </button>
+
+          <button class="tab" id="previewTab">
+            Preview
+          </button>
+
+        </div>
+
+
+        <!-- EDITOR -->
+        <div style="
+          flex:1;
+          position:relative;
+          background:#FFFEFB;
+          display:flex;
+          overflow:hidden
+        ">
+
+          <div
+            id="gutter"
+            style="
+              width:48px;
+              background:#FFF8EB;
+              border-right:1px solid #EDE5D3;
+              padding:12px 0;
+              text-align:right;
+              font-family:'JetBrains Mono',monospace;
+              font-size:12px;
+              color:#999;
+              line-height:20px;
+              user-select:none
+            "
+          >1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div>
+
+          <div style="
+            flex:1;
+            position:relative
+          ">
+
+            <textarea
+              id="codeEditor"
+              spellcheck="false"
+              style="
+                position:absolute;
+                inset:0;
+                width:100%;
+                height:100%;
+                border:0;
+                background:transparent;
+                padding:12px 14px;
+                font-family:'JetBrains Mono',monospace;
+                font-size:12.5px;
+                line-height:20px;
+                resize:none;
+                outline:none;
+                color:#1a1a1a;
+                white-space:pre
+              "
+            ></textarea>
+
+            <iframe
+              id="preview"
+              style="
+                position:absolute;
+                inset:0;
+                width:100%;
+                height:100%;
+                border:0;
+                background:white;
+                display:none
+              "
+              sandbox="allow-scripts allow-forms allow-same-origin"
+            ></iframe>
+
+          </div>
+
+        </div>
+
+
+        <!-- CODE ACTIONS -->
+        <div style="
+          padding:12px 16px;
+          background:#F5EEE0;
+          border-top:1px solid #EDE5D3;
+          display:flex;
+          flex-direction:column;
+          gap:10px
+        ">
+
+          <div style="
+            font-size:11px;
+            font-weight:700;
+            letter-spacing:0.5px;
+            color:#8B7D60;
+            background:#EDE5D3;
+            padding:3px 8px;
+            border-radius:999px;
+            width:fit-content
+          ">CODE ACTIONS:</div>
+
+          <div style="display:flex;gap:8px">
+
+            <button
+              id="saveBtn"
+              style="
+                padding:8px 14px;
+                border-radius:10px;
+                border:1px solid #E5DDC8;
+                background:white;
+                font-weight:600;
+                font-size:12.5px;
+                cursor:pointer
+              "
+            >💾 Save</button>
+
+            <button
+              id="downloadBtn"
+              style="
+                padding:8px 14px;
+                border-radius:10px;
+                border:1px solid #E5DDC8;
+                background:white;
+                font-weight:600;
+                font-size:12.5px;
+                cursor:pointer
+              "
+            >⬇ Download</button>
+
+            <button
+              id="clearBtn"
+              style="
+                padding:8px 14px;
+                border-radius:10px;
+                border:1px solid #E5DDC8;
+                background:white;
+                font-weight:600;
+                font-size:12.5px;
+                cursor:pointer
+              "
+            >🗑 Clear</button>
+
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- DEPLOY PANEL -->
+      <div class="deploy-panel">
+
+        <button class="deploy-btn" id="deployBtn" disabled>
+          Deploy
+        </button>
+
+        <div style="
+          text-align:center;
+          font-size:13.5px;
+          line-height:1.4;
+          color:#444
+        ">
+          Ready to make your site live?
+          <br>
+          <b id="deployHint">Save your project name and code first</b>
+        </div>
+
+
+        <!-- PROJECT NAME -->
+        <div class="project-name-box">
+
+          <div class="project-label">
+            Project Name
+          </div>
+
+          <div class="name-row">
+
+            <input
+              id="siteName"
+              placeholder="My Website"
+              autocomplete="off"
+            >
+
+            <button
+              id="saveNameBtn"
+              class="save-name-btn"
+            >Save</button>
+
+          </div>
+
+          <div
+            id="nameStatus"
+            class="name-status"
+          >
+            ● Name not saved
+          </div>
+
+        </div>
+
+
+        <!-- VISIBILITY -->
+        <div>
+
+          <div style="
+            font-size:12px;
+            font-weight:600;
+            color:#555;
+            margin-bottom:6px
+          ">
+            Visibility
+          </div>
+
+          <div class="visibility-box">
+
+            <button
+              id="publicBtn"
+              class="visibility-btn"
+            >🌐 Public</button>
+
+            <button
+              id="privateBtn"
+              class="visibility-btn active"
+            >🔒 Private</button>
+
+          </div>
+
+          <div style="
+            font-size:10px;
+            color:#888;
+            margin-top:6px;
+            line-height:1.4
+          ">
+            Private is the default for testing. Full private access
+            protection will be added with authentication/backend.
+          </div>
+
+        </div>
+
+
+        <!-- LIVE URL -->
+        <div style="margin-top:4px">
+
+          <div style="
+            font-size:12px;
+            font-weight:600;
+            color:#555;
+            margin-bottom:6px
+          ">
+            Live URL
+          </div>
+
+          <div style="
+            display:flex;
+            align-items:center;
+            gap:8px;
+            background:#FFF8EB;
+            border:1px solid #EDE5D3;
+            border-radius:10px;
+            padding:8px 10px
+          ">
+
+            <a
+              id="liveUrl"
+              href="#"
+              target="_blank"
+              style="
+                flex:1;
+                font-size:12px;
+                color:#2563EB;
+                word-break:break-all;
+                text-decoration:none
+              "
+            >Deploy to get URL</a>
+
+            <button
+              id="copyBtn"
+              type="button"
+              style="
+                border:0;
+                background:#F1E7D3;
+                color:#5B4636;
+                border-radius:8px;
+                padding:7px 10px;
+                font-size:11px;
+                font-weight:700;
+                cursor:pointer
+              "
+            >Copy</button>
+
+          </div>
+
+        </div>
+
+        <!-- DEPLOY -->
+        <button
+          id="deployBtn"
+          type="button"
+          disabled
+          style="
+            width:100%;
+            margin-top:12px;
+            border:0;
+            border-radius:12px;
+            padding:12px;
+            background:#1F1B16;
+            color:#F8E7C5;
+            font-size:13px;
+            font-weight:800;
+            cursor:pointer;
+            letter-spacing:.3px
+          "
+        >
+          Deploy
+        </button>
+
+        <div
+          id="deployNote"
+          style="
+            margin-top:7px;
+            font-size:11px;
+            color:#888;
+            line-height:1.5
+          "
+        >
+          Save your project name and code before deploying.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- YOUR PROJECTS PAGE -->
+  <section
+    id="projectsPage"
+    class="hidden"
+    style="
+      width:100%;
+      max-width:1100px;
+      margin:0 auto;
+      padding:30px 20px 60px
+    "
+  >
+
+    <div
+      style="
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:15px;
+        margin-bottom:22px
+      "
+    >
+
+      <div>
+        <div
+          style="
+            font-size:11px;
+            color:#9A8565;
+            font-weight:800;
+            letter-spacing:1.5px;
+            text-transform:uppercase
+          "
+        >
+          Webidex
+        </div>
+
+        <h2
+          style="
+            margin:5px 0 0;
+            font-size:28px;
+            color:#2A241E
+          "
+        >
+          Your Projects
+        </h2>
+      </div>
+
+      <button
+        id="newProjectBtn"
+        type="button"
+        style="
+          border:1px solid #DCCEB5;
+          background:#FFFDF8;
+          color:#4B3A29;
+          border-radius:10px;
+          padding:10px 14px;
+          font-size:12px;
+          font-weight:800;
+          cursor:pointer
+        "
+      >
+        + New Project
+      </button>
+
+    </div>
+
+    <div id="projectsList"></div>
+
+  </section>
+
+
+  <!-- PROJECT DETAILS PAGE -->
+  <section
+    id="projectDetailsPage"
+    class="hidden"
+    style="
+      width:100%;
+      max-width:900px;
+      margin:0 auto;
+      padding:30px 20px 60px
+    "
+  >
+
+    <button
+      id="backToProjectsBtn"
+      type="button"
+      style="
+        border:0;
+        background:none;
+        color:#765D3A;
+        font-size:12px;
+        font-weight:800;
+        cursor:pointer;
+        padding:0;
+        margin-bottom:18px
+      "
+    >
+      ← Back to Projects
+    </button>
+
+    <div
+      style="
+        background:rgba(255,255,255,.72);
+        border:1px solid #E7DDCA;
+        border-radius:18px;
+        padding:22px;
+        box-shadow:0 15px 45px rgba(80,60,30,.08)
+      "
+    >
+
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:flex-start;
+          gap:15px;
+          flex-wrap:wrap
+        "
+      >
+
+        <div>
+          <div
+            style="
+              font-size:11px;
+              color:#9A8565;
+              font-weight:800;
+              letter-spacing:1.2px;
+              text-transform:uppercase
+            "
+          >
+            Project
+          </div>
+
+          <h2
+            id="detailProjectName"
+            style="
+              margin:5px 0 0;
+              font-size:26px;
+              color:#2A241E
+            "
+          >
+            Project
+          </h2>
+        </div>
+
+        <span
+          id="detailStatus"
+          style="
+            display:inline-flex;
+            align-items:center;
+            padding:7px 10px;
+            border-radius:999px;
+            background:#F4EDDF;
+            color:#6B563A;
+            font-size:11px;
+            font-weight:800
+          "
+        >
+          Draft
+        </span>
+
+      </div>
+
+
+      <div
+        style="
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+          gap:12px;
+          margin-top:22px
+        "
+      >
+
+        <div
+          style="
+            padding:14px;
+            background:#FFF9EF;
+            border:1px solid #EDE3D1;
+            border-radius:12px
+          "
+        >
+          <div style="font-size:10px;color:#8C806F;font-weight:700">
+            Visibility
+          </div>
+
+          <div
+            id="detailVisibility"
+            style="
+              margin-top:5px;
+              font-size:13px;
+              font-weight:800;
+              color:#40372D
+            "
+          >
+            Private
+          </div>
+        </div>
+
+
+        <div
+          style="
+            padding:14px;
+            background:#FFF9EF;
+            border:1px solid #EDE3D1;
+            border-radius:12px
+          "
+        >
+          <div style="font-size:10px;color:#8C806F;font-weight:700">
+            Code
+          </div>
+
+          <div
+            id="detailCodeStatus"
+            style="
+              margin-top:5px;
+              font-size:13px;
+              font-weight:800;
+              color:#40372D
+            "
+          >
+            Not saved
+          </div>
+        </div>
+
+
+        <div
+          style="
+            padding:14px;
+            background:#FFF9EF;
+            border:1px solid #EDE3D1;
+            border-radius:12px
+          "
+        >
+          <div style="font-size:10px;color:#8C806F;font-weight:700">
+            Created
+          </div>
+
+          <div
+            id="detailCreated"
+            style="
+              margin-top:5px;
+              font-size:12px;
+              font-weight:700;
+              color:#40372D
+            "
+          >
+            —
+          </div>
+        </div>
+
+      </div>
+
+
+      <div
+        style="
+          margin-top:18px;
+          padding:14px;
+          background:#FFF9EF;
+          border:1px solid #EDE3D1;
+          border-radius:12px
+        "
+      >
+
+        <div
+          style="
+            font-size:10px;
+            color:#8C806F;
+            font-weight:700;
+            margin-bottom:7px
+          "
+        >
+          Live URL
+        </div>
+
+        <a
+          id="detailLiveUrl"
+          href="#"
+          target="_blank"
+          style="
+            font-size:12px;
+            color:#2563EB;
+            word-break:break-all;
+            text-decoration:none
+          "
+        >
+          Not deployed yet
+        </a>
+
+      </div>
+
+
+      <div
+        style="
+          display:flex;
+          gap:10px;
+          flex-wrap:wrap;
+          margin-top:18px
+        "
+      >
+
+        <button
+          id="detailEditBtn"
+          type="button"
+          style="
+            border:0;
+            background:#1F1B16;
+            color:#F8E7C5;
+            border-radius:10px;
+            padding:11px 15px;
+            font-size:12px;
+            font-weight:800;
+            cursor:pointer
+          "
+        >
+          Edit Project
+        </button>
+
+        <button
+          id="detailOpenBtn"
+          type="button"
+          style="
+            border:1px solid #DCCEB5;
+            background:#FFFDF8;
+            color:#4B3A29;
+            border-radius:10px;
+            padding:11px 15px;
+            font-size:12px;
+            font-weight:800;
+            cursor:pointer
+          "
+        >
+          Open Live Site
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ACCESS GATE -->
+  <section
+    id="gate"
+    class="hidden"
+    style="
+      min-height:100dvh;
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:25px
+    "
+  >
+
+    <div
+      style="
+        width:100%;
+        max-width:430px;
+        text-align:center;
+        background:rgba(255,255,255,.72);
+        border:1px solid #E7DDCA;
+        border-radius:22px;
+        padding:35px 25px;
+        box-shadow:0 20px 60px rgba(80,60,30,.12)
+      "
+    >
+
+      <div
+        style="
+          font-size:11px;
+          font-weight:900;
+          letter-spacing:2px;
+          color:#9A8565
+        "
+      >
+        WEBIDEX
+      </div>
+
+      <h1
+        style="
+          margin:12px 0 8px;
+          font-size:30px;
+          color:#2A241E
+        "
+      >
+        Webidex is coming soon
+      </h1>
+
+      <p
+        style="
+          margin:0 auto;
+          max-width:330px;
+          color:#776E63;
+          font-size:13px;
+          line-height:1.6
+        "
+      >
+        First 30 users can get free access forever.
+      </p>
+
+      <a
+        href="https://forms.google.com/"
+        target="_blank"
+        style="
+          display:inline-block;
+          margin-top:20px;
+          text-decoration:none;
+          background:#1F1B16;
+          color:#F8E7C5;
+          padding:12px 18px;
+          border-radius:10px;
+          font-size:12px;
+          font-weight:800
+        "
+      >
+        Join Waiting List
+      </a>
+
+    </div>
+
+  </section>
+
 
 <script>
-// ADMIN GATE
-(function(){let p=new URLSearchParams(location.search);if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname)}let a=localStorage.getItem('webidex_admin')==='yes';document.getElementById('gate').classList.toggle('hidden',a);document.getElementById('newUI').classList.toggle('hidden',!a)})();
 
-// DENSE STARS - 600 NOW FOR SHINY BG
-function drawStars(id,count){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');function rs(){c.width=innerWidth;c.height=innerHeight;ctx.clearRect(0,0,c.width,c.height);for(let i=0;i<count;i++){let x=Math.random()*c.width,y=Math.random()*c.height,r=Math.random()*2.2+0.3,a=Math.random()*0.9+0.15,gold=Math.random()>0.25;let col=gold?`rgba(255,${200+Math.random()*55},${Math.random()*80},${a})`:`rgba(255,255,255,${a*0.7})`;ctx.beginPath();ctx.arc(x,y,r,0,6.28);ctx.fillStyle=col;ctx.fill();if(Math.random()>0.90){ctx.beginPath();let s=r*3.5;ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);ctx.strokeStyle=col;ctx.lineWidth=0.6;ctx.stroke()}}}rs();addEventListener('resize',rs)}drawStars('starCanvas',600);drawStars('gateCanvas',280);
+const ACCESS_KEY = "webidex_91_x_mast3r_2026";
 
-const codeEl=document.getElementById('codeEditor'), gutter=document.getElementById('gutter'), preview=document.getElementById('preview'), siteEl=document.getElementById('siteName'), liveEl=document.getElementById('liveUrl'), savedBadge=document.getElementById('savedBadge');
-function updateGutter(){let l=codeEl.value.split('\n').length;if(l<15)l=15;let h='';for(let i=1;i<=l;i++)h+=i+'<br>';gutter.innerHTML=h}
-function load(){let s=localStorage.getItem('forge_current_project');if(s){try{let d=JSON.parse(s);codeEl.value=d.code||`<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>My Site</title>\n</head>\n<body>\n<h1>Hello, Webidex.</h1>\n<p>Building something great.</p>\n</body>\n</html>`;siteEl.value=d.name||'my-website';updateGutter();}catch{}}else{codeEl.value=`<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>My Site</title>\n</head>\n<body>\n<h1>Hello, Webidex.</h1>\n<p>Building something great.</p>\n</body>\n</html>`;updateGutter()}}
-function save(){localStorage.setItem('forge_current_project',JSON.stringify({name:siteEl.value,code:codeEl.value}));savedBadge.textContent='✔ Saved';savedBadge.style.color='#059669';updateGutter()}
-function showCode(){codeEl.style.display='block';preview.style.display='none';document.getElementById('codeTab').classList.add('active');document.getElementById('previewTab').classList.remove('active')}
-function showPreview(){preview.srcdoc=codeEl.value;preview.style.display='block';codeEl.style.display='none';document.getElementById('previewTab').classList.add('active');document.getElementById('codeTab').classList.remove('active')}
-document.getElementById('codeTab').onclick=showCode;document.getElementById('previewTab').onclick=showPreview;
-document.getElementById('saveBtn').onclick=save;
-document.getElementById('downloadBtn').onclick=()=>{let b=new Blob([codeEl.value],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(siteEl.value||'site')+'.html';a.click()};
-document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear code?')){codeEl.value='';localStorage.removeItem('forge_current_project');updateGutter();showCode()}};
+const codeEl = document.getElementById("codeEditor");
+const siteEl = document.getElementById("siteName");
+const liveEl = document.getElementById("liveUrl");
+const deployBtn = document.getElementById("deployBtn");
 
-// FIXED DEPLOY - NOW SHOWS REAL URL
-document.getElementById('deployBtn').onclick=async()=>{let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim())return alert('Enter code first');let btn=document.getElementById('deployBtn');btn.textContent='Deploying...';btn.disabled=true;try{let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});let d=await r.json();if(!r.ok)throw new Error(d.error||'Deploy failed');liveEl.textContent=d.url;liveEl.href=d.url;window.open(d.url,'_blank')}catch(e){alert(e.message)}finally{btn.textContent='Deploy';btn.disabled=false}};
-document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
-codeEl.addEventListener('input',()=>{updateGutter();savedBadge.textContent='● Unsaved';savedBadge.style.color='#D97706'});
-load();
+const projectsPage = document.getElementById("projectsPage");
+const projectDetailsPage = document.getElementById("projectDetailsPage");
+
+let projects = JSON.parse(
+  localStorage.getItem("webidex_projects") || "[]"
+);
+
+let currentProjectId =
+  localStorage.getItem("webidex_current_project_id") || null;
+
+let currentProject = null;
+
+
+/* -------------------------
+   BASIC HELPERS
+------------------------- */
+
+function saveProjects(){
+  localStorage.setItem(
+    "webidex_projects",
+    JSON.stringify(projects)
+  );
+}
+
+function getCurrentProject(){
+  return projects.find(
+    p => p.id === currentProjectId
+  ) || null;
+}
+
+function showBuilder(){
+
+  document.getElementById("newUI").classList.remove("hidden");
+  projectsPage.classList.add("hidden");
+  projectDetailsPage.classList.add("hidden");
+
+}
+
+function showProjects(){
+
+  document.getElementById("newUI").classList.add("hidden");
+  projectsPage.classList.remove("hidden");
+  projectDetailsPage.classList.add("hidden");
+
+  renderProjects();
+
+}
+
+function showDetails(id){
+
+  const project = projects.find(
+    p => p.id === id
+  );
+
+  if(!project)return;
+
+  currentProjectId = id;
+  currentProject = project;
+
+  localStorage.setItem(
+    "webidex_current_project_id",
+    id
+  );
+
+  document.getElementById("newUI").classList.add("hidden");
+  projectsPage.classList.add("hidden");
+  projectDetailsPage.classList.remove("hidden");
+
+  document.getElementById("detailProjectName").textContent =
+    project.name;
+
+  document.getElementById("detailVisibility").textContent =
+    project.visibility;
+
+  document.getElementById("detailCodeStatus").textContent =
+    project.codeSaved ? "Saved" : "Not saved";
+
+  document.getElementById("detailCreated").textContent =
+    new Date(project.createdAt).toLocaleDateString();
+
+  const status = document.getElementById("detailStatus");
+
+  status.textContent =
+    project.status || "Draft";
+
+  const detailUrl =
+    document.getElementById("detailLiveUrl");
+
+  if(project.liveUrl){
+
+    detailUrl.textContent = project.liveUrl;
+    detailUrl.href = project.liveUrl;
+
+  }else{
+
+    detailUrl.textContent = "Not deployed yet";
+    detailUrl.href = "#";
+
+  }
+
+}
+
+
+/* -------------------------
+   PROJECT LIST
+------------------------- */
+
+function renderProjects(){
+
+  const list =
+    document.getElementById("projectsList");
+
+  if(!projects.length){
+
+    list.innerHTML = `
+      <div style="
+        text-align:center;
+        padding:55px 20px;
+        color:#82786C
+      ">
+        <div style="
+          font-size:30px;
+          margin-bottom:10px
+        ">
+          ◇
+        </div>
+
+        <div style="
+          font-size:14px;
+          font-weight:800;
+          color:#4B4035
+        ">
+          No projects yet
+        </div>
+
+        <div style="
+          font-size:12px;
+          margin-top:5px
+        ">
+          Create your first website.
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML = projects.map(project => `
+
+    <div
+      data-project-id="${project.id}"
+      style="
+        background:rgba(255,255,255,.72);
+        border:1px solid #E7DDCA;
+        border-radius:15px;
+        padding:17px;
+        margin-bottom:12px;
+        cursor:pointer;
+        box-shadow:0 10px 30px rgba(80,60,30,.05)
+      "
+    >
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:12px
+      ">
+
+        <div style="min-width:0">
+
+          <div style="
+            font-size:15px;
+            font-weight:850;
+            color:#302820;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap
+          ">
+            ${escapeHTML(project.name)}
+          </div>
+
+          <div style="
+            margin-top:5px;
+            font-size:11px;
+            color:#8A8074
+          ">
+            ${project.visibility} · ${project.status || "Draft"}
+          </div>
+
+        </div>
+
+        <div style="
+          font-size:18px;
+          color:#8A7659
+        ">
+          →
+        </div>
+
+      </div>
+
+    </div>
+
+  `).join("");
+
+  list.querySelectorAll("[data-project-id]")
+    .forEach(card => {
+
+      card.onclick = () => {
+        showDetails(card.dataset.projectId);
+      };
+
+    });
+
+}
+
+
+/* -------------------------
+   ESCAPE HTML
+------------------------- */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* -------------------------
+   NEW PROJECT
+------------------------- */
+
+document
+  .getElementById("newProjectBtn")
+  .onclick = () => {
+
+    currentProjectId = null;
+    currentProject = null;
+
+    localStorage.removeItem(
+      "webidex_current_project_id"
+    );
+
+    siteEl.value = "";
+    codeEl.value = "";
+
+    showBuilder();
+
+  };
+
+
+/* -------------------------
+   PROJECT DETAILS BUTTONS
+------------------------- */
+
+document
+  .getElementById("backToProjectsBtn")
+  .onclick = () => {
+
+    showProjects();
+
+  };
+
+
+document
+  .getElementById("detailEditBtn")
+  .onclick = () => {
+
+    if(!currentProject)return;
+
+    currentProjectId = currentProject.id;
+
+    localStorage.setItem(
+      "webidex_current_project_id",
+      currentProject.id
+    );
+
+    siteEl.value = currentProject.name;
+    codeEl.value = currentProject.code || "";
+
+    showBuilder();
+
+  };
+
+
+document
+  .getElementById("detailOpenBtn")
+  .onclick = () => {
+
+    if(
+      currentProject &&
+      currentProject.liveUrl
+    ){
+
+      window.open(
+        currentProject.liveUrl,
+        "_blank"
+      );
+
+    }
+
+  };
+
+
+/* -------------------------
+   NAME SAVE
+------------------------- */
+
+const saveNameBtn =
+  document.getElementById("saveNameBtn");
+
+if(saveNameBtn){
+
+  saveNameBtn.onclick = () => {
+
+    const name =
+      siteEl.value.trim();
+
+    if(!name){
+
+      alert("Enter a project name first.");
+      return;
+
+    }
+
+    if(!currentProjectId){
+
+      currentProjectId =
+        crypto.randomUUID();
+
+      currentProject = {
+        id: currentProjectId,
+        name:name,
+        nameSaved:true,
+        code:codeEl.value,
+        codeSaved:false,
+        visibility:"Private",
+        liveUrl:"",
+        deploymentId:"",
+        status:"Draft",
+        createdAt:new Date().toISOString(),
+        updatedAt:new Date().toISOString()
+      };
+
+      projects.unshift(currentProject);
+
+    }else{
+
+      currentProject =
+        getCurrentProject();
+
+      currentProject.name = name;
+      currentProject.nameSaved = true;
+      currentProject.updatedAt =
+        new Date().toISOString();
+
+    }
+
+    localStorage.setItem(
+      "webidex_current_project_id",
+      currentProjectId
+    );
+
+    saveProjects();
+
+    updateDeployState();
+
+    saveNameBtn.textContent = "Saved ✓";
+
+    setTimeout(() => {
+      saveNameBtn.textContent = "Save";
+    },1200);
+
+  };
+
+}
+
+
+/* -------------------------
+   NAME CHANGE
+------------------------- */
+
+siteEl.addEventListener("input",()=>{
+
+  if(!currentProject)return;
+
+  if(
+    siteEl.value.trim() !==
+    currentProject.name
+  ){
+
+    currentProject.nameSaved = false;
+
+    saveProjects();
+
+  }
+
+  updateDeployState();
+
+});
+
+
+/* -------------------------
+   VISIBILITY
+------------------------- */
+
+const privateBtn =
+  document.getElementById("privateBtn");
+
+const publicBtn =
+  document.getElementById("publicBtn");
+
+function setVisibility(type){
+
+  if(!currentProject)return;
+
+  currentProject.visibility =
+    type;
+
+  saveProjects();
+
+  if(type === "Private"){
+
+    privateBtn.style.background =
+      "#1F1B16";
+
+    privateBtn.style.color =
+      "#F8E7C5";
+
+    publicBtn.style.background =
+      "#FFFDF8";
+
+    publicBtn.style.color =
+      "#5B4636";
+
+  }else{
+
+    publicBtn.style.background =
+      "#1F1B16";
+
+    publicBtn.style.color =
+      "#F8E7C5";
+
+    privateBtn.style.background =
+      "#FFFDF8";
+
+    privateBtn.style.color =
+      "#5B4636";
+
+  }
+
+}
+
+if(privateBtn){
+  privateBtn.onclick =
+    () => setVisibility("Private");
+}
+
+if(publicBtn){
+  publicBtn.onclick =
+    () => setVisibility("Public");
+}
+
+
+/* -------------------------
+   CODE SAVE
+------------------------- */
+
+const saveBtn =
+  document.getElementById("saveBtn");
+
+saveBtn.onclick = () => {
+
+  if(!currentProject){
+
+    alert("Save your project name first.");
+    return;
+
+  }
+
+  if(
+    siteEl.value.trim() !==
+    currentProject.name
+  ){
+
+    alert("Save the project name first.");
+    return;
+
+  }
+
+  currentProject.code =
+    codeEl.value;
+
+  currentProject.codeSaved = true;
+
+  currentProject.updatedAt =
+    new Date().toISOString();
+
+  saveProjects();
+
+  saveBtn.textContent =
+    "Saved ✓";
+
+  setTimeout(()=>{
+    saveBtn.textContent =
+      "Save";
+  },1200);
+
+  updateDeployState();
+
+};
+
+
+/* -------------------------
+   CODE CHANGE
+------------------------- */
+
+codeEl.addEventListener("input",()=>{
+
+  if(!currentProject)return;
+
+  if(
+    codeEl.value !==
+    currentProject.code
+  ){
+
+    currentProject.codeSaved =
+      false;
+
+    saveProjects();
+
+  }
+
+  updateDeployState();
+
+});
+
+
+/* -------------------------
+   DEPLOY STATE
+------------------------- */
+
+function updateDeployState(){
+
+  if(!currentProject){
+
+    deployBtn.disabled = true;
+    deployBtn.style.opacity = ".45";
+    return;
+
+  }
+
+  const nameOK =
+    currentProject.nameSaved &&
+    siteEl.value.trim() ===
+    currentProject.name;
+
+  const codeOK =
+    currentProject.codeSaved &&
+    codeEl.value ===
+    currentProject.code;
+
+  const enabled =
+    nameOK && codeOK;
+
+  deployBtn.disabled =
+    !enabled;
+
+  deployBtn.style.opacity =
+    enabled ? "1" : ".45";
+
+}
+
+
+/* -------------------------
+   DEPLOY
+------------------------- */
+
+deployBtn.onclick = async()=>{
+
+  if(!currentProject){
+
+    alert("Save your project first.");
+    return;
+
+  }
+
+  if(!currentProject.nameSaved){
+
+    alert("Save the project name first.");
+    return;
+
+  }
+
+  if(!currentProject.codeSaved){
+
+    alert("Save your code first.");
+    return;
+
+  }
+
+  deployBtn.textContent =
+    "Deploying...";
+
+  deployBtn.disabled =
+    true;
+
+  try{
+
+    const r =
+      await fetch(
+        "/api/deploy",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+          body:JSON.stringify({
+            code:currentProject.code,
+            name:currentProject.name
+          })
+        }
+      );
+
+    const d =
+      await r.json();
+
+        if(!r.ok){
+
+      throw new Error(
+        d.error ||
+        "Deployment failed"
+      );
+
+    }
+
+    currentProject.liveUrl =
+      d.url;
+
+    currentProject.deploymentId =
+      d.id || "";
+
+    currentProject.status =
+      "Live";
+
+    currentProject.updatedAt =
+      new Date().toISOString();
+
+    saveProjects();
+
+    liveEl.textContent =
+      d.url;
+
+    liveEl.href =
+      d.url;
+
+    deployBtn.textContent =
+      "Deployed ✓";
+
+    document.getElementById(
+      "deployNote"
+    ).textContent =
+      "Your website is live.";
+
+    setTimeout(()=>{
+
+      deployBtn.textContent =
+        "Deploy";
+
+      updateDeployState();
+
+    },1500);
+
+  }catch(error){
+
+    alert(
+      error.message ||
+      "Deployment failed"
+    );
+
+    deployBtn.textContent =
+      "Deploy";
+
+    updateDeployState();
+
+  }
+
+};
+
+
+/* -------------------------
+   COPY URL
+------------------------- */
+
+document
+  .getElementById("copyBtn")
+  .onclick = async()=>{
+
+    if(
+      !liveEl.href ||
+      liveEl.href ===
+      location.href + "#"
+    ){
+
+      return;
+
+    }
+
+    try{
+
+      await navigator.clipboard.writeText(
+        liveEl.href
+      );
+
+      document.getElementById(
+        "copyBtn"
+      ).textContent =
+        "Copied ✓";
+
+      setTimeout(()=>{
+
+        document.getElementById(
+          "copyBtn"
+        ).textContent =
+          "Copy";
+
+      },1200);
+
+    }catch{
+
+      alert("Could not copy URL.");
+
+    }
+
+  };
+
+
+/* -------------------------
+   LOAD CURRENT PROJECT
+------------------------- */
+
+function loadCurrentProject(){
+
+  if(!currentProjectId){
+
+    updateDeployState();
+    return;
+
+  }
+
+  currentProject =
+    getCurrentProject();
+
+  if(!currentProject){
+
+    updateDeployState();
+    return;
+
+  }
+
+  siteEl.value =
+    currentProject.name || "";
+
+  codeEl.value =
+    currentProject.code || "";
+
+  if(currentProject.liveUrl){
+
+    liveEl.textContent =
+      currentProject.liveUrl;
+
+    liveEl.href =
+      currentProject.liveUrl;
+
+  }
+
+  setVisibility(
+    currentProject.visibility ||
+    "Private"
+  );
+
+  updateDeployState();
+
+}
+
+
+/* -------------------------
+   ACCESS GATE
+------------------------- */
+
+function checkAccess(){
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const key =
+    params.get("key");
+
+  const alreadyApproved =
+    localStorage.getItem(
+      "webidex_admin"
+    ) === "yes";
+
+  const gate =
+    document.getElementById("gate");
+
+  const app =
+    document.getElementById("newUI");
+
+  if(
+    key === ACCESS_KEY ||
+    alreadyApproved
+  ){
+
+    localStorage.setItem(
+      "webidex_admin",
+      "yes"
+    );
+
+    gate.classList.add("hidden");
+    app.classList.remove("hidden");
+
+    history.replaceState(
+      {},
+      document.title,
+      window.location.pathname
+    );
+
+    loadCurrentProject();
+
+  }else{
+
+    gate.classList.remove("hidden");
+    app.classList.add("hidden");
+
+  }
+
+}
+
+
+/* -------------------------
+   NAVIGATION
+------------------------- */
+
+const projectsNav =
+  document.getElementById("projectsNav");
+
+if(projectsNav){
+
+  projectsNav.onclick =
+    () => showProjects();
+
+}
+
+
+/* -------------------------
+   START
+------------------------- */
+
+checkAccess();
+
 </script>
+
 </body>
 </html>
+
+  
+   
