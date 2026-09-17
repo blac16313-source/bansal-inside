@@ -1,37 +1,136 @@
-ad="website.html";a.click();}
-function clearWebsite(){codeEditor.value="";siteName.value="";localStorage.removeItem("forge_current_project");preview.srcdoc="";}
-document.getElementById("previewBtn").onclick=previewWebsite;document.getElementById("saveBtn").onclick=saveWebsite;document.getElementById("downloadBtn").onclick=downloadWebsite;document.getElementById("clearBtn").onclick=clearWebsite;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Webidex - Luxury Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}:root{--cream:#FFFBF2;--border:#E9E0C8;--gold:#FFD700}
+body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:hidden}
+#starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.silk{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 800px 600px at 15% 20%,rgba(255,215,0,0.10),transparent 60%),radial-gradient(ellipse 600px 800px at 85% 30%,rgba(255,215,0,0.08),transparent 60%),radial-gradient(ellipse 1000px 500px at 50% 85%,rgba(212,175,55,0.07),transparent 70%)}
 
-document.getElementById("deployBtn").onclick=async()=>{
-  try{
-    const code=codeEditor.value;
-    const name=siteName.value||"website";
+/* ===== SUPER SHINY LIQUID GLASS - YOUR MAIN ASK ===== */
+.glass-shell{
+  position:relative;z-index:2;
+  width:min(1280px,96%);
+  margin:20px auto 70px;
+  background: linear-gradient(180deg, rgba(255,251,242,0.22) 0%, rgba(255,251,242,0.08) 100%);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-top: 1px solid rgba(255,255,255,0.75);
+  border-radius:28px;
+  padding:22px;
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.9),
+    inset 0 -1px 1px rgba(0,0,0,0.1),
+    inset 0 0 30px rgba(255,255,255,0.12),
+    0 30px 90px rgba(0,0,0,0.85),
+    0 0 0 1px rgba(255,255,255,0.15);
+}
+.glass-shell::before{
+  content:"";
+  position:absolute;
+  top:0;left:1%;right:1%;
+  height:55%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.12) 18%, rgba(255,255,255,0.02) 45%, transparent 70%);
+  border-radius:28px 28px 100% 100% / 28px 28px 60% 60%;
+  pointer-events:none;
+}
+.glass-shell::after{
+  content:"";
+  position:absolute;
+  top:0;left:10%;right:10%;
+  height:1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,1) 20%, rgba(255,255,255,0.9) 80%, transparent);
+  pointer-events:none;
+  filter: blur(0.2px);
+}
 
-    if(!code.trim()){
-      alert("Please enter website code first.");
-      return;
-    }
+.waitlist-gate{position:fixed;inset:0;z-index:9999;background:#050507;display:flex;align-items:center;justify-content:center;padding:20px}
+.gate-card{position:relative;z-index:1;width:min(440px,92%);background:var(--cream);border:1px solid var(--border);border-radius:24px;padding:36px 28px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.8)}
 
-    const res=await fetch("/api/deploy",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({code,name})
-    });
+.topbar{width:100%;height:70px;background:var(--cream);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;box-shadow:0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8)}
+.main{width:100%;margin-top:18px;display:grid;grid-template-columns:1fr 390px;gap:20px;align-items:start}
+.code-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9);display:flex;flex-direction:column;height:700px}
+.deploy-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9);position:relative;overflow:hidden}
+.deploy-panel::before{content:"";position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 70%);pointer-events:none}
+.deploy-btn{position:relative;width:100%;background:#0F0F0F;color:white;border:0;border-radius:999px;padding:18px;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);transition:0.2s}
+.deploy-btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(0,0,0,0.5)}
+.deploy-btn::after{content:"✦";position:absolute;top:12px;right:24px;color:var(--gold);font-size:14px;animation:twinkle 2s infinite}
+.deploy-btn::before{content:"✦";position:absolute;bottom:14px;left:20px;color:var(--gold);font-size:10px;animation:twinkle 2.5s infinite reverse}
+@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
+.hidden{display:none!important}
+.tab{padding:8px 16px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer;transition:0.15s}
+.tab.active{background:#111;color:white;border-color:#111;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+@media(max-width:900px){.main{grid-template-columns:1fr}.code-panel{height:560px}.glass-shell{width:96%;padding:12px;border-radius:20px}}
+</style>
+</head>
+<body>
+<canvas id="starCanvas"></canvas><div class="silk"></div>
 
-    const data=await res.json();
+<div id="gate" class="waitlist-gate">
+<canvas id="gateCanvas" style="position:absolute;inset:0"></canvas>
+<div class="gate-card">
+<div style="width:56px;height:56px;background:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:28px;margin:0 auto 18px">W</div>
+<div style="display:inline-block;background:#FFF3CD;border:1px solid #FFD700;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.5px">✨ LUXURY BUILDER</div>
+<h1 style="font-size:28px;font-weight:800;margin:14px 0 10px;line-height:1.2">Webidex is coming soon</h1>
+<p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:24px">First 30 users can get <b>free access forever</b></p>
+<a href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank" style="display:block;width:100%;background:#111;color:white;padding:14px;border-radius:999px;text-decoration:none;font-weight:800">Join Waiting List →</a>
+</div>
+</div>
 
-    if(!res.ok){
-      throw new Error(data.error||"Deployment failed");
-    }
+<div id="newUI" class="hidden" style="width:100%;display:flex;justify-content:center">
+<!-- GLASS SHELL START - CONTAINS HEADING + BOTH BOXES -->
+<div class="glass-shell">
+<header class="topbar">
+<div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">W</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">Webidex</div><button style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px">Your Projects</button></div>
+<div style="display:flex;align-items:center;gap:10px"><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">🔔</button><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">⚙️</button><div style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800">JK</div><button onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname" style="padding:9px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-size:12px">Exit</button></div>
+</header>
 
-    alert("Website deployed successfully!");
-    window.open(data.url,"_blank");
+<main class="main">
+<div class="code-panel">
+<div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #EDE5D3;background:linear-gradient(to bottom, #FFFDf7, #FFF8EB)"><div style="display:flex;align-items:center;gap:10px"><span style="font-weight:700;font-size:15px">index.html</span><span style="background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700">HTML</span><span id="savedBadge" style="display:flex;align-items:center;gap:5px;color:#059669;font-size:13px;font-weight:600">✔ Saved</span></div></div>
+<div style="padding:12px 16px;display:flex;gap:8px;background:#FFF8EB;border-bottom:1px solid #EDE5D3"><button class="tab active" id="codeTab">Code</button><button class="tab" id="previewTab">Preview</button></div>
+<div style="flex:1;position:relative;background:#FFFEFB;display:flex;overflow:hidden"><div id="gutter" style="width:48px;background:#FFF8EB;border-right:1px solid #EDE5D3;padding:12px 0;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#999;line-height:20px;user-select:none">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div><div style="flex:1;position:relative"><textarea id="codeEditor" spellcheck="false" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:20px;resize:none;outline:none;color:#1a1a1a;white-space:pre"></textarea><iframe id="preview" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:white;display:none" sandbox="allow-scripts allow-forms allow-same-origin"></iframe></div></div>
+<div style="padding:12px 16px;background:#F5EEE0;border-top:1px solid #EDE5D3;display:flex;flex-direction:column;gap:10px"><div style="font-size:11px;font-weight:700;letter-spacing:0.5px;color:#8B7D60;background:#EDE5D3;padding:3px 8px;border-radius:999px;width:fit-content">CODE ACTIONS:</div><div style="display:flex;gap:8px"><button id="saveBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">💾 Save</button><button id="downloadBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">⬇ Download</button><button id="clearBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">🗑 Clear</button></div></div>
+</div>
 
-  }catch(error){
-    alert("Deployment failed: "+error.message);
-  }
-};
+<div class="deploy-panel">
+<button class="deploy-btn" id="deployBtn">Deploy</button>
+<div style="text-align:center;font-size:13.5px;line-height:1.4;color:#444">Ready to make your site live?<br><b>Go live on the internet in 1.2s</b></div>
+<input id="siteName" placeholder="My Website" style="width:100%;padding:12px 14px;border:1px solid #E5DDC8;border-radius:12px;font-size:14px;background:white;outline:none">
+<div style="margin-top:4px"><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL</div><div style="display:flex;align-items:center;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">📋 Copy URL</button></div></div>
+<button style="margin-top:6px;width:100%;padding:14px;border-radius:999px;border:1px solid #111;background:transparent;font-weight:600;font-size:14px;cursor:pointer">Go to Your Projects</button>
+</div>
+</main>
+</div>
+<!-- GLASS SHELL END -->
+</div>
 
-(function(){let p=new URLSearchParams(location.search);let g=document.getElementById('gate'),c=document.querySelector('.container');if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes')}if(localStorage.getItem('webidex_admin')==='yes'){g.style.display='none';c.classList.remove('blur')}else{c.classList.add('blur')}setInterval(()=>{let e=document.getElementById('eruda');if(e)e.remove()},1000);})();
-loadWebsite();
-</script></body></html>
+<script>
+// ADMIN GATE
+(function(){let p=new URLSearchParams(location.search);if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname)}let a=localStorage.getItem('webidex_admin')==='yes';document.getElementById('gate').classList.toggle('hidden',a);document.getElementById('newUI').classList.toggle('hidden',!a)})();
+
+// DENSE STARS - 600 NOW FOR SHINY BG
+function drawStars(id,count){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');function rs(){c.width=innerWidth;c.height=innerHeight;ctx.clearRect(0,0,c.width,c.height);for(let i=0;i<count;i++){let x=Math.random()*c.width,y=Math.random()*c.height,r=Math.random()*2.2+0.3,a=Math.random()*0.9+0.15,gold=Math.random()>0.25;let col=gold?`rgba(255,${200+Math.random()*55},${Math.random()*80},${a})`:`rgba(255,255,255,${a*0.7})`;ctx.beginPath();ctx.arc(x,y,r,0,6.28);ctx.fillStyle=col;ctx.fill();if(Math.random()>0.90){ctx.beginPath();let s=r*3.5;ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);ctx.strokeStyle=col;ctx.lineWidth=0.6;ctx.stroke()}}}rs();addEventListener('resize',rs)}drawStars('starCanvas',600);drawStars('gateCanvas',280);
+
+const codeEl=document.getElementById('codeEditor'), gutter=document.getElementById('gutter'), preview=document.getElementById('preview'), siteEl=document.getElementById('siteName'), liveEl=document.getElementById('liveUrl'), savedBadge=document.getElementById('savedBadge');
+function updateGutter(){let l=codeEl.value.split('\n').length;if(l<15)l=15;let h='';for(let i=1;i<=l;i++)h+=i+'<br>';gutter.innerHTML=h}
+function load(){let s=localStorage.getItem('forge_current_project');if(s){try{let d=JSON.parse(s);codeEl.value=d.code||`<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>My Site</title>\n</head>\n<body>\n<h1>Hello, Webidex.</h1>\n<p>Building something great.</p>\n</body>\n</html>`;siteEl.value=d.name||'my-website';updateGutter();}catch{}}else{codeEl.value=`<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>My Site</title>\n</head>\n<body>\n<h1>Hello, Webidex.</h1>\n<p>Building something great.</p>\n</body>\n</html>`;updateGutter()}}
+function save(){localStorage.setItem('forge_current_project',JSON.stringify({name:siteEl.value,code:codeEl.value}));savedBadge.textContent='✔ Saved';savedBadge.style.color='#059669';updateGutter()}
+function showCode(){codeEl.style.display='block';preview.style.display='none';document.getElementById('codeTab').classList.add('active');document.getElementById('previewTab').classList.remove('active')}
+function showPreview(){preview.srcdoc=codeEl.value;preview.style.display='block';codeEl.style.display='none';document.getElementById('previewTab').classList.add('active');document.getElementById('codeTab').classList.remove('active')}
+document.getElementById('codeTab').onclick=showCode;document.getElementById('previewTab').onclick=showPreview;
+document.getElementById('saveBtn').onclick=save;
+document.getElementById('downloadBtn').onclick=()=>{let b=new Blob([codeEl.value],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(siteEl.value||'site')+'.html';a.click()};
+document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear code?')){codeEl.value='';localStorage.removeItem('forge_current_project');updateGutter();showCode()}};
+
+// FIXED DEPLOY - NOW SHOWS REAL URL
+document.getElementById('deployBtn').onclick=async()=>{let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim())return alert('Enter code first');let btn=document.getElementById('deployBtn');btn.textContent='Deploying...';btn.disabled=true;try{let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});let d=await r.json();if(!r.ok)throw new Error(d.error||'Deploy failed');liveEl.textContent=d.url;liveEl.href=d.url;window.open(d.url,'_blank')}catch(e){alert(e.message)}finally{btn.textContent='Deploy';btn.disabled=false}};
+document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
+codeEl.addEventListener('input',()=>{updateGutter();savedBadge.textContent='● Unsaved';savedBadge.style.color='#D97706'});
+load();
+</script>
+</body>
+</html>
