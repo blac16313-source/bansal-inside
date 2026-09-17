@@ -8,42 +8,9 @@
 body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:hidden}
 #starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .silk{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 800px 600px at 15% 20%,rgba(255,215,0,0.10),transparent 60%),radial-gradient(ellipse 600px 800px at 85% 30%,rgba(255,215,0,0.08),transparent 60%),radial-gradient(ellipse 1000px 500px at 50% 85%,rgba(212,175,55,0.07),transparent 70%)}
-.glass-shell{
-  position:relative;z-index:2;
-  width:min(1280px,96%);
-  margin:20px auto 70px;
-  background: linear-gradient(180deg, rgba(255,251,242,0.22) 0%, rgba(255,251,242,0.08) 100%);
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.35);
-  border-top: 1px solid rgba(255,255,255,0.75);
-  border-radius:28px;
-  padding:22px;
-  box-shadow: 
-    inset 0 1px 1px rgba(255,255,255,0.9),
-    inset 0 -1px 1px rgba(0,0,0,0.1),
-    inset 0 0 30px rgba(255,255,255,0.12),
-    0 30px 90px rgba(0,0,0,0.85),
-    0 0 0 1px rgba(255,255,255,0.15);
-}
-.glass-shell::before{
-  content:"";
-  position:absolute;
-  top:0;left:1%;right:1%;
-  height:55%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.12) 18%, rgba(255,255,255,0.02) 45%, transparent 70%);
-  border-radius:28px 28px 100% 100% / 28px 28px 60% 60%;
-  pointer-events:none;
-}
-.glass-shell::after{
-  content:"";
-  position:absolute;
-  top:0;left:10%;right:10%;
-  height:1.5px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,1) 20%, rgba(255,255,255,0.9) 80%, transparent);
-  pointer-events:none;
-  filter: blur(0.2px);
-}
+.glass-shell{position:relative;z-index:2;width:min(1280px,96%);margin:20px auto 70px;background: linear-gradient(180deg, rgba(255,251,242,0.22) 0%, rgba(255,251,242,0.08) 100%);backdrop-filter: blur(32px) saturate(180%);-webkit-backdrop-filter: blur(32px) saturate(180%);border: 1px solid rgba(255,255,255,0.35);border-top: 1px solid rgba(255,255,255,0.75);border-radius:28px;padding:22px;box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.1), inset 0 0 30px rgba(255,255,255,0.12), 0 30px 90px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.15);}
+.glass-shell::before{content:"";position:absolute;top:0;left:1%;right:1%;height:55%;background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.12) 18%, rgba(255,255,255,0.02) 45%, transparent 70%);border-radius:28px 28px 100% 100% / 28px 28px 60% 60%;pointer-events:none}
+.glass-shell::after{content:"";position:absolute;top:0;left:10%;right:10%;height:1.5px;background: linear-gradient(90deg, transparent, rgba(255,255,255,1) 20%, rgba(255,255,255,0.9) 80%, transparent);pointer-events:none;filter: blur(0.2px)}
 .waitlist-gate{position:fixed;inset:0;z-index:9999;background:#050507;display:flex;align-items:center;justify-content:center;padding:20px}
 .gate-card{position:relative;z-index:1;width:min(440px,92%);background:var(--cream);border:1px solid var(--border);border-radius:24px;padding:36px 28px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.8)}
 .topbar{width:100%;height:70px;background:var(--cream);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;box-shadow:0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8)}
@@ -61,49 +28,21 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 .hidden{display:none!important}
 .tab{padding:8px 16px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer;transition:0.15s}
 .tab.active{background:#111;color:white;border-color:#111;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-
-/* NEW PROJECT NAME BOX - SAME WIDTH AS CODE BOX */
-.project-name-wrap{
-  background:var(--cream);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:14px 16px;
-  margin-bottom:14px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  box-shadow:0 12px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.9);
-}
+.project-name-wrap{background:var(--cream);border:1px solid var(--border);border-radius:18px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.9)}
 .project-name-wrap label{font-size:11px;font-weight:800;letter-spacing:0.8px;white-space:nowrap}
-.project-name-wrap input{
-  flex:1;
-  border:1.5px solid #E5DDC8;
-  border-radius:10px;
-  padding:10px 12px;
-  font-weight:600;
-  outline:none;
-  background:white;
-}
+.project-name-wrap input{flex:1;border:1.5px solid #E5DDC8;border-radius:10px;padding:10px 12px;font-weight:600;outline:none;background:white}
 .project-name-wrap input:focus{border-color:#111}
-.mini-save{
-  padding:10px 16px;
-  border-radius:10px;
-  border:1px solid #111;
-  background:#111;
-  color:white;
-  font-weight:800;
-  font-size:12px;
-  cursor:pointer;
-  white-space:nowrap;
-  transition:0.15s;
-}
+.mini-save{padding:10px 16px;border-radius:10px;border:1px solid #111;background:#111;color:white;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap;transition:0.15s}
 .mini-save.saved{background:white;color:#111}
+.projects-page{width:100%;min-height:500px;background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:18px}
+.project-card{background:white;border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;transition:0.15s}
+.project-card:hover{border-color:#111;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.1)}
 @media(max-width:900px){.main{grid-template-columns:1fr}.code-panel{height:560px}.glass-shell{width:96%;padding:12px;border-radius:20px}}
 </style>
 </head>
 <body>
 <canvas id="starCanvas"></canvas><div class="silk"></div>
-
 <div id="gate" class="waitlist-gate">
 <canvas id="gateCanvas" style="position:absolute;inset:0"></canvas>
 <div class="gate-card">
@@ -114,24 +53,20 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 <a href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank" style="display:block;width:100%;background:#111;color:white;padding:14px;border-radius:999px;text-decoration:none;font-weight:800">Join Waiting List →</a>
 </div>
 </div>
-
 <div id="newUI" class="hidden" style="width:100%;display:flex;justify-content:center">
 <div class="glass-shell">
 <header class="topbar">
-<div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">W</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">Webidex</div><button style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px">Your Projects</button></div>
+<div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">W</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">Webidex</div><button onclick="openProjectsPage()" style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px;cursor:pointer">Your Projects</button></div>
 <div style="display:flex;align-items:center;gap:10px"><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">🔔</button><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">⚙️</button><div style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800">JK</div><button onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname" style="padding:9px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-size:12px">Exit</button></div>
 </header>
-
+<div id="builderView">
 <main class="main">
-<!-- LEFT COLUMN - NAME BOX + CODE BOX -->
 <div class="left-col">
-  <!-- NEW: PROJECT NAME BOX - FULL WIDTH SAME AS CODE BOX -->
   <div class="project-name-wrap">
     <label>PROJECT NAME:</label>
     <input id="siteName" placeholder="my-website" />
     <button id="saveNameBtn" class="mini-save" onclick="saveProjectName()">Save</button>
   </div>
-
   <div class="code-panel">
     <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #EDE5D3;background:linear-gradient(to bottom, #FFFDf7, #FFF8EB)"><div style="display:flex;align-items:center;gap:10px"><span style="font-weight:700;font-size:15px">index.html</span><span style="background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700">HTML</span><span id="savedBadge" style="display:flex;align-items:center;gap:5px;color:#059669;font-size:13px;font-weight:600">✔ Saved</span></div></div>
     <div style="padding:12px 16px;display:flex;gap:8px;background:#FFF8EB;border-bottom:1px solid #EDE5D3"><button class="tab active" id="codeTab">Code</button><button class="tab" id="previewTab">Preview</button></div>
@@ -139,128 +74,109 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
     <div style="padding:12px 16px;background:#F5EEE0;border-top:1px solid #EDE5D3;display:flex;flex-direction:column;gap:10px"><div style="font-size:11px;font-weight:700;letter-spacing:0.5px;color:#8B7D60;background:#EDE5D3;padding:3px 8px;border-radius:999px;width:fit-content">CODE ACTIONS:</div><div style="display:flex;gap:8px"><button id="saveBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">💾 Save</button><button id="downloadBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">⬇ Download</button><button id="clearBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">🗑 Clear</button></div></div>
   </div>
 </div>
-
 <div class="deploy-panel">
 <button class="deploy-btn" id="deployBtn">Deploy</button>
 <div style="text-align:center;font-size:13.5px;line-height:1.4;color:#444">Ready to make your site live?<br><b>Go live on the internet in 1.2s</b></div>
-<!-- OLD NAME BOX REMOVED FROM HERE -->
 <div id="deployHint" style="text-align:center;font-size:11px;color:#D97706;font-weight:700;display:none">⚠️ Save Project Name & Code first</div>
 <div style="margin-top:4px"><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL</div><div style="display:flex;align-items:center;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">📋 Copy URL</button></div></div>
-<button style="margin-top:6px;width:100%;padding:14px;border-radius:999px;border:1px solid #111;background:transparent;font-weight:600;font-size:14px;cursor:pointer">Go to Your Projects</button>
+<button onclick="openProjectsPage()" style="margin-top:6px;width:100%;padding:14px;border-radius:999px;border:1px solid #111;background:transparent;font-weight:600;font-size:14px;cursor:pointer">Go to Your Projects</button>
 </div>
 </main>
 </div>
+<div id="projectsPageView" class="hidden" style="width:100%;margin-top:18px">
+  <div class="projects-page">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:22px;font-weight:800">Your Projects</div><div style="font-size:13px;color:#666;margin-top:4px"><span id="projCount">0</span> projects saved in browser</div></div>
+      <div style="display:flex;gap:8px"><button onclick="closeProjectsPage()" style="padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;font-size:13px;cursor:pointer">← Back to Builder</button></div>
+    </div>
+    <div id="projectsGrid" class="projects-grid"></div>
+    <div id="noProjects" style="padding:60px;text-align:center;color:#888;display:none"><div style="font-size:42px;margin-bottom:12px">📁</div><div style="font-weight:700">No projects yet</div><div style="font-size:13px;margin-top:6px">Save a project name + code to see it here</div><button onclick="closeProjectsPage()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:white;font-weight:600;cursor:pointer">Create Project</button></div>
+  </div>
 </div>
-
+</div>
+</div>
 <script>
-// ADMIN GATE
 (function(){let p=new URLSearchParams(location.search);if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname)}let a=localStorage.getItem('webidex_admin')==='yes';document.getElementById('gate').classList.toggle('hidden',a);document.getElementById('newUI').classList.toggle('hidden',!a)})();
-
-// STARS
 function drawStars(id,count){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');function rs(){c.width=innerWidth;c.height=innerHeight;ctx.clearRect(0,0,c.width,c.height);for(let i=0;i<count;i++){let x=Math.random()*c.width,y=Math.random()*c.height,r=Math.random()*2.2+0.3,a=Math.random()*0.9+0.15,gold=Math.random()>0.25;let col=gold?`rgba(255,${200+Math.random()*55},${Math.random()*80},${a})`:`rgba(255,255,255,${a*0.7})`;ctx.beginPath();ctx.arc(x,y,r,0,6.28);ctx.fillStyle=col;ctx.fill();if(Math.random()>0.90){ctx.beginPath();let s=r*3.5;ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);ctx.strokeStyle=col;ctx.lineWidth=0.6;ctx.stroke()}}}rs();addEventListener('resize',rs)}drawStars('starCanvas',600);drawStars('gateCanvas',280);
-
 const codeEl=document.getElementById('codeEditor'), gutter=document.getElementById('gutter'), preview=document.getElementById('preview'), siteEl=document.getElementById('siteName'), liveEl=document.getElementById('liveUrl'), savedBadge=document.getElementById('savedBadge'), saveNameBtn=document.getElementById('saveNameBtn'), deployBtn=document.getElementById('deployBtn'), deployHint=document.getElementById('deployHint'), saveBtn=document.getElementById('saveBtn');
-
-let isNameSaved = false;
-let isCodeSaved = false;
-
+let isNameSaved=false, isCodeSaved=false;
 function updateGutter(){let l=codeEl.value.split('\n').length;if(l<15)l=15;let h='';for(let i=1;i<=l;i++)h+=i+'<br>';gutter.innerHTML=h}
-
-function checkDeployReady(){
-  if(isNameSaved && isCodeSaved){
-    deployBtn.disabled = false;
-    deployHint.style.display = 'none';
-  } else {
-    deployBtn.disabled = true;
-    deployHint.style.display = 'block';
-  }
+function checkDeployReady(){if(isNameSaved && isCodeSaved){deployBtn.disabled=false;deployHint.style.display='none'}else{deployBtn.disabled=true;deployHint.style.display='block'}}
+function getProjects(){try{return JSON.parse(localStorage.getItem('forge_projects')||'[]')}catch{return[]}}
+function setProjects(list){localStorage.setItem('forge_projects',JSON.stringify(list))}
+function saveToProjectsList(name,code,liveUrl){
+  let list=getProjects();
+  let existing=list.find(p=>p.name===name);
+  if(existing){existing.code=code;existing.liveUrl=liveUrl||existing.liveUrl;existing.updatedAt=new Date().toISOString()}
+  else{list.unshift({id:Date.now().toString(),name,code,liveUrl:liveUrl||'',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()})}
+  setProjects(list);
 }
-
 function saveProjectName(){
   if(!siteEl.value.trim()){alert('Enter a project name');return}
-  isNameSaved = true;
-  saveNameBtn.textContent = 'Saved ✓';
-  saveNameBtn.classList.add('saved');
-  // also save to storage
+  isNameSaved=true; saveNameBtn.textContent='Saved ✓'; saveNameBtn.classList.add('saved');
   localStorage.setItem('forge_current_project',JSON.stringify({name:siteEl.value,code:codeEl.value}));
+  saveToProjectsList(siteEl.value.trim(), codeEl.value, liveEl.textContent.includes('http')?liveEl.textContent:'');
   checkDeployReady();
 }
-
 function saveCodeFile(){
   localStorage.setItem('forge_current_project',JSON.stringify({name:siteEl.value,code:codeEl.value}));
-  isCodeSaved = true;
-  savedBadge.textContent='✔ Saved';
-  savedBadge.style.color='#059669';
-  saveBtn.textContent='💾 Saved ✓';
-  setTimeout(()=>saveBtn.textContent='💾 Save',2000);
-  updateGutter();
-  checkDeployReady();
+  saveToProjectsList(siteEl.value.trim(), codeEl.value, liveEl.textContent.includes('http')?liveEl.textContent:'');
+  isCodeSaved=true; savedBadge.textContent='✔ Saved'; savedBadge.style.color='#059669';
+  saveBtn.textContent='💾 Saved ✓'; setTimeout(()=>saveBtn.textContent='💾 Save',2000);
+  updateGutter(); checkDeployReady();
 }
-
 function load(){
   let s=localStorage.getItem('forge_current_project');
-  if(s){
-    try{
-      let d=JSON.parse(s);
-      codeEl.value=d.code||`<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>My Site</title>\n</head>\n<body>\n<h1>Hello, Webidex.</h1>\n<p>Building something great.</p>\n</body>\n</html>`;
-      siteEl.value=d.name||'my-website';
-      isNameSaved = !!d.name;
-      isCodeSaved = !!d.code;
-      if(isNameSaved){saveNameBtn.textContent='Saved ✓';saveNameBtn.classList.add('saved')}
-    }catch{}
-  } else {
-    codeEl.value=`<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<title>My Site</title>\n</head>\n<body>\n<h1>Hello, Webidex.</h1>\n<p>Building something great.</p>\n</body>\n</html>`;
-    isNameSaved = false;
-    isCodeSaved = false;
-  }
-  updateGutter();
-  checkDeployReady();
+  if(s){try{let d=JSON.parse(s);codeEl.value=d.code||`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Site</title></head><body><h1>Hello, Webidex.</h1><p>Building something great.</p></body></html>`;siteEl.value=d.name||'my-website';isNameSaved=!!d.name;isCodeSaved=!!d.code;if(isNameSaved){saveNameBtn.textContent='Saved ✓';saveNameBtn.classList.add('saved')}}catch{}}
+  else{codeEl.value=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Site</title></head><body><h1>Hello, Webidex.</h1><p>Building something great.</p></body></html>`;isNameSaved=false;isCodeSaved=false}
+  updateGutter();checkDeployReady();
 }
-
 function showCode(){codeEl.style.display='block';preview.style.display='none';document.getElementById('codeTab').classList.add('active');document.getElementById('previewTab').classList.remove('active')}
 function showPreview(){preview.srcdoc=codeEl.value;preview.style.display='block';codeEl.style.display='none';document.getElementById('previewTab').classList.add('active');document.getElementById('codeTab').classList.remove('active')}
-
-document.getElementById('codeTab').onclick=showCode;
-document.getElementById('previewTab').onclick=showPreview;
+document.getElementById('codeTab').onclick=showCode;document.getElementById('previewTab').onclick=showPreview;
 saveBtn.onclick=saveCodeFile;
 document.getElementById('downloadBtn').onclick=()=>{let b=new Blob([codeEl.value],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(siteEl.value||'site')+'.html';a.click()};
 document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear code?')){codeEl.value='';localStorage.removeItem('forge_current_project');isCodeSaved=false;updateGutter();showCode();checkDeployReady()}};
-
-siteEl.addEventListener('input',()=>{
-  isNameSaved=false;
-  saveNameBtn.textContent='Save';
-  saveNameBtn.classList.remove('saved');
-  checkDeployReady();
-});
-
-codeEl.addEventListener('input',()=>{
-  updateGutter();
-  savedBadge.textContent='● Unsaved';
-  savedBadge.style.color='#D97706';
-  isCodeSaved=false;
-  checkDeployReady();
-});
-
+siteEl.addEventListener('input',()=>{isNameSaved=false;saveNameBtn.textContent='Save';saveNameBtn.classList.remove('saved');checkDeployReady()});
+codeEl.addEventListener('input',()=>{updateGutter();savedBadge.textContent='● Unsaved';savedBadge.style.color='#D97706';isCodeSaved=false;checkDeployReady()});
+function openProjectsPage(){
+  document.getElementById('builderView').classList.add('hidden');
+  document.getElementById('projectsPageView').classList.remove('hidden');
+  renderProjects();
+}
+function closeProjectsPage(){
+  document.getElementById('projectsPageView').classList.add('hidden');
+  document.getElementById('builderView').classList.remove('hidden');
+}
+function renderProjects(){
+  let list=getProjects();
+  document.getElementById('projCount').textContent=list.length;
+  let grid=document.getElementById('projectsGrid');
+  let empty=document.getElementById('noProjects');
+  grid.innerHTML='';
+  if(list.length===0){empty.style.display='block';grid.style.display='none'}else{empty.style.display='none';grid.style.display='grid';
+    list.forEach(p=>{
+      let div=document.createElement('div');div.className='project-card';
+      div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px">${p.name}</div><div style="font-size:10px;background:#FFF3CD;border:1px solid #FFD700;padding:3px 8px;border-radius:999px;font-weight:700">HTML</div></div><div style="font-size:11px;color:#888">Updated: ${new Date(p.updatedAt).toLocaleString()}</div><div style="background:#FFFEFB;border:1px solid #EDE5D3;border-radius:10px;padding:8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#555;height:60px;overflow:hidden;white-space:pre-wrap">${(p.code||'').substring(0,120)}...</div><div style="font-size:11px;color:#2563EB;word-break:break-all">${p.liveUrl?`🔗 ${p.liveUrl}`:'Not deployed yet'}</div><div style="display:flex;gap:6px;margin-top:4px"><button onclick="openProject('${p.id}')" style="flex:1;padding:9px;border-radius:10px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:12px;cursor:pointer">Open</button><button onclick="deleteProject('${p.id}')" style="padding:9px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12px;cursor:pointer">🗑</button></div>${p.liveUrl?`<button onclick="navigator.clipboard.writeText('${p.liveUrl}');this.textContent='✅ Copied';setTimeout(()=>this.textContent='📋 Copy Live URL',1500)" style="padding:8px;border-radius:10px;border:1px solid #E5DDC8;background:#FFF8EB;font-size:11px;font-weight:600;cursor:pointer">📋 Copy Live URL</button>`:''}`;
+      grid.appendChild(div);
+    });
+  }
+}
+function openProject(id){
+  let p=getProjects().find(x=>x.id===id);if(!p)return;
+  siteEl.value=p.name;codeEl.value=p.code;liveEl.textContent=p.liveUrl||'Deploy to get URL';liveEl.href=p.liveUrl||'#';
+  isNameSaved=true;isCodeSaved=true;saveNameBtn.textContent='Saved ✓';saveNameBtn.classList.add('saved');savedBadge.textContent='✔ Saved';
+  localStorage.setItem('forge_current_project',JSON.stringify({name:p.name,code:p.code}));
+  updateGutter();checkDeployReady();closeProjectsPage();showCode();
+}
+function deleteProject(id){if(!confirm('Delete this project?'))return;let list=getProjects().filter(p=>p.id!==id);setProjects(list);renderProjects()}
 deployBtn.onclick=async()=>{
   if(!isNameSaved || !isCodeSaved){alert('Please save Project Name and Code first');return}
-  let code=codeEl.value,name=siteEl.value||'my-website';
-  if(!code.trim())return alert('Enter code first');
+  let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim())return alert('Enter code first');
   deployBtn.textContent='Deploying...';deployBtn.disabled=true;
-  try{
-    let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});
-    let d=await r.json();
-    if(!r.ok)throw new Error(d.error||'Deploy failed');
-    liveEl.textContent=d.url;liveEl.href=d.url;window.open(d.url,'_blank')
-  }catch(e){alert(e.message)}
-  finally{deployBtn.textContent='Deploy';checkDeployReady()}
+  try{let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});let d=await r.json();if(!r.ok)throw new Error(d.error||'Deploy failed');liveEl.textContent=d.url;liveEl.href=d.url;saveToProjectsList(name,code,d.url);window.open(d.url,'_blank')}catch(e){alert(e.message)}finally{deployBtn.textContent='Deploy';checkDeployReady()}
 };
-
-document.getElementById('copyBtn').onclick=()=>{
-  navigator.clipboard.writeText(liveEl.textContent);
-  let b=document.getElementById('copyBtn');b.textContent='✅ Copied';
-  setTimeout(()=>b.textContent='📋 Copy URL',1500)
-};
-
+document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
 load();
 </script>
 </body>
