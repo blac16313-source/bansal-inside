@@ -15,7 +15,9 @@ export default async function handler(req, res) {
     });
 
     // Proxied URL = opens directly, no download
-    const publicUrl = `/api/view?url=${encodeURIComponent(blob.url)}`;
+    const host = req.headers.host || 'webidex.in';
+const protocol = host.includes('localhost') ? 'http' : 'https';
+const publicUrl = `${protocol}://${host}/api/view?url=${encodeURIComponent(blob.url)}`;
 
     return res.status(200).json({ success: true, url: publicUrl, rawUrl: blob.url, id });
   } catch (e) {
