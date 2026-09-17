@@ -175,9 +175,6 @@ async function saveToCloud(name,code,liveUrl){
  } else {
    let { error } = await supa.from('projects').insert({ user_id: currentUser.id, name, code, live_url: liveUrl || null });
    if(error){ alert(error.message); return false; }
- } else {
-   let { error } = await supa.from('projects').insert({ user_id: currentUser.id, name, code, live_url: liveUrl || null });
-   if(error){ alert(error.message); return false; }
  }
  return true;
 }
