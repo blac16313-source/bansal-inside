@@ -174,4 +174,99 @@ async function saveToCloud(name,code,liveUrl){
    if(error) { alert(error.message); return false; }
  } else {
    let { error } = await supa.from('projects').insert({ user_id: currentUser.id, name, code, live_url: liveUrl || null });
-   if(error){ alert(error.message); return fals
+   if(error){ alert(error.message); return false; }
+ } else {
+   let { error } = await supa.from('projects').insert({ user_id: currentUser.id, name, code, live_url: liveUrl || null });
+   if(error){ alert(error.message); return false; }
+ }
+ return true;
+}
+async function saveProjectName(){
+ if(!siteEl.value.trim()){alert('Enter a project name');return}
+ isNameSaved=true; saveNameBtn.textContent='Saving...';
+ let ok = await saveToCloud(siteEl.value.trim(), codeEl.value, liveEl.textContent.includes('http')?liveEl.textContent:'');
+ if(ok){ saveNameBtn.textContent='Saved ✓'; saveNameBtn.classList.add('saved'); checkDeployReady(); renderProjects(); }
+ else { saveNameBtn.textContent='Save'; }
+}
+async function saveCodeFile(){
+ let ok = await saveToCloud(siteEl.value.trim()||'my-website', codeEl.value, liveEl.textContent.includes('http')?liveEl.textContent:'');
+ if(!ok) return;
+ isCodeSaved=true; savedBadge.textContent='✔ Saved to cloud'; savedBadge.style.color='#059669';
+ saveBtn.textContent='💾 Saved ✓'; setTimeout(()=>saveBtn.textContent='💾 Save',2000);
+ updateGutter(); checkDeployReady(); renderProjects();
+}
+function loadLocalCurrent(){
+ let s=localStorage.getItem('forge_current_project');
+ if(s){try{let d=JSON.parse(s);codeEl.value=d.code||defaultCode();siteEl.value=d.name||'my-website';}catch{codeEl.value=defaultCode()}}
+ else{codeEl.value=defaultCode(); siteEl.value='my-website';}
+ updateGutter(); checkDeployReady();
+}
+function defaultCode(){ return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Site</title></head><body><h1>Hello, Webidex.</h1><p>Building something great.</p></body></html>`; }
+function showCode(){codeEl.style.display='block';preview.style.display='none';document.getElementById('codeTab').classList.add('active');document.getElementById('previewTab').classList.remove('active')}
+function showPreview(){preview.srcdoc=codeEl.value;preview.style.display='block';codeEl.style.display='none';document.getElementById('previewTab').classList.add('active');document.getElementById('codeTab').classList.remove('active')}
+document.getElementById('codeTab').onclick=showCode;document.getElementById('previewTab').onclick=showPreview;
+saveBtn.onclick=saveCodeFile;
+document.getElementById('downloadBtn').onclick=()=>{let b=new Blob([codeEl.value],{type:'text/html'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(siteEl.value||'site')+'.html';a.click()};
+document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear code?')){codeEl.value='';isCodeSaved=false;updateGutter();showCode();checkDeployReady()}};
+siteEl.addEventListener('input',()=>{isNameSaved=false;saveNameBtn.textContent='Save';saveNameBtn.classList.remove('saved');checkDeployReady()});
+codeEl.addEventListener('input',()=>{updateGutter();savedBadge.textContent='● Unsaved (not in cloud)';savedBadge.style.color='#D97706';isCodeSaved=false;checkDeployReady()});
+function openProjectsPage(){
+ document.getElementById('builderView').classList.add('hidden');
+ document.getElementById('projectsPageView').classList.remove('hidden');
+ renderProjects();
+}
+function closeProjectsPage(){
+ document.getElementById('projectsPageView').classList.add('hidden');
+ document.getElementById('builderView').classList.remove('hidden');
+}
+async function renderProjects(){
+ let grid=document.getElementById('projectsGrid');
+ let empty=document.getElementById('noProjects');
+ if(!currentUser){
+   grid.innerHTML=''; empty.style.display='block'; document.getElementById('projCount').textContent='0'; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">🔒</div><div style="font-weight:700">Login to see your projects</div><div style="font-size:13px;margin-top:6px">Projects are saved per Gmail in cloud, not browser. Close tab, login again, they will be here.</div><button onclick="toggleProfile()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;cursor:pointer">Login with Google</button>`;
+   return;
+ }
+ grid.innerHTML='<div style="padding:20px;opacity:.6">Loading your cloud projects...</div>';
+ let { data, error } = await supa.from('projects').select('*').eq('user_id', currentUser.id).order('updated_at',{ascending:false});
+ if(error){ grid.innerHTML=`<div style="color:red">Error: ${error.message}</div>`; return; }
+ currentProjects = data || [];
+ document.getElementById('projCount').textContent = currentProjects.length;
+ if(currentProjects.length===0){ empty.style.display='block'; grid.style.display='none'; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">📁</div><div style="font-weight:700">No projects yet</div><div style="font-size:13px;margin-top:6px">Save a project name + code to see it here forever</div><button onclick="closeProjectsPage()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:white;font-weight:600;cursor:pointer">Create Project</button>`; }
+ else { empty.style.display='none'; grid.style.display='grid'; grid.innerHTML='';
+   currentProjects.forEach(p=>{
+     let div=document.createElement('div'); div.className='project-card';
+     div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px">${p.name}</div><div style="font-size:10px;background:#FFF3CD;border:1px solid #FFD700;padding:3px 8px;border-radius:999px;font-weight:700">REAL CLOUD</div></div><div style="font-size:11px;color:#888">Updated: ${new Date(p.updated_at||p.created_at).toLocaleString()}</div><div style="background:#FFFEFB;border:1px solid #EDE5D3;border-radius:10px;padding:8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#555;height:60px;overflow:hidden;white-space:pre-wrap">${(p.code||'').substring(0,120).replace(/</g,'&lt;')}...</div><div style="font-size:11px;color:#2563EB;word-break:break-all">${p.live_url?`🔗 ${p.live_url}`:'Not deployed yet'}</div><div style="display:flex;gap:6px;margin-top:4px"><button onclick="openProject('${p.id}')" style="flex:1;padding:9px;border-radius:10px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:12px;cursor:pointer">Open</button><button onclick="deleteProject('${p.id}')" style="padding:9px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12px;cursor:pointer">🗑</button></div>`;
+     grid.appendChild(div);
+   });
+ }
+}
+async function openProject(id){
+ let p = currentProjects.find(x=>x.id===id); if(!p) return;
+ siteEl.value=p.name; codeEl.value=p.code; liveEl.textContent=p.live_url||'Deploy to get URL'; liveEl.href=p.live_url||'#';
+ isNameSaved=true;isCodeSaved=true;saveNameBtn.textContent='Saved ✓';saveNameBtn.classList.add('saved');savedBadge.textContent='✔ Saved';
+ updateGutter();checkDeployReady();closeProjectsPage();showCode();
+}
+async function deleteProject(id){
+ if(!confirm('Delete this project forever from cloud?')) return;
+ let { error } = await supa.from('projects').delete().eq('id', id);
+ if(error) alert(error.message); else renderProjects();
+}
+deployBtn.onclick=async()=>{
+ if(!isNameSaved ||!isCodeSaved){alert('Please save Project Name and Code first');return}
+ let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim())return alert('Enter code first');
+ deployBtn.textContent='Deploying...';deployBtn.disabled=true;
+ try{
+   let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});
+   let d=await r.json();if(!r.ok)throw new Error(d.error||'Deploy failed');
+   liveEl.textContent=d.url;liveEl.href=d.url;
+   await saveToCloud(name,code,d.url);
+   renderProjects();
+   window.open(d.url,'_blank');
+ }catch(e){alert(e.message)}finally{deployBtn.textContent='Deploy';checkDeployReady()}
+};
+document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
+loadLocalCurrent();
+initAuth();
+</script>
+</body>
+</html>
