@@ -276,20 +276,13 @@ deployBtn.onclick=async()=>{
  let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim())return alert('Enter code first');
  deployBtn.textContent='Deploying...';deployBtn.disabled=true;
  try{
-   let safeName = name.toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
-   if(safeName.length < 2) safeName = 'site-'+Date.now();
-   let fileName = safeName + '.html';
-   const blob = new Blob([code], { type: 'text/html' });
-   const { error: upErr } = await supa.storage.from('sites').upload(fileName, blob, { contentType: 'text/html', upsert: true });
-   if(upErr) throw upErr;
-   const { data } = supa.storage.from('sites').getPublicUrl(fileName);
-   const liveUrl = data.publicUrl;
-   liveEl.textContent = liveUrl;
-   liveEl.href = liveUrl;
-   await saveToCloud(name,code,liveUrl);
+   let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});
+   let d=await r.json();if(!r.ok)throw new Error(d.error||'Deploy failed');
+   liveEl.textContent=d.url;liveEl.href=d.url;
+   await saveToCloud(name,code,d.url);
    renderProjects();
-   alert('Deployed! Live URL:\n' + liveUrl);
-   window.open(liveUrl,'_blank');
+   alert('Deployed! Live URL:\n' + d.url);
+   window.open(d.url,'_blank');
  }catch(e){console.error(e);alert('Deploy failed: ' + (e.message||e));}finally{deployBtn.textContent='Deploy';checkDeployReady()}
 };
 document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
