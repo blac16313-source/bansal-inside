@@ -60,10 +60,10 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 <div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">W</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">Webidex</div><button onclick="openProjectsPage()" style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px;cursor:pointer">Your Projects</button></div>
 <div style="display:flex;align-items:center;gap:10px"><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">🔔</button><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">⚙️</button>
 <div style="position:relative">
-  <div id="profileBtn" onclick="toggleProfile(event)" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;cursor:pointer">JK</div>
+  <div id="profileBtn" onclick="toggleProfile(event)" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;cursor:pointer;background-size:cover;background-position:center">JK</div>
   <div id="profilePopup" class="hidden" style="position:absolute;top:52px;right:0;width:280px;background:#FFFBF2;border:1px solid #E9E0C8;border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.9);z-index:9999">
     <div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid #EDE5D3">
-      <div id="popupAvatar" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800">JK</div>
+      <div id="popupAvatar" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;background-size:cover;background-position:center">JK</div>
       <div style="flex:1;overflow:hidden">
         <div id="popupEmail" style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Login required</div>
         <div style="font-size:11px;color:#888">Free Forever</div>
@@ -117,7 +117,7 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 </div>
 <script>
 const SUPABASE_URL = 'https://trvmbblhssurxxoxlyus.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1iYmxic3N1cnh4b3hseXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMTI1OTUsImV4cCI6MjA3MzU4ODU5NX0.YOUR_KEY_HERE_REPLACE';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1iYmxoc3N1cnh4b3hseXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMTIyNTgsImV4cCI6MjEwNDg4ODI1OH0.psn7mm8NMTNuHQbAPMlw79gldt1Pdh_CejN4zJSeIeg';
 let supa = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 let currentUser = null;
 (function(){let p=new URLSearchParams(location.search);if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname)}let a=localStorage.getItem('webidex_admin')==='yes';document.getElementById('gate').classList.toggle('hidden',a);document.getElementById('newUI').classList.toggle('hidden',!a)})();
@@ -134,10 +134,32 @@ async function initAuth(){
 }
 function refreshProfile(){
  let email = currentUser?.email || null;
- let letter = email? email[0].toUpperCase() : 'JK';
- document.getElementById('profileBtn').textContent = letter;
- document.getElementById('popupAvatar').textContent = letter;
- document.getElementById('popupEmail').textContent = email || 'Login required';
+ let meta = currentUser?.user_metadata || {};
+ let avatarUrl = meta.avatar_url || meta.picture || null;
+ let fullName = meta.full_name || meta.name || '';
+ let letter = fullName? fullName[0].toUpperCase() : (email? email[0].toUpperCase() : 'JK');
+ let profileBtn = document.getElementById('profileBtn');
+ let popupAvatar = document.getElementById('popupAvatar');
+ if(avatarUrl){
+   profileBtn.textContent = '';
+   profileBtn.style.backgroundImage = `url('${avatarUrl}')`;
+   profileBtn.style.backgroundColor = '#fff';
+   profileBtn.style.backgroundSize = 'cover';
+   profileBtn.style.backgroundPosition = 'center';
+   popupAvatar.textContent = '';
+   popupAvatar.style.backgroundImage = `url('${avatarUrl}')`;
+   popupAvatar.style.backgroundColor = '#fff';
+   popupAvatar.style.backgroundSize = 'cover';
+   popupAvatar.style.backgroundPosition = 'center';
+ } else {
+   profileBtn.textContent = letter;
+   profileBtn.style.backgroundImage = 'none';
+   profileBtn.style.backgroundColor = '#111';
+   popupAvatar.textContent = letter;
+   popupAvatar.style.backgroundImage = 'none';
+   popupAvatar.style.backgroundColor = '#111';
+ }
+ document.getElementById('popupEmail').textContent = fullName || email || 'Login required';
  document.getElementById('popupGmail').textContent = email || 'Not logged in';
  document.getElementById('authBtn').textContent = email? 'Logout' : 'Sign in with Google';
  document.getElementById('authBtn').style.background = email? '#fff' : '#111';
@@ -249,17 +271,26 @@ async function deleteProject(id){
  if(error) alert(error.message); else renderProjects();
 }
 deployBtn.onclick=async()=>{
+ if(!currentUser){ alert('Login with Google first!'); toggleProfile(); return; }
  if(!isNameSaved ||!isCodeSaved){alert('Please save Project Name and Code first');return}
  let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim())return alert('Enter code first');
  deployBtn.textContent='Deploying...';deployBtn.disabled=true;
  try{
-   let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});
-   let d=await r.json();if(!r.ok)throw new Error(d.error||'Deploy failed');
-   liveEl.textContent=d.url;liveEl.href=d.url;
-   await saveToCloud(name,code,d.url);
+   let safeName = name.toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+   if(safeName.length < 2) safeName = 'site-'+Date.now();
+   let fileName = safeName + '.html';
+   const blob = new Blob([code], { type: 'text/html' });
+   const { error: upErr } = await supa.storage.from('sites').upload(fileName, blob, { contentType: 'text/html', upsert: true });
+   if(upErr) throw upErr;
+   const { data } = supa.storage.from('sites').getPublicUrl(fileName);
+   const liveUrl = data.publicUrl;
+   liveEl.textContent = liveUrl;
+   liveEl.href = liveUrl;
+   await saveToCloud(name,code,liveUrl);
    renderProjects();
-   window.open(d.url,'_blank');
- }catch(e){alert(e.message)}finally{deployBtn.textContent='Deploy';checkDeployReady()}
+   alert('Deployed! Live URL:\n' + liveUrl);
+   window.open(liveUrl,'_blank');
+ }catch(e){console.error(e);alert('Deploy failed: ' + (e.message||e));}finally{deployBtn.textContent='Deploy';checkDeployReady()}
 };
 document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
 loadLocalCurrent();
