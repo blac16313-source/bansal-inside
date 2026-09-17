@@ -2,10 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Webidex - Luxury Builder</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Webidex — Luxury Builder</title>
 
 <style>
 *{
@@ -14,359 +12,729 @@
   padding:0;
 }
 
-:root{
-  --cream:#FFFBF2;
-  --border:#E9E0C8;
-  --gold:#FFD700;
+html,
+body{
+  width:100%;
+  min-height:100%;
 }
 
 body{
-  min-height:100vh;
-  background:#050507;
-  font-family:Inter,system-ui;
+  background:#070707;
+  color:#f4ead7;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   overflow-x:hidden;
 }
 
-#starCanvas{
+body::before{
+  content:"";
   position:fixed;
   inset:0;
-  z-index:0;
-  pointer-events:none;
-}
-
-.silk{
-  position:fixed;
-  inset:0;
-  z-index:0;
   pointer-events:none;
   background:
-    radial-gradient(ellipse 800px 600px at 15% 20%,rgba(255,215,0,0.10),transparent 60%),
-    radial-gradient(ellipse 600px 800px at 85% 30%,rgba(255,215,0,0.08),transparent 60%),
-    radial-gradient(ellipse 1000px 500px at 50% 85%,rgba(212,175,55,0.07),transparent 70%);
+    radial-gradient(circle at 15% 20%,rgba(196,151,68,.10),transparent 30%),
+    radial-gradient(circle at 85% 70%,rgba(183,136,45,.08),transparent 32%),
+    radial-gradient(circle at 50% 100%,rgba(255,213,125,.04),transparent 35%);
+  z-index:-3;
 }
 
-.glass-shell{
-  position:relative;
-  z-index:2;
-  width:min(1280px,96%);
-  margin:20px auto 70px;
-  background:linear-gradient(
-    180deg,
-    rgba(255,251,242,0.22) 0%,
-    rgba(255,251,242,0.08) 100%
-  );
-  backdrop-filter:blur(32px) saturate(180%);
-  -webkit-backdrop-filter:blur(32px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.35);
-  border-top:1px solid rgba(255,255,255,0.75);
-  border-radius:28px;
-  padding:22px;
-  box-shadow:
-    inset 0 1px 1px rgba(255,255,255,0.9),
-    inset 0 -1px 1px rgba(0,0,0,0.1),
-    inset 0 0 30px rgba(255,255,255,0.12),
-    0 30px 90px rgba(0,0,0,0.85),
-    0 0 0 1px rgba(255,255,255,0.15);
-}
-
-.glass-shell::before{
+body::after{
   content:"";
-  position:absolute;
-  top:0;
-  left:1%;
-  right:1%;
-  height:55%;
-  background:linear-gradient(
-    180deg,
-    rgba(255,255,255,0.4) 0%,
-    rgba(255,255,255,0.12) 18%,
-    rgba(255,255,255,0.02) 45%,
-    transparent 70%
-  );
-  border-radius:28px 28px 100% 100% / 28px 28px 60% 60%;
-  pointer-events:none;
-}
-
-.glass-shell::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:10%;
-  right:10%;
-  height:1.5px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,1) 20%,
-    rgba(255,255,255,0.9) 80%,
-    transparent
-  );
-  pointer-events:none;
-  filter:blur(0.2px);
-}
-
-.waitlist-gate{
   position:fixed;
   inset:0;
-  z-index:9999;
-  background:#050507;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-}
-
-.gate-card{
-  position:relative;
-  z-index:1;
-  width:min(440px,92%);
-  background:var(--cream);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:36px 28px;
-  text-align:center;
-  box-shadow:0 24px 80px rgba(0,0,0,0.8);
-}
-
-.topbar{
-  width:100%;
-  min-height:70px;
-  background:var(--cream);
-  border:1px solid var(--border);
-  border-radius:18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 18px;
-  gap:15px;
-  box-shadow:
-    0 12px 40px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.8);
-}
-
-.main{
-  width:100%;
-  margin-top:18px;
-  display:grid;
-  grid-template-columns:1fr 390px;
-  gap:20px;
-  align-items:start;
-}
-
-.code-panel{
-  background:var(--cream);
-  border:1px solid var(--border);
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:
-    0 16px 50px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-  display:flex;
-  flex-direction:column;
-  height:700px;
-}
-
-.deploy-panel{
-  background:var(--cream);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:22px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  box-shadow:
-    0 16px 50px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-  position:relative;
-  overflow:hidden;
-}
-
-.deploy-panel::before{
-  content:"";
-  position:absolute;
-  top:-30px;
-  right:-30px;
-  width:140px;
-  height:140px;
-  background:radial-gradient(
-    circle,
-    rgba(255,215,0,0.18) 0%,
-    transparent 70%
-  );
   pointer-events:none;
-}
-
-.deploy-btn{
-  position:relative;
-  width:100%;
-  background:#0F0F0F;
-  color:white;
-  border:0;
-  border-radius:999px;
-  padding:18px;
-  font-size:20px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:
-    0 8px 24px rgba(0,0,0,0.4),
-    inset 0 1px 0 rgba(255,255,255,0.1);
-  transition:0.2s;
-}
-
-.deploy-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 12px 30px rgba(0,0,0,0.5);
-}
-
-.deploy-btn:disabled{
-  opacity:0.45;
-  cursor:not-allowed;
-  transform:none;
-}
-
-.deploy-btn::after{
-  content:"✦";
-  position:absolute;
-  top:12px;
-  right:24px;
-  color:var(--gold);
-  font-size:14px;
-  animation:twinkle 2s infinite;
-}
-
-.deploy-btn::before{
-  content:"✦";
-  position:absolute;
-  bottom:14px;
-  left:20px;
-  color:var(--gold);
-  font-size:10px;
-  animation:twinkle 2.5s infinite reverse;
-}
-
-@keyframes twinkle{
-  0%,100%{
-    opacity:1;
-    transform:scale(1);
-  }
-  50%{
-    opacity:0.3;
-    transform:scale(0.7);
-  }
+  opacity:.15;
+  z-index:-2;
+  background-image:
+    radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 1px),
+    radial-gradient(circle at 70% 20%,#fff 0 1px,transparent 1px),
+    radial-gradient(circle at 40% 80%,#fff 0 1px,transparent 1px),
+    radial-gradient(circle at 90% 65%,#fff 0 1px,transparent 1px),
+    radial-gradient(circle at 10% 90%,#fff 0 1px,transparent 1px);
+  background-size:
+    170px 170px,
+    230px 230px,
+    290px 290px,
+    200px 200px,
+    260px 260px;
 }
 
 .hidden{
-  display:none!important;
+  display:none !important;
 }
 
-.tab{
-  padding:8px 16px;
-  border-radius:999px;
-  border:1px solid #E5DDC8;
-  background:white;
-  font-weight:600;
-  font-size:13px;
+/* =========================
+   WAITLIST GATE
+========================= */
+
+.waitlist-gate{
+  min-height:100vh;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:30px 18px;
+  background:
+    radial-gradient(circle at 50% 30%,rgba(210,166,79,.08),transparent 38%),
+    #070707;
+}
+
+.gate-card{
+  width:min(480px,100%);
+  padding:42px 30px;
+  border:1px solid rgba(220,182,102,.22);
+  border-radius:26px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.075),
+      rgba(255,255,255,.025)
+    );
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  text-align:center;
+}
+
+.gate-logo{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  margin:0 auto 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#0a0907;
+  font-size:25px;
+  font-weight:900;
+  background:
+    linear-gradient(
+      135deg,
+      #fff1bc,
+      #d7a846 50%,
+      #8c6321
+    );
+  box-shadow:
+    0 10px 35px rgba(207,161,67,.22);
+}
+
+.gate-eyebrow{
+  color:#c8a45e;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+.gate-title{
+  font-size:34px;
+  line-height:1.05;
+  letter-spacing:-1.2px;
+  color:#f9f0df;
+  margin-bottom:12px;
+}
+
+.gate-subtitle{
+  color:#a99f8d;
+  line-height:1.7;
+  font-size:14px;
+  margin-bottom:26px;
+}
+
+.gate-button{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:14px 18px;
   cursor:pointer;
-  transition:0.15s;
+  font-size:14px;
+  font-weight:800;
+  color:#100d08;
+  background:
+    linear-gradient(
+      135deg,
+      #f8e6af,
+      #c99b46
+    );
+  box-shadow:
+    0 12px 30px rgba(195,147,56,.16);
+  transition:.2s ease;
 }
 
-.tab.active{
-  background:#111;
-  color:white;
-  border-color:#111;
-  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+.gate-button:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
 }
 
-/* PROJECT NAME */
-
-.project-name-box{
-  background:#FFF8EB;
-  border:1px solid #EDE5D3;
-  border-radius:14px;
-  padding:12px;
+.gate-note{
+  color:#716b60;
+  font-size:11px;
+  line-height:1.6;
+  margin-top:18px;
 }
 
-.project-label{
+/* =========================
+   MAIN SHELL
+========================= */
+
+.glass-shell{
+  width:min(1500px,calc(100% - 30px));
+  margin:15px auto;
+  min-height:calc(100vh - 30px);
+  border:1px solid rgba(220,182,102,.15);
+  border-radius:24px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.018)
+    );
+  box-shadow:
+    0 35px 100px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.045);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  overflow:hidden;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+  min-height:78px;
+  padding:0 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  background:rgba(5,5,5,.38);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.brand-mark{
+  width:39px;
+  height:39px;
+  flex:0 0 auto;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:17px;
+  font-weight:900;
+  color:#0c0a07;
+  background:
+    linear-gradient(
+      135deg,
+      #fff0b7,
+      #d2a14d 55%,
+      #88601f
+    );
+  box-shadow:
+    0 7px 24px rgba(210,161,77,.17);
+}
+
+.brand-copy{
+  min-width:0;
+}
+
+.brand-name{
+  color:#f8efdd;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+
+.brand-tagline{
+  color:#706a5d;
+  font-size:10px;
+  margin-top:2px;
+  letter-spacing:.5px;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.top-btn{
+  border:1px solid rgba(220,182,102,.16);
+  color:#c8bda8;
+  background:rgba(255,255,255,.025);
+  border-radius:11px;
+  padding:10px 13px;
   font-size:12px;
   font-weight:700;
-  color:#555;
-  margin-bottom:7px;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.top-btn:hover{
+  color:#f4e5c5;
+  border-color:rgba(220,182,102,.32);
+  background:rgba(220,182,102,.07);
+}
+
+/* =========================
+   BUILDER PAGE
+========================= */
+
+#builderPage{
+  padding:22px;
+}
+
+.project-settings{
+  width:100%;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.settings-card{
+  min-width:0;
+  border:1px solid rgba(220,182,102,.13);
+  border-radius:17px;
+  background:rgba(255,255,255,.025);
+  padding:15px;
+}
+
+.settings-label{
+  display:block;
+  color:#8f8778;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  margin-bottom:9px;
 }
 
 .name-row{
   display:flex;
-  gap:8px;
+  align-items:center;
+  gap:9px;
 }
 
-.name-row input{
+.name-input{
+  width:100%;
   min-width:0;
-  flex:1;
-  padding:11px 12px;
-  border:1px solid #E5DDC8;
-  border-radius:10px;
-  font-size:14px;
-  background:white;
+  border:1px solid rgba(255,255,255,.09);
   outline:none;
+  color:#f1e7d5;
+  background:rgba(0,0,0,.23);
+  border-radius:10px;
+  padding:12px 13px;
+  font-size:13px;
+  transition:.2s ease;
 }
 
-.name-row input:focus{
-  border-color:#C8A900;
+.name-input:focus{
+  border-color:rgba(213,166,75,.5);
+  box-shadow:0 0 0 3px rgba(213,166,75,.06);
 }
 
 .save-name-btn{
-  padding:10px 14px;
+  flex:0 0 auto;
+  border:1px solid rgba(218,177,88,.25);
+  color:#e6c982;
+  background:rgba(211,164,72,.07);
   border-radius:10px;
-  border:1px solid #111;
-  background:#111;
-  color:white;
-  font-weight:700;
+  padding:11px 14px;
+  font-size:12px;
+  font-weight:800;
   cursor:pointer;
+  transition:.2s ease;
+}
+
+.save-name-btn:hover{
+  background:rgba(211,164,72,.13);
+  border-color:rgba(218,177,88,.42);
 }
 
 .name-status{
-  margin-top:7px;
-  font-size:11px;
-  font-weight:600;
-  color:#D97706;
+  color:#777064;
+  font-size:10px;
+  margin-top:8px;
 }
 
-/* VISIBILITY */
+.name-status.saved{
+  color:#b9a46f;
+}
 
-.visibility-box{
+.visibility-card{
+  min-width:220px;
+}
+
+.visibility-buttons{
   display:flex;
   gap:8px;
 }
 
 .visibility-btn{
   flex:1;
-  padding:10px;
+  border:1px solid rgba(255,255,255,.08);
   border-radius:10px;
-  border:1px solid #E5DDC8;
-  background:white;
-  font-size:12px;
-  font-weight:700;
+  padding:11px 13px;
+  background:rgba(255,255,255,.025);
+  color:#80786a;
   cursor:pointer;
+  font-size:11px;
+  font-weight:800;
+  transition:.2s ease;
 }
 
 .visibility-btn.active{
-  background:#111;
-  color:white;
-  border-color:#111;
+  color:#e8d5a7;
+  border-color:rgba(215,171,82,.38);
+  background:rgba(211,164,72,.08);
 }
 
-/* PROJECTS PAGE */
+/* =========================
+   MAIN GRID
+========================= */
 
-.projects-page{
-  background:var(--cream);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:25px;
+.main{
+  display:grid;
+  grid-template-columns:minmax(0,1.65fr) minmax(280px,.65fr);
+  gap:18px;
+  align-items:stretch;
+}
+
+/* =========================
+   CODE PANEL
+========================= */
+
+.code-panel,
+.deploy-panel{
+  border:1px solid rgba(220,182,102,.13);
+  border-radius:18px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.014)
+    );
+  overflow:hidden;
+}
+
+.code-panel{
+  min-width:0;
+}
+
+.panel-head{
+  min-height:57px;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.file-info{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:0;
+}
+
+.file-name{
+  color:#ded3bf;
+  font-size:12px;
+  font-weight:700;
+}
+
+.file-badge{
+  border:1px solid rgba(217,174,85,.18);
+  border-radius:7px;
+  padding:4px 7px;
+  color:#aa8d51;
+  background:rgba(210,162,70,.055);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.7px;
+}
+
+.saved-badge{
+  color:#716b60;
+  font-size:10px;
+  white-space:nowrap;
+}
+
+.saved-badge.saved{
+  color:#b8a16b;
+}
+
+.editor-tabs{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  padding:10px 12px 0;
+  background:rgba(0,0,0,.12);
+}
+
+.editor-tab{
+  border:1px solid transparent;
+  border-bottom:0;
+  border-radius:9px 9px 0 0;
+  padding:9px 12px;
+  color:#777064;
+  background:transparent;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:800;
+}
+
+.editor-tab.active{
+  color:#e0cfaa;
+  border-color:rgba(220,182,102,.13);
+  background:rgba(255,255,255,.025);
+}
+
+.editor-wrap{
+  position:relative;
+  height:520px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.018),
+      rgba(0,0,0,.06)
+    );
+  overflow:hidden;
+}
+
+.code-gutter{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:48px;
+  padding-top:16px;
+  border-right:1px solid rgba(255,255,255,.045);
+  color:#474238;
+  background:rgba(0,0,0,.16);
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  font-size:11px;
+  line-height:1.65;
+  text-align:right;
+  padding-right:10px;
+  user-select:none;
+  overflow:hidden;
+}
+
+.code-editor{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  resize:none;
+  outline:none;
+  border:0;
+  padding:16px 17px 20px 62px;
+  color:#d9d0bf;
+  background:transparent;
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  font-size:12px;
+  line-height:1.65;
+  tab-size:2;
+  white-space:pre;
+  overflow:auto;
+}
+
+.code-editor::selection{
+  background:rgba(207,164,76,.2);
+}
+
+.preview-frame{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background:#fff;
+  display:none;
+}
+
+.code-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:12px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.action-btn{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  padding:9px 12px;
+  color:#938a7b;
+  background:rgba(255,255,255,.025);
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.action-btn:hover{
+  color:#d6c7ab;
+  border-color:rgba(220,182,102,.22);
+  background:rgba(220,182,102,.045);
+}
+
+.action-btn.primary{
+  color:#ead7a9;
+  border-color:rgba(220,182,102,.27);
+  background:rgba(214,166,74,.07);
+}
+
+.action-btn.primary:hover{
+  background:rgba(214,166,74,.13);
+}
+
+/* =========================
+   DEPLOY PANEL
+========================= */
+
+.deploy-panel{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  min-height:595px;
+}
+
+.deploy-title{
+  color:#f0e6d4;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:-.2px;
+}
+
+.deploy-subtitle{
+  color:#726b5e;
+  font-size:11px;
+  line-height:1.6;
+  margin-top:6px;
+}
+
+.deploy-btn{
+  width:100%;
+  margin-top:20px;
+  border:0;
+  border-radius:12px;
+  padding:13px 15px;
+  color:#0e0c08;
+  background:
+    linear-gradient(
+      135deg,
+      #f6e4ae,
+      #c99b47
+    );
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
   box-shadow:
-    0 16px 50px rgba(0,0,0,0.55),
-    inset 0 1px 0 rgba(255,255,255,0.9);
+    0 10px 30px rgba(204,155,61,.12);
+  transition:.2s ease;
 }
 
-.projects-header{
+.deploy-btn:hover:not(:disabled){
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+}
+
+.deploy-btn:disabled{
+  cursor:not-allowed;
+  opacity:.34;
+  box-shadow:none;
+}
+
+.deploy-hint{
+  color:#70695d;
+  font-size:10px;
+  line-height:1.6;
+  margin-top:9px;
+}
+
+.deploy-divider{
+  height:1px;
+  background:rgba(255,255,255,.06);
+  margin:22px 0;
+}
+
+.url-label{
+  color:#81796b;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.url-box{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.live-url{
+  min-width:0;
+  flex:1;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:9px;
+  padding:10px;
+  color:#a69c8b;
+  background:rgba(0,0,0,.2);
+  font-size:10px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.copy-btn{
+  flex:0 0 auto;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:9px;
+  padding:10px;
+  color:#9b917f;
+  background:rgba(255,255,255,.025);
+  cursor:pointer;
+  font-size:10px;
+  font-weight:800;
+}
+
+.copy-btn:hover{
+  color:#dfcca3;
+  border-color:rgba(220,182,102,.23);
+}
+
+.deploy-note{
+  color:#625c51;
+  font-size:10px;
+  line-height:1.7;
+  margin-top:auto;
+  padding-top:20px;
+}
+
+/* =========================
+   PROJECTS PAGE
+========================= */
+
+.page-section{
+  padding:24px;
+}
+
+.page-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -374,572 +742,398 @@ body{
   margin-bottom:20px;
 }
 
-.projects-title{
-  font-size:26px;
+.page-heading{
+  color:#f1e7d5;
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:-.6px;
+}
+
+.page-subheading{
+  color:#70695e;
+  font-size:11px;
+  margin-top:5px;
+}
+
+.secondary-btn{
+  border:1px solid rgba(220,182,102,.17);
+  border-radius:10px;
+  padding:10px 13px;
+  color:#b9ac96;
+  background:rgba(255,255,255,.025);
+  cursor:pointer;
+  font-size:11px;
   font-weight:800;
 }
 
-.back-btn{
-  padding:9px 16px;
-  border-radius:999px;
-  border:1px solid #E5DDC8;
-  background:white;
-  font-weight:700;
-  cursor:pointer;
+.secondary-btn:hover{
+  color:#e0cea7;
+  border-color:rgba(220,182,102,.3);
 }
 
-.project-list{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+.projects-list{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
 }
 
 .project-card{
-  background:white;
-  border:1px solid #E9E0C8;
+  border:1px solid rgba(220,182,102,.12);
   border-radius:15px;
   padding:16px;
+  background:rgba(255,255,255,.025);
   cursor:pointer;
-  transition:0.18s;
+  transition:.2s ease;
 }
 
 .project-card:hover{
-  transform:translateY(-1px);
-  box-shadow:0 8px 20px rgba(0,0,0,0.08);
-}
-
-.project-card-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
+  transform:translateY(-2px);
+  border-color:rgba(220,182,102,.27);
+  background:rgba(220,182,102,.035);
 }
 
 .project-card-name{
+  color:#e6dccb;
+  font-size:13px;
   font-weight:800;
-  font-size:16px;
-}
-
-.project-status{
-  padding:4px 9px;
-  border-radius:999px;
-  font-size:10px;
-  font-weight:800;
-}
-
-.status-live{
-  background:#DCFCE7;
-  color:#15803D;
-}
-
-.status-draft{
-  background:#FEF3C7;
-  color:#92400E;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .project-card-meta{
-  margin-top:8px;
-  font-size:12px;
-  color:#777;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-top:13px;
+  color:#746d60;
+  font-size:9px;
 }
 
-.project-card-url{
-  margin-top:7px;
-  color:#2563EB;
-  font-size:12px;
-  word-break:break-all;
+.project-card-status{
+  color:#b59c65;
 }
 
 .empty-projects{
-  padding:40px 20px;
-  text-align:center;
-  color:#777;
-  border:1px dashed #D9CFB7;
+  border:1px dashed rgba(220,182,102,.13);
   border-radius:15px;
+  padding:45px 20px;
+  text-align:center;
+  color:#70695e;
+  font-size:12px;
 }
 
-.project-details{
-  background:white;
-  border:1px solid #E9E0C8;
-  border-radius:16px;
+/* =========================
+   PROJECT DETAILS
+========================= */
+
+.details-card{
+  border:1px solid rgba(220,182,102,.12);
+  border-radius:17px;
+  background:rgba(255,255,255,.025);
+  overflow:hidden;
+}
+
+.details-top{
   padding:20px;
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
 
-.detail-row{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  padding:13px 0;
-  border-bottom:1px solid #EFE8D9;
-  font-size:13px;
+.details-name{
+  color:#f0e5d2;
+  font-size:22px;
+  font-weight:800;
 }
 
-.detail-row:last-child{
-  border-bottom:0;
+.details-status{
+  color:#7b7365;
+  font-size:10px;
+  margin-top:6px;
+}
+
+.details-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.detail-item{
+  padding:17px 20px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.detail-item:nth-child(odd){
+  border-right:1px solid rgba(255,255,255,.045);
 }
 
 .detail-label{
-  font-weight:700;
-  color:#666;
+  color:#6d6659;
+  font-size:9px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:7px;
 }
 
 .detail-value{
-  text-align:right;
+  color:#b8ad9a;
+  font-size:11px;
   word-break:break-word;
 }
 
 .detail-actions{
   display:flex;
   gap:8px;
-  margin-top:18px;
+  padding:17px 20px;
   flex-wrap:wrap;
 }
 
-.detail-action{
-  padding:10px 14px;
-  border-radius:10px;
-  border:1px solid #E5DDC8;
-  background:white;
-  font-weight:700;
-  cursor:pointer;
-  text-decoration:none;
-  color:#111;
-}
+/* =========================
+   RESPONSIVE
+========================= */
 
-@media(max-width:900px){
+@media(max-width:1000px){
+
   .main{
     grid-template-columns:1fr;
   }
 
-  .code-panel{
-    height:560px;
+  .deploy-panel{
+    min-height:auto;
   }
 
+  .deploy-note{
+    margin-top:10px;
+  }
+
+  .projects-list{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+}
+
+@media(max-width:700px){
+
   .glass-shell{
-    width:96%;
-    padding:12px;
-    border-radius:20px;
+    width:calc(100% - 12px);
+    margin:6px auto;
+    min-height:calc(100vh - 12px);
+    border-radius:18px;
   }
 
   .topbar{
-    flex-wrap:wrap;
+    padding:0 13px;
+    min-height:68px;
   }
 
-  .topbar > div{
-    flex-wrap:wrap;
+  .brand-tagline{
+    display:none;
   }
+
+  #builderPage,
+  .page-section{
+    padding:13px;
+  }
+
+  .project-settings{
+    grid-template-columns:1fr;
+  }
+
+  .visibility-card{
+    min-width:0;
+  }
+
+  .editor-wrap{
+    height:430px;
+  }
+
+  .projects-list{
+    grid-template-columns:1fr;
+  }
+
+  .page-header{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .details-grid{
+    grid-template-columns:1fr;
+  }
+
+  .detail-item:nth-child(odd){
+    border-right:0;
+  }
+
+  .top-actions .top-btn{
+    padding:9px 10px;
+  }
+
+}
+
+@media(max-width:430px){
+
+  .brand-name{
+    font-size:13px;
+  }
+
+  .brand-mark{
+    width:35px;
+    height:35px;
+  }
+
+  .top-actions{
+    gap:5px;
+  }
+
+  .top-actions .top-btn{
+    font-size:10px;
+    padding:8px;
+  }
+
+  .name-row{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .save-name-btn{
+    width:100%;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="starCanvas"></canvas>
-<div class="silk"></div>
+<!-- =========================
+     WAITLIST / ACCESS GATE
+========================= -->
 
-<!-- ACCESS GATE -->
 <div id="gate" class="waitlist-gate">
-
-  <canvas id="gateCanvas" style="position:absolute;inset:0"></canvas>
 
   <div class="gate-card">
 
-    <div style="
-      width:56px;
-      height:56px;
-      background:#111;
-      border-radius:14px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#D4AF37;
-      font-weight:900;
-      font-size:28px;
-      margin:0 auto 18px
-    ">W</div>
+    <div class="gate-logo">
+      W
+    </div>
 
-    <div style="
-      display:inline-block;
-      background:#FFF3CD;
-      border:1px solid #FFD700;
-      padding:6px 14px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:0.5px
-    ">✨ LUXURY BUILDER</div>
+    <div class="gate-eyebrow">
+      Luxury Builder
+    </div>
 
-    <h1 style="
-      font-size:28px;
-      font-weight:800;
-      margin:14px 0 10px;
-      line-height:1.2
-    ">Webidex is coming soon</h1>
+    <h1 class="gate-title">
+      Webidex is coming soon.
+    </h1>
 
-    <p style="
-      font-size:14px;
-      color:#666;
-      line-height:1.6;
-      margin-bottom:24px
-    ">
-      First 30 users can get <b>free access forever</b>
+    <p class="gate-subtitle">
+      Build, manage and deploy websites from one place.
+      Webidex is currently opening access gradually.
     </p>
 
-    <a
-      href="https://forms.gle/TVdL6k5CvrteFB4B8"
-      target="_blank"
-      style="
-        display:block;
-        width:100%;
-        background:#111;
-        color:white;
-        padding:14px;
-        border-radius:999px;
-        text-decoration:none;
-        font-weight:800
-      "
-    >Join Waiting List →</a>
+    <button
+      class="gate-button"
+      id="waitlistBtn"
+      type="button"
+    >
+      Join Waiting List
+    </button>
+
+    <div class="gate-note">
+      First 30 users can get free access forever.
+    </div>
 
   </div>
+
 </div>
 
 
-<!-- MAIN APP -->
-<div id="newUI" class="hidden" style="width:100%;display:flex;justify-content:center">
+<!-- =========================
+     MAIN APP
+========================= -->
 
-<div class="glass-shell">
+<div id="newUI" class="hidden">
 
-  <!-- TOP BAR -->
-  <header class="topbar">
+  <div class="glass-shell">
 
-    <div style="display:flex;align-items:center;gap:14px">
+    <!-- =========================
+         TOPBAR
+    ========================= -->
 
-      <div style="
-        width:42px;
-        height:42px;
-        background:#111;
-        border-radius:10px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        color:#D4AF37;
-        font-weight:900;
-        font-size:22px;
-        box-shadow:0 2px 8px rgba(0,0,0,0.3)
-      ">W</div>
+    <header class="topbar">
 
-      <div style="
-        font-size:26px;
-        font-weight:800;
-        letter-spacing:-0.5px
-      ">Webidex</div>
+      <div class="brand">
 
-      <button
-        id="topProjectsBtn"
-        style="
-          padding:9px 18px;
-          border-radius:999px;
-          border:1px solid #E5DDC8;
-          background:white;
-          font-weight:600;
-          font-size:14px;
-          cursor:pointer
-        "
-      >Your Projects</button>
-
-    </div>
-
-    <div style="display:flex;align-items:center;gap:10px">
-
-      <button style="
-        width:40px;
-        height:40px;
-        border-radius:50%;
-        border:1px solid #E5DDC8;
-        background:white
-      ">🔔</button>
-
-      <button style="
-        width:40px;
-        height:40px;
-        border-radius:50%;
-        border:1px solid #E5DDC8;
-        background:white
-      ">⚙️</button>
-
-      <div style="
-        width:40px;
-        height:40px;
-        border-radius:50%;
-        background:#111;
-        color:white;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-weight:800
-      ">JK</div>
-
-      <button
-        onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname"
-        style="
-          padding:9px 14px;
-          border-radius:999px;
-          border:1px solid #E5DDC8;
-          background:white;
-          font-size:12px;
-          cursor:pointer
-        "
-      >Exit</button>
-
-    </div>
-
-  </header>
-
-
-  <!-- BUILDER PAGE -->
-  <div id="builderPage">
-
-    <main class="main">
-
-      <!-- CODE PANEL -->
-      <div class="code-panel">
-
-        <div style="
-          padding:16px 20px;
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          border-bottom:1px solid #EDE5D3;
-          background:linear-gradient(to bottom,#FFFDf7,#FFF8EB)
-        ">
-
-          <div style="display:flex;align-items:center;gap:10px">
-
-            <span style="font-weight:700;font-size:15px">
-              index.html
-            </span>
-
-            <span style="
-              background:#10B981;
-              color:white;
-              padding:3px 10px;
-              border-radius:999px;
-              font-size:11px;
-              font-weight:700
-            ">HTML</span>
-
-            <span
-              id="savedBadge"
-              style="
-                display:flex;
-                align-items:center;
-                gap:5px;
-                color:#D97706;
-                font-size:13px;
-                font-weight:600
-              "
-            >● Unsaved</span>
-
-          </div>
+        <div class="brand-mark">
+          W
         </div>
 
+        <div class="brand-copy">
 
-        <!-- TABS -->
-        <div style="
-          padding:12px 16px;
-          display:flex;
-          gap:8px;
-          background:#FFF8EB;
-          border-bottom:1px solid #EDE5D3
-        ">
-
-          <button class="tab active" id="codeTab">
-            Code
-          </button>
-
-          <button class="tab" id="previewTab">
-            Preview
-          </button>
-
-        </div>
-
-
-        <!-- EDITOR -->
-        <div style="
-          flex:1;
-          position:relative;
-          background:#FFFEFB;
-          display:flex;
-          overflow:hidden
-        ">
-
-          <div
-            id="gutter"
-            style="
-              width:48px;
-              background:#FFF8EB;
-              border-right:1px solid #EDE5D3;
-              padding:12px 0;
-              text-align:right;
-              font-family:'JetBrains Mono',monospace;
-              font-size:12px;
-              color:#999;
-              line-height:20px;
-              user-select:none
-            "
-          >1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div>
-
-          <div style="
-            flex:1;
-            position:relative
-          ">
-
-            <textarea
-              id="codeEditor"
-              spellcheck="false"
-              style="
-                position:absolute;
-                inset:0;
-                width:100%;
-                height:100%;
-                border:0;
-                background:transparent;
-                padding:12px 14px;
-                font-family:'JetBrains Mono',monospace;
-                font-size:12.5px;
-                line-height:20px;
-                resize:none;
-                outline:none;
-                color:#1a1a1a;
-                white-space:pre
-              "
-            ></textarea>
-
-            <iframe
-              id="preview"
-              style="
-                position:absolute;
-                inset:0;
-                width:100%;
-                height:100%;
-                border:0;
-                background:white;
-                display:none
-              "
-              sandbox="allow-scripts allow-forms allow-same-origin"
-            ></iframe>
-
+          <div class="brand-name">
+            Webidex
           </div>
 
-        </div>
-
-
-        <!-- CODE ACTIONS -->
-        <div style="
-          padding:12px 16px;
-          background:#F5EEE0;
-          border-top:1px solid #EDE5D3;
-          display:flex;
-          flex-direction:column;
-          gap:10px
-        ">
-
-          <div style="
-            font-size:11px;
-            font-weight:700;
-            letter-spacing:0.5px;
-            color:#8B7D60;
-            background:#EDE5D3;
-            padding:3px 8px;
-            border-radius:999px;
-            width:fit-content
-          ">CODE ACTIONS:</div>
-
-          <div style="display:flex;gap:8px">
-
-            <button
-              id="saveBtn"
-              style="
-                padding:8px 14px;
-                border-radius:10px;
-                border:1px solid #E5DDC8;
-                background:white;
-                font-weight:600;
-                font-size:12.5px;
-                cursor:pointer
-              "
-            >💾 Save</button>
-
-            <button
-              id="downloadBtn"
-              style="
-                padding:8px 14px;
-                border-radius:10px;
-                border:1px solid #E5DDC8;
-                background:white;
-                font-weight:600;
-                font-size:12.5px;
-                cursor:pointer
-              "
-            >⬇ Download</button>
-
-            <button
-              id="clearBtn"
-              style="
-                padding:8px 14px;
-                border-radius:10px;
-                border:1px solid #E5DDC8;
-                background:white;
-                font-weight:600;
-                font-size:12.5px;
-                cursor:pointer
-              "
-            >🗑 Clear</button>
-
+          <div class="brand-tagline">
+            Everything you need to build for the web.
           </div>
+
         </div>
 
       </div>
 
+      <div class="top-actions">
 
-      <!-- DEPLOY PANEL -->
-      <div class="deploy-panel">
-
-        <button class="deploy-btn" id="deployBtn" disabled>
-          Deploy
+        <button
+          class="top-btn"
+          id="topProjectsBtn"
+          type="button"
+        >
+          Your Projects
         </button>
 
-        <div style="
-          text-align:center;
-          font-size:13.5px;
-          line-height:1.4;
-          color:#444
-        ">
-          Ready to make your site live?
-          <br>
-          <b id="deployHint">Save your project name and code first</b>
-        </div>
+      </div>
+
+    </header>
 
 
-        <!-- PROJECT NAME -->
-        <div class="project-name-box">
+    <!-- =========================
+         BUILDER PAGE
+    ========================= -->
 
-          <div class="project-label">
+    <section id="builderPage">
+
+      <!-- =========================
+           PROJECT SETTINGS
+      ========================= -->
+
+      <section class="project-settings">
+
+        <div class="settings-card">
+
+          <label
+            class="settings-label"
+            for="siteName"
+          >
             Project Name
-          </div>
+          </label>
 
           <div class="name-row">
 
             <input
               id="siteName"
-              placeholder="My Website"
+              class="name-input"
+              type="text"
               autocomplete="off"
+              placeholder="my-awesome-website"
             >
 
             <button
               id="saveNameBtn"
               class="save-name-btn"
-            >Save</button>
+              type="button"
+            >
+              Save Name
+            </button>
 
           </div>
 
@@ -953,1366 +1147,2071 @@ body{
         </div>
 
 
-        <!-- VISIBILITY -->
-        <div>
+        <div class="settings-card visibility-card">
 
-          <div style="
-            font-size:12px;
-            font-weight:600;
-            color:#555;
-            margin-bottom:6px
-          ">
+          <div class="settings-label">
             Visibility
           </div>
 
-          <div class="visibility-box">
+          <div class="visibility-buttons">
 
             <button
               id="publicBtn"
               class="visibility-btn"
-            >🌐 Public</button>
+              type="button"
+            >
+              Public
+            </button>
 
             <button
               id="privateBtn"
               class="visibility-btn active"
-            >🔒 Private</button>
+              type="button"
+            >
+              Private
+            </button>
 
-          </div>
-
-          <div style="
-            font-size:10px;
-            color:#888;
-            margin-top:6px;
-            line-height:1.4
-          ">
-            Private is the default for testing. Full private access
-            protection will be added with authentication/backend.
           </div>
 
         </div>
 
+      </section>
 
-        <!-- LIVE URL -->
-        <div style="margin-top:4px">
 
-          <div style="
-            font-size:12px;
-            font-weight:600;
-            color:#555;
-            margin-bottom:6px
-          ">
-            Live URL
+      <!-- =========================
+           MAIN BUILDER GRID
+      ========================= -->
+
+      <main class="main">
+
+        <!-- =========================
+             CODE PANEL
+        ========================= -->
+
+        <section class="code-panel">
+
+          <div class="panel-head">
+
+            <div class="file-info">
+
+              <span class="file-name">
+                index.html
+              </span>
+
+              <span class="file-badge">
+                HTML
+              </span>
+
+            </div>
+
+            <div class="panel-actions">
+
+              <span id="savedBadge" class="saved-badge">
+                ● Unsaved
+              </span>
+
+            </div>
+
           </div>
 
-          <div style="
-            display:flex;
-            align-items:center;
-            gap:8px;
-            background:#FFF8EB;
-            border:1px solid #EDE5D3;
-            border-radius:10px;
-            padding:8px 10px
-          ">
 
-            <a
-              id="liveUrl"
-              href="#"
-              target="_blank"
-              style="
-                flex:1;
-                font-size:12px;
-                color:#2563EB;
-                word-break:break-all;
-                text-decoration:none
-              "
-            >Deploy to get URL</a>
+          <div class="editor-tabs">
 
             <button
-              id="copyBtn"
+              id="codeTab"
+              class="editor-tab active"
               type="button"
-              style="
-                border:0;
-                background:#F1E7D3;
-                color:#5B4636;
-                border-radius:8px;
-                padding:7px 10px;
-                font-size:11px;
-                font-weight:700;
-                cursor:pointer
-              "
-            >Copy</button>
+            >
+              Code
+            </button>
+
+            <button
+              id="previewTab"
+              class="editor-tab"
+              type="button"
+            >
+              Preview
+            </button>
+
+          </div>
+
+
+          <div class="editor-wrap" id="editorWrap">
+
+            <div
+              id="codeGutter"
+              class="code-gutter"
+              aria-hidden="true"
+            >
+              1
+            </div>
+
+            <textarea
+              id="codeEditor"
+              spellcheck="false"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              placeholder="Write your HTML here..."
+            ></textarea>
+
+          </div>
+
+
+          <iframe
+            id="preview"
+            class="preview-frame"
+            title="Website Preview"
+            sandbox="allow-scripts allow-forms allow-same-origin"
+          ></iframe>
+
+
+          <div class="code-actions">
+
+            <button
+              id="saveBtn"
+              class="gold-btn"
+              type="button"
+            >
+              Save Code
+            </button>
+
+            <button
+              id="downloadBtn"
+              class="secondary-btn"
+              type="button"
+            >
+              Download
+            </button>
+
+            <button
+              id="clearBtn"
+              class="danger-btn"
+              type="button"
+            >
+              Clear
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <section class="deploy-panel">
+
+          <div class="deploy-top">
+
+            <div>
+
+              <div class="eyebrow">
+                DEPLOYMENT
+              </div>
+
+              <h2>
+                Publish your website
+              </h2>
+
+              <p id="deployHint">
+                Save your project name and code before deploying.
+              </p>
+
+            </div>
+
+            <div class="deploy-icon">
+              ↗
+            </div>
+
+          </div>
+
+
+          <div class="deploy-box">
+
+            <div class="deploy-row">
+
+              <div>
+
+                <div class="deploy-label">
+                  Project
+                </div>
+
+                <div
+                  id="deployProjectName"
+                  class="deploy-value"
+                >
+                  Unsaved project
+                </div>
+
+              </div>
+
+              <button
+                id="deployBtn"
+                class="deploy-btn"
+                type="button"
+                disabled
+              >
+                Deploy
+              </button>
+
+            </div>
+
+
+            <div
+              id="deployStatus"
+              class="deploy-status"
+            >
+              Ready when your project is saved.
+            </div>
+
+
+            <div class="live-result">
+
+              <div class="live-heading">
+                LIVE URL
+              </div>
+
+              <div class="live-url-row">
+
+                <div
+                  id="liveUrl"
+                  class="live-url"
+                >
+                  No deployment yet
+                </div>
+
+                <button
+                  id="copyBtn"
+                  class="copy-btn"
+                  type="button"
+                  disabled
+                >
+                  Copy
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div
+              id="deployNote"
+              class="deploy-note"
+            ></div>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </section>
+
+
+    <section
+      id="projectsPage"
+      class="page-section"
+      style="display:none;"
+    >
+
+      <div class="page-heading">
+
+        <div>
+
+          <div class="eyebrow">
+            WEBIDEX
+          </div>
+
+          <h1>
+            Your Projects
+          </h1>
+
+          <p>
+            Everything you create, saved in one place.
+          </p>
+
+        </div>
+
+        <button
+          id="newProjectBtn"
+          class="gold-btn"
+          type="button"
+        >
+          + New Project
+        </button>
+
+      </div>
+
+
+      <div
+        id="projectsList"
+        class="projects-list"
+      ></div>
+
+
+      <div
+        id="emptyProjects"
+        class="empty-projects"
+        style="display:none;"
+      >
+
+        <div class="empty-icon">
+          ✦
+        </div>
+
+        <h2>
+          No projects yet
+        </h2>
+
+        <p>
+          Create your first website and it will appear here.
+        </p>
+
+        <button
+          id="emptyNewProjectBtn"
+          class="gold-btn"
+          type="button"
+        >
+          Create Project
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <section
+      id="projectDetailsPage"
+      class="page-section"
+      style="display:none;"
+    >
+
+      <div class="details-top">
+
+        <button
+          id="backToProjectsBtn"
+          class="back-btn"
+          type="button"
+        >
+          ← Projects
+        </button>
+
+      </div>
+
+
+      <div class="details-card">
+
+        <div class="details-header">
+
+          <div>
+
+            <div class="eyebrow">
+              PROJECT
+            </div>
+
+            <h1 id="detailProjectName">
+              Project
+            </h1>
+
+            <div
+              id="detailStatus"
+              class="detail-status"
+            >
+              Not deployed
+            </div>
+
+          </div>
+
+          <div class="detail-actions">
+
+            <button
+              id="detailEditBtn"
+              class="secondary-btn"
+              type="button"
+            >
+              Edit
+            </button>
+
+            <button
+              id="detailOpenBtn"
+              class="gold-btn"
+              type="button"
+              disabled
+            >
+              Open Website
+            </button>
 
           </div>
 
         </div>
 
-        <!-- DEPLOY -->
-        <button
-          id="deployBtn"
-          type="button"
-          disabled
-          style="
-            width:100%;
-            margin-top:12px;
-            border:0;
-            border-radius:12px;
-            padding:12px;
-            background:#1F1B16;
-            color:#F8E7C5;
-            font-size:13px;
-            font-weight:800;
-            cursor:pointer;
-            letter-spacing:.3px
-          "
-        >
-          Deploy
-        </button>
 
-        <div
-          id="deployNote"
-          style="
-            margin-top:7px;
-            font-size:11px;
-            color:#888;
-            line-height:1.5
-          "
-        >
-          Save your project name and code before deploying.
+        <div class="detail-grid">
+
+          <div class="detail-item">
+
+            <span>
+              Visibility
+            </span>
+
+            <strong id="detailVisibility">
+              Private
+            </strong>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              Code
+            </span>
+
+            <strong id="detailCodeStatus">
+              Not saved
+            </strong>
+
+          </div>
+
+
+          <div class="detail-item">
+
+            <span>
+              Created
+            </span>
+
+            <strong id="detailCreated">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="detail-item detail-live">
+
+            <span>
+              Live URL
+            </span>
+
+            <strong id="detailLiveUrl">
+              —
+            </strong>
+
+          </div>
+
         </div>
 
       </div>
 
-    </div>
+    </section>
+
 
   </div>
 
-  <!-- YOUR PROJECTS PAGE -->
-  <section
-    id="projectsPage"
-    class="hidden"
-    style="
-      width:100%;
-      max-width:1100px;
-      margin:0 auto;
-      padding:30px 20px 60px
-    "
-  >
-
-    <div
-      style="
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:15px;
-        margin-bottom:22px
-      "
-    >
-
-      <div>
-        <div
-          style="
-            font-size:11px;
-            color:#9A8565;
-            font-weight:800;
-            letter-spacing:1.5px;
-            text-transform:uppercase
-          "
-        >
-          Webidex
-        </div>
-
-        <h2
-          style="
-            margin:5px 0 0;
-            font-size:28px;
-            color:#2A241E
-          "
-        >
-          Your Projects
-        </h2>
-      </div>
-
-      <button
-        id="newProjectBtn"
-        type="button"
-        style="
-          border:1px solid #DCCEB5;
-          background:#FFFDF8;
-          color:#4B3A29;
-          border-radius:10px;
-          padding:10px 14px;
-          font-size:12px;
-          font-weight:800;
-          cursor:pointer
-        "
-      >
-        + New Project
-      </button>
-
-    </div>
-
-    <div id="projectsList"></div>
-
-  </section>
-
-
-  <!-- PROJECT DETAILS PAGE -->
-  <section
-    id="projectDetailsPage"
-    class="hidden"
-    style="
-      width:100%;
-      max-width:900px;
-      margin:0 auto;
-      padding:30px 20px 60px
-    "
-  >
-
-    <button
-      id="backToProjectsBtn"
-      type="button"
-      style="
-        border:0;
-        background:none;
-        color:#765D3A;
-        font-size:12px;
-        font-weight:800;
-        cursor:pointer;
-        padding:0;
-        margin-bottom:18px
-      "
-    >
-      ← Back to Projects
-    </button>
-
-    <div
-      style="
-        background:rgba(255,255,255,.72);
-        border:1px solid #E7DDCA;
-        border-radius:18px;
-        padding:22px;
-        box-shadow:0 15px 45px rgba(80,60,30,.08)
-      "
-    >
-
-      <div
-        style="
-          display:flex;
-          justify-content:space-between;
-          align-items:flex-start;
-          gap:15px;
-          flex-wrap:wrap
-        "
-      >
-
-        <div>
-          <div
-            style="
-              font-size:11px;
-              color:#9A8565;
-              font-weight:800;
-              letter-spacing:1.2px;
-              text-transform:uppercase
-            "
-          >
-            Project
-          </div>
-
-          <h2
-            id="detailProjectName"
-            style="
-              margin:5px 0 0;
-              font-size:26px;
-              color:#2A241E
-            "
-          >
-            Project
-          </h2>
-        </div>
-
-        <span
-          id="detailStatus"
-          style="
-            display:inline-flex;
-            align-items:center;
-            padding:7px 10px;
-            border-radius:999px;
-            background:#F4EDDF;
-            color:#6B563A;
-            font-size:11px;
-            font-weight:800
-          "
-        >
-          Draft
-        </span>
-
-      </div>
-
-
-      <div
-        style="
-          display:grid;
-          grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-          gap:12px;
-          margin-top:22px
-        "
-      >
-
-        <div
-          style="
-            padding:14px;
-            background:#FFF9EF;
-            border:1px solid #EDE3D1;
-            border-radius:12px
-          "
-        >
-          <div style="font-size:10px;color:#8C806F;font-weight:700">
-            Visibility
-          </div>
-
-          <div
-            id="detailVisibility"
-            style="
-              margin-top:5px;
-              font-size:13px;
-              font-weight:800;
-              color:#40372D
-            "
-          >
-            Private
-          </div>
-        </div>
-
-
-        <div
-          style="
-            padding:14px;
-            background:#FFF9EF;
-            border:1px solid #EDE3D1;
-            border-radius:12px
-          "
-        >
-          <div style="font-size:10px;color:#8C806F;font-weight:700">
-            Code
-          </div>
-
-          <div
-            id="detailCodeStatus"
-            style="
-              margin-top:5px;
-              font-size:13px;
-              font-weight:800;
-              color:#40372D
-            "
-          >
-            Not saved
-          </div>
-        </div>
-
-
-        <div
-          style="
-            padding:14px;
-            background:#FFF9EF;
-            border:1px solid #EDE3D1;
-            border-radius:12px
-          "
-        >
-          <div style="font-size:10px;color:#8C806F;font-weight:700">
-            Created
-          </div>
-
-          <div
-            id="detailCreated"
-            style="
-              margin-top:5px;
-              font-size:12px;
-              font-weight:700;
-              color:#40372D
-            "
-          >
-            —
-          </div>
-        </div>
-
-      </div>
-
-
-      <div
-        style="
-          margin-top:18px;
-          padding:14px;
-          background:#FFF9EF;
-          border:1px solid #EDE3D1;
-          border-radius:12px
-        "
-      >
-
-        <div
-          style="
-            font-size:10px;
-            color:#8C806F;
-            font-weight:700;
-            margin-bottom:7px
-          "
-        >
-          Live URL
-        </div>
-
-        <a
-          id="detailLiveUrl"
-          href="#"
-          target="_blank"
-          style="
-            font-size:12px;
-            color:#2563EB;
-            word-break:break-all;
-            text-decoration:none
-          "
-        >
-          Not deployed yet
-        </a>
-
-      </div>
-
-
-      <div
-        style="
-          display:flex;
-          gap:10px;
-          flex-wrap:wrap;
-          margin-top:18px
-        "
-      >
-
-        <button
-          id="detailEditBtn"
-          type="button"
-          style="
-            border:0;
-            background:#1F1B16;
-            color:#F8E7C5;
-            border-radius:10px;
-            padding:11px 15px;
-            font-size:12px;
-            font-weight:800;
-            cursor:pointer
-          "
-        >
-          Edit Project
-        </button>
-
-        <button
-          id="detailOpenBtn"
-          type="button"
-          style="
-            border:1px solid #DCCEB5;
-            background:#FFFDF8;
-            color:#4B3A29;
-            border-radius:10px;
-            padding:11px 15px;
-            font-size:12px;
-            font-weight:800;
-            cursor:pointer
-          "
-        >
-          Open Live Site
-        </button>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- ACCESS GATE -->
-  <section
-    id="gate"
-    class="hidden"
-    style="
-      min-height:100dvh;
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:25px
-    "
-  >
-
-    <div
-      style="
-        width:100%;
-        max-width:430px;
-        text-align:center;
-        background:rgba(255,255,255,.72);
-        border:1px solid #E7DDCA;
-        border-radius:22px;
-        padding:35px 25px;
-        box-shadow:0 20px 60px rgba(80,60,30,.12)
-      "
-    >
-
-      <div
-        style="
-          font-size:11px;
-          font-weight:900;
-          letter-spacing:2px;
-          color:#9A8565
-        "
-      >
-        WEBIDEX
-      </div>
-
-      <h1
-        style="
-          margin:12px 0 8px;
-          font-size:30px;
-          color:#2A241E
-        "
-      >
-        Webidex is coming soon
-      </h1>
-
-      <p
-        style="
-          margin:0 auto;
-          max-width:330px;
-          color:#776E63;
-          font-size:13px;
-          line-height:1.6
-        "
-      >
-        First 30 users can get free access forever.
-      </p>
-
-      <a
-        href="https://forms.google.com/"
-        target="_blank"
-        style="
-          display:inline-block;
-          margin-top:20px;
-          text-decoration:none;
-          background:#1F1B16;
-          color:#F8E7C5;
-          padding:12px 18px;
-          border-radius:10px;
-          font-size:12px;
-          font-weight:800
-        "
-      >
-        Join Waiting List
-      </a>
-
-    </div>
-
-  </section>
+</div>
 
 
 <script>
 
-const ACCESS_KEY = "webidex_91_x_mast3r_2026";
+const ACCESS_KEY =
+  "webidex_91_x_mast3r_2026";
 
-const codeEl = document.getElementById("codeEditor");
-const siteEl = document.getElementById("siteName");
-const liveEl = document.getElementById("liveUrl");
-const deployBtn = document.getElementById("deployBtn");
 
-const projectsPage = document.getElementById("projectsPage");
-const projectDetailsPage = document.getElementById("projectDetailsPage");
+const PROJECTS_KEY =
+  "webidex_projects";
 
-let projects = JSON.parse(
-  localStorage.getItem("webidex_projects") || "[]"
-);
+
+const CURRENT_PROJECT_KEY =
+  "webidex_current_project_id";
+
+
+const WAITLIST_URL =
+  "https://forms.gle/TVdL6k5CvrteFB4B8";
+
+
+const gate =
+  document.getElementById("gate");
+
+
+const newUI =
+  document.getElementById("newUI");
+
+
+const waitlistBtn =
+  document.getElementById("waitlistBtn");
+
+
+const topProjectsBtn =
+  document.getElementById("topProjectsBtn");
+
+
+const builderPage =
+  document.getElementById("builderPage");
+
+
+const projectsPage =
+  document.getElementById("projectsPage");
+
+
+const projectDetailsPage =
+  document.getElementById("projectDetailsPage");
+
+
+const projectsList =
+  document.getElementById("projectsList");
+
+
+const emptyProjects =
+  document.getElementById("emptyProjects");
+
+
+const siteEl =
+  document.getElementById("siteName");
+
+
+const saveNameBtn =
+  document.getElementById("saveNameBtn");
+
+
+const nameStatus =
+  document.getElementById("nameStatus");
+
+
+const publicBtn =
+  document.getElementById("publicBtn");
+
+
+const privateBtn =
+  document.getElementById("privateBtn");
+
+
+const codeEl =
+  document.getElementById("codeEditor");
+
+
+const codeGutter =
+  document.getElementById("codeGutter");
+
+
+const codeTab =
+  document.getElementById("codeTab");
+
+
+const previewTab =
+  document.getElementById("previewTab");
+
+
+const preview =
+  document.getElementById("preview");
+
+
+const saveBtn =
+  document.getElementById("saveBtn");
+
+
+const downloadBtn =
+  document.getElementById("downloadBtn");
+
+
+const clearBtn =
+  document.getElementById("clearBtn");
+
+
+const savedBadge =
+  document.getElementById("savedBadge");
+
+
+const deployBtn =
+  document.getElementById("deployBtn");
+
+
+const deployHint =
+  document.getElementById("deployHint");
+
+
+const deployProjectName =
+  document.getElementById("deployProjectName");
+
+
+const deployStatus =
+  document.getElementById("deployStatus");
+
+
+const liveUrl =
+  document.getElementById("liveUrl");
+
+
+const copyBtn =
+  document.getElementById("copyBtn");
+
+
+const deployNote =
+  document.getElementById("deployNote");
+
+
+const newProjectBtn =
+  document.getElementById("newProjectBtn");
+
+
+const emptyNewProjectBtn =
+  document.getElementById("emptyNewProjectBtn");
+
+
+const backToProjectsBtn =
+  document.getElementById("backToProjectsBtn");
+
+
+const detailProjectName =
+  document.getElementById("detailProjectName");
+
+
+const detailStatus =
+  document.getElementById("detailStatus");
+
+
+const detailVisibility =
+  document.getElementById("detailVisibility");
+
+
+const detailCodeStatus =
+  document.getElementById("detailCodeStatus");
+
+
+const detailCreated =
+  document.getElementById("detailCreated");
+
+
+const detailLiveUrl =
+  document.getElementById("detailLiveUrl");
+
+
+const detailEditBtn =
+  document.getElementById("detailEditBtn");
+
+
+const detailOpenBtn =
+  document.getElementById("detailOpenBtn");
+
+
+let projects = [];
+
 
 let currentProjectId =
-  localStorage.getItem("webidex_current_project_id") || null;
-
-let currentProject = null;
+  localStorage.getItem(CURRENT_PROJECT_KEY) || null;
 
 
-/* -------------------------
-   BASIC HELPERS
-------------------------- */
+let pendingVisibility =
+  "Private";
+
+
+function loadProjects(){
+
+  try{
+
+    const raw =
+      localStorage.getItem(PROJECTS_KEY);
+
+    if(!raw){
+      return [];
+    }
+
+    const parsed =
+      JSON.parse(raw);
+
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+
+  }catch(error){
+
+    console.error(error);
+
+    return [];
+
+  }
+
+}
+
 
 function saveProjects(){
+
   localStorage.setItem(
-    "webidex_projects",
+    PROJECTS_KEY,
     JSON.stringify(projects)
   );
+
 }
+
 
 function getCurrentProject(){
+
+  if(!currentProjectId){
+    return null;
+  }
+
   return projects.find(
-    p => p.id === currentProjectId
+    project =>
+      project.id === currentProjectId
   ) || null;
-}
-
-function showBuilder(){
-
-  document.getElementById("newUI").classList.remove("hidden");
-  projectsPage.classList.add("hidden");
-  projectDetailsPage.classList.add("hidden");
 
 }
 
-function showProjects(){
 
-  document.getElementById("newUI").classList.add("hidden");
-  projectsPage.classList.remove("hidden");
-  projectDetailsPage.classList.add("hidden");
-
-  renderProjects();
-
-}
-
-function showDetails(id){
-
-  const project = projects.find(
-    p => p.id === id
-  );
-
-  if(!project)return;
+function setCurrentProject(id){
 
   currentProjectId = id;
-  currentProject = project;
 
-  localStorage.setItem(
-    "webidex_current_project_id",
-    id
-  );
+  if(id){
 
-  document.getElementById("newUI").classList.add("hidden");
-  projectsPage.classList.add("hidden");
-  projectDetailsPage.classList.remove("hidden");
-
-  document.getElementById("detailProjectName").textContent =
-    project.name;
-
-  document.getElementById("detailVisibility").textContent =
-    project.visibility;
-
-  document.getElementById("detailCodeStatus").textContent =
-    project.codeSaved ? "Saved" : "Not saved";
-
-  document.getElementById("detailCreated").textContent =
-    new Date(project.createdAt).toLocaleDateString();
-
-  const status = document.getElementById("detailStatus");
-
-  status.textContent =
-    project.status || "Draft";
-
-  const detailUrl =
-    document.getElementById("detailLiveUrl");
-
-  if(project.liveUrl){
-
-    detailUrl.textContent = project.liveUrl;
-    detailUrl.href = project.liveUrl;
+    localStorage.setItem(
+      CURRENT_PROJECT_KEY,
+      id
+    );
 
   }else{
 
-    detailUrl.textContent = "Not deployed yet";
-    detailUrl.href = "#";
+    localStorage.removeItem(
+      CURRENT_PROJECT_KEY
+    );
 
   }
 
 }
 
 
-/* -------------------------
-   PROJECT LIST
-------------------------- */
+function showPage(page){
 
-function renderProjects(){
+  builderPage.style.display = "none";
+  projectsPage.style.display = "none";
+  projectDetailsPage.style.display = "none";
 
-  const list =
-    document.getElementById("projectsList");
+  page.style.display = "block";
 
-  if(!projects.length){
+}
 
-    list.innerHTML = `
-      <div style="
-        text-align:center;
-        padding:55px 20px;
-        color:#82786C
-      ">
-        <div style="
-          font-size:30px;
-          margin-bottom:10px
-        ">
-          ◇
-        </div>
 
-        <div style="
-          font-size:14px;
-          font-weight:800;
-          color:#4B4035
-        ">
-          No projects yet
-        </div>
+function updateVisibilityUI(){
 
-        <div style="
-          font-size:12px;
-          margin-top:5px
-        ">
-          Create your first website.
-        </div>
-      </div>
-    `;
+  const value =
+    getCurrentProject()?.visibility ||
+    pendingVisibility ||
+    "Private";
 
+  if(value === "Public"){
+
+    publicBtn.classList.add("active");
+    privateBtn.classList.remove("active");
+
+  }else{
+
+    privateBtn.classList.add("active");
+    publicBtn.classList.remove("active");
+
+  }
+
+}
+
+
+function resetBuilder(){
+
+  setCurrentProject(null);
+
+  siteEl.value = "";
+
+  codeEl.value = "";
+
+  pendingVisibility = "Private";
+
+  nameStatus.textContent =
+    "● Name not saved";
+
+  nameStatus.classList.remove(
+    "success"
+  );
+
+  savedBadge.textContent =
+    "● Unsaved";
+
+  savedBadge.classList.remove(
+    "success"
+  );
+
+  deployProjectName.textContent =
+    "Unsaved project";
+
+  liveUrl.textContent =
+    "No deployment yet";
+
+  copyBtn.disabled = true;
+
+  deployStatus.textContent =
+    "Ready when your project is saved.";
+
+  deployNote.textContent = "";
+
+  preview.srcdoc = "";
+
+  updateGutter();
+
+  showCode();
+
+  updateVisibilityUI();
+
+  updateDeployState();
+
+}
+
+
+function loadProjectIntoBuilder(project){
+
+  if(!project){
+    resetBuilder();
     return;
   }
 
-  list.innerHTML = projects.map(project => `
+  setCurrentProject(project.id);
 
-    <div
-      data-project-id="${project.id}"
-      style="
-        background:rgba(255,255,255,.72);
-        border:1px solid #E7DDCA;
-        border-radius:15px;
-        padding:17px;
-        margin-bottom:12px;
-        cursor:pointer;
-        box-shadow:0 10px 30px rgba(80,60,30,.05)
-      "
-    >
+  siteEl.value =
+    project.name || "";
 
-      <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:12px
-      ">
+  codeEl.value =
+    project.code || "";
 
-        <div style="min-width:0">
+  pendingVisibility =
+    project.visibility || "Private";
 
-          <div style="
-            font-size:15px;
-            font-weight:850;
-            color:#302820;
-            overflow:hidden;
-            text-overflow:ellipsis;
-            white-space:nowrap
-          ">
-            ${escapeHTML(project.name)}
+  if(project.nameSaved){
+
+    nameStatus.textContent =
+      "● Name saved";
+
+    nameStatus.classList.add(
+      "success"
+    );
+
+  }else{
+
+    nameStatus.textContent =
+      "● Name not saved";
+
+    nameStatus.classList.remove(
+      "success"
+    );
+
+  }
+
+  if(project.codeSaved){
+
+    savedBadge.textContent =
+      "● Saved";
+
+    savedBadge.classList.add(
+      "success"
+    );
+
+  }else{
+
+    savedBadge.textContent =
+      "● Unsaved";
+
+    savedBadge.classList.remove(
+      "success"
+    );
+
+  }
+
+  deployProjectName.textContent =
+    project.name || "Unsaved project";
+
+  if(project.liveUrl){
+
+    liveUrl.textContent =
+      project.liveUrl;
+
+    copyBtn.disabled = false;
+
+  }else{
+
+    liveUrl.textContent =
+      "No deployment yet";
+
+    copyBtn.disabled = true;
+
+  }
+
+  deployNote.textContent =
+    project.deployed
+      ? "Deployment completed successfully."
+      : "";
+
+  updateGutter();
+
+  showCode();
+
+  updateVisibilityUI();
+
+  updateDeployState();
+
+}
+
+
+function showBuilder(){
+
+  showPage(builderPage);
+
+}
+
+
+function showProjects(){
+
+  renderProjects();
+
+  showPage(projectsPage);
+
+}
+
+
+function formatDate(timestamp){
+
+  if(!timestamp){
+    return "—";
+  }
+
+  try{
+
+    return new Date(timestamp)
+      .toLocaleDateString(
+        undefined,
+        {
+          day:"numeric",
+          month:"short",
+          year:"numeric"
+        }
+      );
+
+  }catch(error){
+
+    return "—";
+
+  }
+
+}
+
+
+function renderProjects(){
+
+  projectsList.innerHTML = "";
+
+  if(!projects.length){
+
+    emptyProjects.style.display =
+      "block";
+
+    return;
+
+  }
+
+  emptyProjects.style.display =
+    "none";
+
+
+  projects
+    .slice()
+    .sort(
+      (a,b) =>
+        (b.createdAt || 0) -
+        (a.createdAt || 0)
+    )
+    .forEach(project => {
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "project-card";
+
+      const deployedText =
+        project.deployed
+          ? "Live"
+          : "Not deployed";
+
+      const visibilityText =
+        project.visibility ||
+        "Private";
+
+      card.innerHTML = `
+        <div class="project-card-main">
+          <div class="project-card-icon">✦</div>
+
+          <div class="project-card-info">
+            <h3>${escapeHtml(project.name || "Untitled")}</h3>
+
+            <div class="project-card-meta">
+              <span>${visibilityText}</span>
+              <span>•</span>
+              <span>${deployedText}</span>
+              <span>•</span>
+              <span>${formatDate(project.createdAt)}</span>
+            </div>
           </div>
-
-          <div style="
-            margin-top:5px;
-            font-size:11px;
-            color:#8A8074
-          ">
-            ${project.visibility} · ${project.status || "Draft"}
-          </div>
-
         </div>
 
-        <div style="
-          font-size:18px;
-          color:#8A7659
-        ">
+        <div class="project-card-arrow">
           →
         </div>
+      `;
 
-      </div>
+      card.addEventListener(
+        "click",
+        () => showDetails(project.id)
+      );
 
-    </div>
-
-  `).join("");
-
-  list.querySelectorAll("[data-project-id]")
-    .forEach(card => {
-
-      card.onclick = () => {
-        showDetails(card.dataset.projectId);
-      };
+      projectsList.appendChild(card);
 
     });
 
 }
 
 
-/* -------------------------
-   ESCAPE HTML
-------------------------- */
-
-function escapeHTML(value){
+function escapeHtml(value){
 
   return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
 
-/* -------------------------
-   NEW PROJECT
-------------------------- */
+function showDetails(id){
 
-document
-  .getElementById("newProjectBtn")
-  .onclick = () => {
-
-    currentProjectId = null;
-    currentProject = null;
-
-    localStorage.removeItem(
-      "webidex_current_project_id"
+  const project =
+    projects.find(
+      item => item.id === id
     );
 
-    siteEl.value = "";
-    codeEl.value = "";
+  if(!project){
+    return;
+  }
 
-    showBuilder();
+  setCurrentProject(id);
 
-  };
+  detailProjectName.textContent =
+    project.name || "Untitled";
+
+  detailStatus.textContent =
+    project.deployed
+      ? "Deployed"
+      : "Not deployed";
+
+  detailVisibility.textContent =
+    project.visibility || "Private";
+
+  detailCodeStatus.textContent =
+    project.codeSaved
+      ? "Saved"
+      : "Not saved";
+
+  detailCreated.textContent =
+    formatDate(project.createdAt);
+
+  detailLiveUrl.textContent =
+    project.liveUrl || "—";
+
+  detailOpenBtn.disabled =
+    !project.liveUrl;
+
+  showPage(projectDetailsPage);
+
+}
 
 
-/* -------------------------
-   PROJECT DETAILS BUTTONS
-------------------------- */
+function newProject(){
 
-document
-  .getElementById("backToProjectsBtn")
-  .onclick = () => {
+  resetBuilder();
+
+  showBuilder();
+
+}
+
+
+function updateGutter(){
+
+  const lines =
+    Math.max(
+      1,
+      codeEl.value.split("\n").length
+    );
+
+  let output = "";
+
+  for(let i = 1; i <= lines; i++){
+
+    output += i;
+
+    if(i < lines){
+      output += "\n";
+    }
+
+  }
+
+  codeGutter.textContent =
+    output;
+
+}
+
+
+function showCode(){
+
+  codeTab.classList.add("active");
+  previewTab.classList.remove("active");
+
+  codeEl.style.display =
+    "block";
+
+  codeGutter.style.display =
+    "block";
+
+  preview.style.display =
+    "none";
+
+}
+
+
+function showPreview(){
+
+  codeTab.classList.remove("active");
+  previewTab.classList.add("active");
+
+  codeEl.style.display =
+    "none";
+
+  codeGutter.style.display =
+    "none";
+
+  preview.style.display =
+    "block";
+
+  preview.srcdoc =
+    codeEl.value;
+
+}
+
+
+function updateDeployState(){
+
+  const project =
+    getCurrentProject();
+
+  const currentName =
+    siteEl.value.trim();
+
+  const nameReady =
+    !!project &&
+    project.nameSaved === true &&
+    currentName !== "" &&
+    currentName === project.name;
+
+  const codeReady =
+    !!project &&
+    project.codeSaved === true &&
+    codeEl.value === project.code;
+
+  deployBtn.disabled =
+    !(nameReady && codeReady);
+
+  if(project){
+
+    deployProjectName.textContent =
+      project.name || "Unsaved project";
+
+  }else{
+
+    deployProjectName.textContent =
+      "Unsaved project";
+
+  }
+
+  if(!project){
+
+    deployHint.textContent =
+      "Save your project name first.";
+
+  }else if(!nameReady){
+
+    deployHint.textContent =
+      "Save the project name again before deploying.";
+
+  }else if(!codeReady){
+
+    deployHint.textContent =
+      "Save your code before deploying.";
+
+  }else{
+
+    deployHint.textContent =
+      "Everything is ready. You can deploy.";
+
+  }
+
+}
+
+
+projects =
+  loadProjects();
+
+
+updateGutter();
+
+updateVisibilityUI();
+
+updateDeployState();
+
+showCode();
+
+
+waitlistBtn.addEventListener(
+  "click",
+  () => {
+
+    window.open(
+      WAITLIST_URL,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+  }
+);
+
+
+topProjectsBtn.addEventListener(
+  "click",
+  () => {
 
     showProjects();
 
-  };
+  }
+);
 
 
-document
-  .getElementById("detailEditBtn")
-  .onclick = () => {
+newProjectBtn.addEventListener(
+  "click",
+  () => {
 
-    if(!currentProject)return;
+    newProject();
 
-    currentProjectId = currentProject.id;
-
-    localStorage.setItem(
-      "webidex_current_project_id",
-      currentProject.id
-    );
-
-    siteEl.value = currentProject.name;
-    codeEl.value = currentProject.code || "";
-
-    showBuilder();
-
-  };
+  }
+);
 
 
-document
-  .getElementById("detailOpenBtn")
-  .onclick = () => {
+emptyNewProjectBtn.addEventListener(
+  "click",
+  () => {
 
-    if(
-      currentProject &&
-      currentProject.liveUrl
-    ){
+    newProject();
 
-      window.open(
-        currentProject.liveUrl,
-        "_blank"
-      );
+  }
+);
+
+
+backToProjectsBtn.addEventListener(
+  "click",
+  () => {
+
+    showProjects();
+
+  }
+);
+
+
+codeTab.addEventListener(
+  "click",
+  () => {
+
+    showCode();
+
+  }
+);
+
+
+previewTab.addEventListener(
+  "click",
+  () => {
+
+    showPreview();
+
+  }
+);
+
+
+codeEl.addEventListener(
+  "input",
+  () => {
+
+    updateGutter();
+
+    const project =
+      getCurrentProject();
+
+    if(project){
+
+      if(codeEl.value !== project.code){
+
+        project.codeSaved = false;
+
+        savedBadge.textContent =
+          "● Unsaved";
+
+        savedBadge.classList.remove(
+          "success"
+        );
+
+        saveProjects();
+
+      }
 
     }
 
-  };
+    updateDeployState();
+
+  }
+);
 
 
-/* -------------------------
-   NAME SAVE
-------------------------- */
+codeEl.addEventListener(
+  "scroll",
+  () => {
 
-const saveNameBtn =
-  document.getElementById("saveNameBtn");
+    codeGutter.scrollTop =
+      codeEl.scrollTop;
 
-if(saveNameBtn){
+  }
+);
 
-  saveNameBtn.onclick = () => {
+
+siteEl.addEventListener(
+  "input",
+  () => {
+
+    const project =
+      getCurrentProject();
+
+    if(project){
+
+      if(siteEl.value.trim() !== project.name){
+
+        project.nameSaved = false;
+
+        nameStatus.textContent =
+          "● Name not saved";
+
+        nameStatus.classList.remove(
+          "success"
+        );
+
+        saveProjects();
+
+      }else{
+
+        project.nameSaved = true;
+
+        nameStatus.textContent =
+          "● Name saved";
+
+        nameStatus.classList.add(
+          "success"
+        );
+
+      }
+
+    }
+
+    updateDeployState();
+
+  }
+);
+
+
+publicBtn.addEventListener(
+  "click",
+  () => {
+
+    pendingVisibility =
+      "Public";
+
+    const project =
+      getCurrentProject();
+
+    if(project){
+
+      project.vi
+sibility =
+        "Public";
+
+      saveProjects();
+
+    }
+
+    updateVisibilityUI();
+
+  }
+);
+
+
+privateBtn.addEventListener(
+  "click",
+  () => {
+
+    pendingVisibility =
+      "Private";
+
+    const project =
+      getCurrentProject();
+
+    if(project){
+
+      project.visibility =
+        "Private";
+
+      saveProjects();
+
+    }
+
+    updateVisibilityUI();
+
+  }
+);
+
+
+saveNameBtn.addEventListener(
+  "click",
+  () => {
 
     const name =
       siteEl.value.trim();
 
     if(!name){
 
-      alert("Enter a project name first.");
+      nameStatus.textContent =
+        "● Enter a project name";
+
+      nameStatus.classList.remove(
+        "success"
+      );
+
+      siteEl.focus();
+
       return;
 
     }
 
-    if(!currentProjectId){
+    let project =
+      getCurrentProject();
 
-      currentProjectId =
-        crypto.randomUUID();
 
-      currentProject = {
-        id: currentProjectId,
-        name:name,
-        nameSaved:true,
-        code:codeEl.value,
-        codeSaved:false,
-        visibility:"Private",
-        liveUrl:"",
-        deploymentId:"",
-        status:"Draft",
-        createdAt:new Date().toISOString(),
-        updatedAt:new Date().toISOString()
+    if(!project){
+
+      project = {
+
+        id:
+          crypto.randomUUID(),
+
+        name:
+          name,
+
+        nameSaved:
+          true,
+
+        code:
+          codeEl.value,
+
+        codeSaved:
+          false,
+
+        visibility:
+          pendingVisibility,
+
+        liveUrl:
+          "",
+
+        deployed:
+          false,
+
+        createdAt:
+          Date.now()
+
       };
 
-      projects.unshift(currentProject);
+      projects.push(project);
+
+      setCurrentProject(
+        project.id
+      );
 
     }else{
 
-      currentProject =
-        getCurrentProject();
+      project.name =
+        name;
 
-      currentProject.name = name;
-      currentProject.nameSaved = true;
-      currentProject.updatedAt =
-        new Date().toISOString();
+      project.nameSaved =
+        true;
+
+      project.visibility =
+        pendingVisibility ||
+        project.visibility ||
+        "Private";
 
     }
 
-    localStorage.setItem(
-      "webidex_current_project_id",
-      currentProjectId
-    );
 
     saveProjects();
+
+
+    nameStatus.textContent =
+      "● Name saved";
+
+    nameStatus.classList.add(
+      "success"
+    );
+
+
+    saveNameBtn.textContent =
+      "Saved ✓";
+
+
+    setTimeout(
+      () => {
+
+        saveNameBtn.textContent =
+          "Save Name";
+
+      },
+      1200
+    );
+
+
+    deployProjectName.textContent =
+      project.name;
+
+
+    updateVisibilityUI();
 
     updateDeployState();
 
-    saveNameBtn.textContent = "Saved ✓";
-
-    setTimeout(() => {
-      saveNameBtn.textContent = "Save";
-    },1200);
-
-  };
-
-}
-
-
-/* -------------------------
-   NAME CHANGE
-------------------------- */
-
-siteEl.addEventListener("input",()=>{
-
-  if(!currentProject)return;
-
-  if(
-    siteEl.value.trim() !==
-    currentProject.name
-  ){
-
-    currentProject.nameSaved = false;
-
-    saveProjects();
-
   }
+);
 
-  updateDeployState();
 
-});
+saveBtn.addEventListener(
+  "click",
+  () => {
 
+    const project =
+      getCurrentProject();
 
-/* -------------------------
-   VISIBILITY
-------------------------- */
+    if(!project){
 
-const privateBtn =
-  document.getElementById("privateBtn");
-
-const publicBtn =
-  document.getElementById("publicBtn");
-
-function setVisibility(type){
-
-  if(!currentProject)return;
-
-  currentProject.visibility =
-    type;
-
-  saveProjects();
-
-  if(type === "Private"){
-
-    privateBtn.style.background =
-      "#1F1B16";
-
-    privateBtn.style.color =
-      "#F8E7C5";
-
-    publicBtn.style.background =
-      "#FFFDF8";
-
-    publicBtn.style.color =
-      "#5B4636";
-
-  }else{
-
-    publicBtn.style.background =
-      "#1F1B16";
-
-    publicBtn.style.color =
-      "#F8E7C5";
-
-    privateBtn.style.background =
-      "#FFFDF8";
-
-    privateBtn.style.color =
-      "#5B4636";
-
-  }
-
-}
-
-if(privateBtn){
-  privateBtn.onclick =
-    () => setVisibility("Private");
-}
-
-if(publicBtn){
-  publicBtn.onclick =
-    () => setVisibility("Public");
-}
-
-
-/* -------------------------
-   CODE SAVE
-------------------------- */
-
-const saveBtn =
-  document.getElementById("saveBtn");
-
-saveBtn.onclick = () => {
-
-  if(!currentProject){
-
-    alert("Save your project name first.");
-    return;
-
-  }
-
-  if(
-    siteEl.value.trim() !==
-    currentProject.name
-  ){
-
-    alert("Save the project name first.");
-    return;
-
-  }
-
-  currentProject.code =
-    codeEl.value;
-
-  currentProject.codeSaved = true;
-
-  currentProject.updatedAt =
-    new Date().toISOString();
-
-  saveProjects();
-
-  saveBtn.textContent =
-    "Saved ✓";
-
-  setTimeout(()=>{
-    saveBtn.textContent =
-      "Save";
-  },1200);
-
-  updateDeployState();
-
-};
-
-
-/* -------------------------
-   CODE CHANGE
-------------------------- */
-
-codeEl.addEventListener("input",()=>{
-
-  if(!currentProject)return;
-
-  if(
-    codeEl.value !==
-    currentProject.code
-  ){
-
-    currentProject.codeSaved =
-      false;
-
-    saveProjects();
-
-  }
-
-  updateDeployState();
-
-});
-
-
-/* -------------------------
-   DEPLOY STATE
-------------------------- */
-
-function updateDeployState(){
-
-  if(!currentProject){
-
-    deployBtn.disabled = true;
-    deployBtn.style.opacity = ".45";
-    return;
-
-  }
-
-  const nameOK =
-    currentProject.nameSaved &&
-    siteEl.value.trim() ===
-    currentProject.name;
-
-  const codeOK =
-    currentProject.codeSaved &&
-    codeEl.value ===
-    currentProject.code;
-
-  const enabled =
-    nameOK && codeOK;
-
-  deployBtn.disabled =
-    !enabled;
-
-  deployBtn.style.opacity =
-    enabled ? "1" : ".45";
-
-}
-
-
-/* -------------------------
-   DEPLOY
-------------------------- */
-
-deployBtn.onclick = async()=>{
-
-  if(!currentProject){
-
-    alert("Save your project first.");
-    return;
-
-  }
-
-  if(!currentProject.nameSaved){
-
-    alert("Save the project name first.");
-    return;
-
-  }
-
-  if(!currentProject.codeSaved){
-
-    alert("Save your code first.");
-    return;
-
-  }
-
-  deployBtn.textContent =
-    "Deploying...";
-
-  deployBtn.disabled =
-    true;
-
-  try{
-
-    const r =
-      await fetch(
-        "/api/deploy",
-        {
-          method:"POST",
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-          body:JSON.stringify({
-            code:currentProject.code,
-            name:currentProject.name
-          })
-        }
+      alert(
+        "Save your project name first."
       );
 
-    const d =
-      await r.json();
-
-        if(!r.ok){
-
-      throw new Error(
-        d.error ||
-        "Deployment failed"
-      );
+      return;
 
     }
 
-    currentProject.liveUrl =
-      d.url;
 
-    currentProject.deploymentId =
-      d.id || "";
+    if(!project.nameSaved){
 
-    currentProject.status =
-      "Live";
+      alert(
+        "Please save the project name first."
+      );
 
-    currentProject.updatedAt =
-      new Date().toISOString();
+      return;
+
+    }
+
+
+    project.code =
+      codeEl.value;
+
+    project.codeSaved =
+      true;
+
 
     saveProjects();
 
-    liveEl.textContent =
-      d.url;
 
-    liveEl.href =
-      d.url;
+    savedBadge.textContent =
+      "● Saved";
+
+    savedBadge.classList.add(
+      "success"
+    );
+
+
+    saveBtn.textContent =
+      "Saved ✓";
+
+
+    setTimeout(
+      () => {
+
+        saveBtn.textContent =
+          "Save Code";
+
+      },
+      1200
+    );
+
+
+    updateDeployState();
+
+
+    if(
+      preview.style.display !== "none"
+    ){
+
+      preview.srcdoc =
+        codeEl.value;
+
+    }
+
+  }
+);
+
+
+downloadBtn.addEventListener(
+  "click",
+  () => {
+
+    const code =
+      codeEl.value;
+
+    if(!code.trim()){
+
+      alert(
+        "There is no code to download."
+      );
+
+      return;
+
+    }
+
+
+    const blob =
+      new Blob(
+        [code],
+        {
+          type:
+            "text/html;charset=utf-8"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const link =
+      document.createElement("a");
+
+    link.href =
+      url;
+
+    link.download =
+      "index.html";
+
+
+    document.body.appendChild(
+      link
+    );
+
+    link.click();
+
+    link.remove();
+
+
+    setTimeout(
+      () => {
+
+        URL.revokeObjectURL(
+          url
+        );
+
+      },
+      500
+    );
+
+  }
+);
+
+
+clearBtn.addEventListener(
+  "click",
+  () => {
+
+    const confirmed =
+      confirm(
+        "Clear all code from the editor?"
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+
+    codeEl.value =
+      "";
+
+    updateGutter();
+
+
+    const project =
+      getCurrentProject();
+
+    if(project){
+
+      project.code =
+        "";
+
+      project.codeSaved =
+        false;
+
+      saveProjects();
+
+    }
+
+
+    savedBadge.textContent =
+      "● Unsaved";
+
+    savedBadge.classList.remove(
+      "success"
+    );
+
+
+    preview.srcdoc =
+      "";
+
+
+    updateDeployState();
+
+  }
+);
+
+
+deployBtn.addEventListener(
+  "click",
+  async () => {
+
+    const project =
+      getCurrentProject();
+
+
+    if(!project){
+
+      alert(
+        "Save your project first."
+      );
+
+      return;
+
+    }
+
+
+    if(
+      !project.nameSaved ||
+      !project.codeSaved ||
+      project.name !== siteEl.value.trim() ||
+      project.code !== codeEl.value
+    ){
+
+      alert(
+        "Please save the project name and code first."
+      );
+
+      return;
+
+    }
+
+
+    deployBtn.disabled =
+      true;
 
     deployBtn.textContent =
-      "Deployed ✓";
+      "Deploying...";
 
-    document.getElementById(
-      "deployNote"
-    ).textContent =
-      "Your website is live.";
 
-    setTimeout(()=>{
+    deployStatus.textContent =
+      "Uploading your website...";
+
+    deployNote.textContent =
+      "";
+
+
+    try{
+
+      const response =
+        await fetch(
+          "/api/deploy",
+          {
+            method:
+              "POST",
+
+            headers:
+              {
+                "Content-Type":
+                  "application/json"
+              },
+
+            body:
+              JSON.stringify(
+                {
+                  code:
+                    project.code,
+
+                  name:
+                    project.name
+                }
+              )
+          }
+        );
+
+
+      let data = {};
+
+      try{
+
+        data =
+          await response.json();
+
+      }catch(error){
+
+        data = {};
+
+      }
+
+
+      if(!response.ok){
+
+        throw new Error(
+          data.error ||
+          "Deployment failed"
+        );
+
+      }
+
+
+      if(!data.url){
+
+        throw new Error(
+          "Deployment completed but no URL was returned."
+        );
+
+      }
+
+
+      project.liveUrl =
+        data.url;
+
+      project.deploymentId =
+        data.id || "";
+
+      project.deployed =
+        true;
+
+      project.deployedAt =
+        Date.now();
+
+
+      saveProjects();
+
+
+      liveUrl.textContent =
+        project.liveUrl;
+
+      copyBtn.disabled =
+        false;
+
+
+      deployStatus.textContent =
+        "Deployment successful.";
+
+      deployNote.textContent =
+        "Your website is now live.";
+
+
+      deployBtn.textContent =
+        "Deployed ✓";
+
+
+      setTimeout(
+        () => {
+
+          deployBtn.textContent =
+            "Deploy";
+
+          updateDeployState();
+
+        },
+        1600
+      );
+
+
+    }catch(error){
+
+      console.error(error);
+
+
+      deployStatus.textContent =
+        "Deployment failed.";
+
+      deployNote.textContent =
+        error.message ||
+        "Something went wrong while deploying.";
+
+
+      deployBtn.disabled =
+        false;
 
       deployBtn.textContent =
         "Deploy";
 
-      updateDeployState();
-
-    },1500);
-
-  }catch(error){
-
-    alert(
-      error.message ||
-      "Deployment failed"
-    );
-
-    deployBtn.textContent =
-      "Deploy";
-
-    updateDeployState();
+    }
 
   }
+);
 
-};
 
+copyBtn.addEventListener(
+  "click",
+  async () => {
 
-/* -------------------------
-   COPY URL
-------------------------- */
-
-document
-  .getElementById("copyBtn")
-  .onclick = async()=>{
+    const project =
+      getCurrentProject();
 
     if(
-      !liveEl.href ||
-      liveEl.href ===
-      location.href + "#"
+      !project ||
+      !project.liveUrl
     ){
 
       return;
 
     }
 
+
     try{
 
       await navigator.clipboard.writeText(
-        liveEl.href
+        project.liveUrl
       );
 
-      document.getElementById(
-        "copyBtn"
-      ).textContent =
+
+      copyBtn.textContent =
         "Copied ✓";
 
-      setTimeout(()=>{
 
-        document.getElementById(
-          "copyBtn"
-        ).textContent =
-          "Copy";
+      setTimeout(
+        () => {
 
-      },1200);
+          copyBtn.textContent =
+            "Copy";
 
-    }catch{
+        },
+        1200
+      );
 
-      alert("Could not copy URL.");
+
+    }catch(error){
+
+      const temp =
+        document.createElement(
+          "textarea"
+        );
+
+      temp.value =
+        project.liveUrl;
+
+      document.body.appendChild(
+        temp
+      );
+
+      temp.select();
+
+      document.execCommand(
+        "copy"
+      );
+
+      temp.remove();
+
+
+      copyBtn.textContent =
+        "Copied ✓";
+
+
+      setTimeout(
+        () => {
+
+          copyBtn.textContent =
+            "Copy";
+
+        },
+        1200
+      );
 
     }
 
-  };
+  }
+);
 
 
-/* -------------------------
-   LOAD CURRENT PROJECT
-------------------------- */
+detailEditBtn.addEventListener(
+  "click",
+  () => {
 
-function loadCurrentProject(){
+    const project =
+      getCurrentProject();
 
-  if(!currentProjectId){
+    if(!project){
+      return;
+    }
 
-    updateDeployState();
-    return;
+    loadProjectIntoBuilder(
+      project
+    );
+
+    showBuilder();
 
   }
+);
 
-  currentProject =
-    getCurrentProject();
 
-  if(!currentProject){
+detailOpenBtn.addEventListener(
+  "click",
+  () => {
 
-    updateDeployState();
-    return;
+    const project =
+      getCurrentProject();
+
+    if(
+      !project ||
+      !project.liveUrl
+    ){
+
+      return;
+
+    }
+
+
+    window.open(
+      project.liveUrl,
+      "_blank",
+      "noopener,noreferrer"
+    );
 
   }
+);
 
-  siteEl.value =
-    currentProject.name || "";
-
-  codeEl.value =
-    currentProject.code || "";
-
-  if(currentProject.liveUrl){
-
-    liveEl.textContent =
-      currentProject.liveUrl;
-
-    liveEl.href =
-      currentProject.liveUrl;
-
-  }
-
-  setVisibility(
-    currentProject.visibility ||
-    "Private"
-  );
-
-  updateDeployState();
-
-}
-
-
-/* -------------------------
-   ACCESS GATE
-------------------------- */
 
 function checkAccess(){
 
@@ -2321,69 +3220,94 @@ function checkAccess(){
       window.location.search
     );
 
+
   const key =
     params.get("key");
 
-  const alreadyApproved =
+
+  const hasUrlAccess =
+    key === ACCESS_KEY;
+
+
+  const hasStoredAccess =
     localStorage.getItem(
       "webidex_admin"
     ) === "yes";
 
-  const gate =
-    document.getElementById("gate");
 
-  const app =
-    document.getElementById("newUI");
-
-  if(
-    key === ACCESS_KEY ||
-    alreadyApproved
-  ){
+  if(hasUrlAccess){
 
     localStorage.setItem(
       "webidex_admin",
       "yes"
     );
 
-    gate.classList.add("hidden");
-    app.classList.remove("hidden");
 
-    history.replaceState(
+    params.delete("key");
+
+
+    const cleanUrl =
+      window.location.pathname +
+      (
+        params.toString()
+          ? "?" + params.toString()
+          : ""
+      );
+
+
+    window.history.replaceState(
       {},
       document.title,
-      window.location.pathname
+      cleanUrl
     );
 
-    loadCurrentProject();
+  }
+
+
+  const allowed =
+    hasUrlAccess ||
+    hasStoredAccess;
+
+
+  if(allowed){
+
+    gate.style.display =
+      "none";
+
+    newUI.classList.remove(
+      "hidden"
+    );
+
+
+    const project =
+      getCurrentProject();
+
+
+    if(project){
+
+      loadProjectIntoBuilder(
+        project
+      );
+
+    }else{
+
+      resetBuilder();
+
+    }
 
   }else{
 
-    gate.classList.remove("hidden");
-    app.classList.add("hidden");
+    gate.style.display =
+      "flex";
+
+    newUI.classList.add(
+      "hidden"
+    );
 
   }
 
 }
 
-
-/* -------------------------
-   NAVIGATION
-------------------------- */
-
-const projectsNav =
-  document.getElementById("projectsNav");
-
-if(projectsNav){
-
-  projectsNav.onclick =
-    () => showProjects();
-
-}
-
-
-/* -------------------------
-   START
-------------------------- */
 
 checkAccess();
 
@@ -2391,6 +3315,4 @@ checkAccess();
 
 </body>
 </html>
-
-  
-   
+         
