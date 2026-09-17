@@ -116,9 +116,9 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 </div>
 </div>
 <script>
-const SUPABASE_URL = 'https://trvmblhssuxrxoxlyus.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1ibGhzc3V4cnhveGx5dXMiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc1ODAxMjU5NSwiZXhwIjoyMDczNTg4NTk1fQ.psn7mm8NMTNuHQbAPMlw79gldt1Pdh_CejN4zJSeIeg';
-const supa = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const SUPABASE_URL = 'https://trvmbblhssurxxoxlyus.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1iYmxic3N1cnh4b3hseXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMTI1OTUsImV4cCI6MjA3MzU4ODU5NX0.YOUR_KEY_HERE_REPLACE';
+let supa = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 let currentUser = null;
 (function(){let p=new URLSearchParams(location.search);if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname)}let a=localStorage.getItem('webidex_admin')==='yes';document.getElementById('gate').classList.toggle('hidden',a);document.getElementById('newUI').classList.toggle('hidden',!a)})();
 async function initAuth(){
