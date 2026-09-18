@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@vercel/blob": "^2.4.0"
+  }
+}
