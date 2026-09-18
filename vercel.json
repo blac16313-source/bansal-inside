@@ -1,0 +1,24 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "(?<id>[^.]+).webidex.in"
+        }
+      ],
+      "destination": "/api/site?id=$id&file=index.html"
+    },
+    {
+      "source": "/:file*",
+      "has": [
+        {
+          "type": "host",
+          "value": "(?<id>[^.]+).webidex.in"
+        }
+      ],
+      "destination": "/api/site?id=$id&file=:file*"
+    }
+  ]
+}
