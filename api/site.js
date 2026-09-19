@@ -6,7 +6,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 export default async function handler(req, res) {
   try {
     let { id, file } = req.query;
-    if (!id || id === "www") return res.status(404).send("Website not found - No ID");
+    if (!id || id === "www") return res.status(404).send("Website not found");
     id = id.toLowerCase().trim();
     const slug = id;
     const filePath = file ? file : "index.html";
@@ -15,18 +15,17 @@ export default async function handler(req, res) {
     if (!blobs || blobs.length === 0) return res.status(404).send(`Website ${id} not found`);
     let targetBlob = blobs.find(b => b.pathname === `${prefix}${filePath}`);
     if (!targetBlob) targetBlob = blobs.find(b => b.pathname === `${prefix}index.html`);
-    if (!targetBlob) return res.status(404).send(`File ${filePath} not found`);
+    if (!targetBlob) return res.status(404).send(`File not found`);
     const response = await fetch(targetBlob.url);
     let content = await response.text();
 
-    // Count view - safe, never crashes site
-    if (filePath === "index.html") {
+    if (filePath === "index.html" || filePath.endsWith(".html")) {
       try {
         const q = await fetch(`${SUPABASE_URL}/rest/v1/projects?live_url=ilike.*${slug}*&select=id,views`, {
           headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
         });
         const projects = await q.json();
-        if (Array.isArray(projects)) {
+        if (Array.isArray(projects) && projects.length > 0) {
           for (let p of projects) {
             await fetch(`${SUPABASE_URL}/rest/v1/projects?id=eq.${p.id}`, {
               method: "PATCH",
@@ -39,10 +38,9 @@ export default async function handler(req, res) {
     }
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
-    res.setHeader("Cache-Control", "public, max-age=60");
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
     return res.status(200).send(content);
   } catch (e) {
-    console.error(e);
     return res.status(500).send("Error: " + e.message);
   }
 }
