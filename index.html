@@ -40,6 +40,18 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 .project-card{background:white;border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;transition:0.15s}
 .project-card:hover{border-color:#111;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.1)}
 @media(max-width:900px){.main{grid-template-columns:1fr}.code-panel{height:560px}.glass-shell{width:96%;padding:12px;border-radius:20px}}
+.notif-wrap{position:relative}
+.notif-popup{position:absolute;top:48px;right:0;width:300px;background:#FFFBF2;border:1px solid #E9E0C8;border-radius:16px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,0.4);z-index:9999}
+.proj-list{margin-top:18px;background:white;border:1px solid #E9E0C8;border-radius:16px;overflow:hidden}
+.proj-row{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid #F0EAD8;cursor:pointer;transition:.12s;background:white}
+.proj-row:last-child{border-bottom:0}
+.proj-row:hover{background:#FFFEFB}
+.proj-row-name{font-weight:800;font-size:15px}
+.proj-row-date{font-size:12px;color:#888;margin-top:3px}
+.detail-card{background:white;border:1px solid #E9E0C8;border-radius:16px;padding:18px;margin-top:14px}
+.dash-section{margin-top:20px;background:white;border:1px solid #E9E0C8;border-radius:16px;padding:18px}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.dash-item{background:#FFFEFB;border:1px solid #F0EAD8;border-radius:12px;padding:14px}
 </style>
 </head>
 <body>
@@ -58,7 +70,18 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 <div class="glass-shell">
 <header class="topbar">
 <div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">W</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">Webidex</div><button onclick="openProjectsPage()" style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px;cursor:pointer">Your Projects</button></div>
-<div style="display:flex;align-items:center;gap:10px"><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">🔔</button><button style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center">⚙️</button>
+<div style="display:flex;align-items:center;gap:10px">
+<div class="notif-wrap">
+<button id="notifBtn" onclick="toggleNotif(event)" style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center;cursor:pointer">🔔</button>
+<div id="notifPopup" class="hidden notif-popup">
+<div style="font-weight:800;font-size:13px;margin-bottom:10px">Notifications</div>
+<div style="padding:18px 10px;text-align:center;background:white;border:1px solid #F0EAD8;border-radius:10px">
+<div style="font-size:22px">🔕</div>
+<div style="font-size:13px;font-weight:700;margin-top:6px">No notifications</div>
+<div style="font-size:11px;color:#888;margin-top:4px">You're all caught up!</div>
+</div>
+</div>
+</div>
 <div style="position:relative">
   <div id="profileBtn" onclick="toggleProfile(event)" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;cursor:pointer;background-size:cover;background-position:center">JK</div>
   <div id="profilePopup" class="hidden" style="position:absolute;top:52px;right:0;width:280px;background:#FFFBF2;border:1px solid #E9E0C8;border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.9);z-index:9999">
@@ -109,7 +132,27 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
       <div><div style="font-size:22px;font-weight:800">Your Projects</div><div style="font-size:13px;color:#666;margin-top:4px"><span id="projCount">0</span> projects • saved to cloud per Gmail</div></div>
       <div style="display:flex;gap:8px"><button onclick="closeProjectsPage()" style="padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;font-size:13px;cursor:pointer">← Back to Builder</button></div>
     </div>
-    <div id="projectsGrid" class="projects-grid"></div>
+    <div id="projectsListWrap">
+      <div id="projectsList" class="proj-list"></div>
+    </div>
+    <div id="projectDetailView" class="hidden">
+      <button onclick="backToList()" style="margin-top:16px;padding:8px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12px;cursor:pointer">← Back to Projects</button>
+      <div class="detail-card">
+        <div id="detailName" style="font-size:20px;font-weight:800"></div>
+        <div id="detailDate" style="font-size:12px;color:#888;margin-top:6px"></div>
+        <div style="margin-top:14px"><div style="font-size:11px;font-weight:800;letter-spacing:.6px;color:#8B7D60">LIVE URL</div><div style="display:flex;gap:8px;align-items:center;margin-top:6px;background:#FFFEFB;border:1px solid #EDE5D3;border-radius:10px;padding:10px"><a id="detailUrl" href="#" target="_blank" style="flex:1;font-size:13px;color:#2563EB;word-break:break-all"></a><button id="detailCopyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer">Copy</button></div></div>
+        <div style="display:flex;gap:8px;margin-top:14px"><button id="detailOpenBuilderBtn" style="flex:1;padding:12px;border-radius:12px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:13px;cursor:pointer">Open in Builder</button><button id="detailOpenLiveBtn" style="padding:12px 18px;border-radius:12px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer">Open Live ↗</button></div>
+      </div>
+      <div class="dash-section">
+        <div style="font-size:16px;font-weight:800">Dashboard</div>
+        <div class="dash-grid">
+          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">VIEWS</div><div id="dashViews" style="font-size:22px;font-weight:800;margin-top:6px">--</div><div style="font-size:11px;color:#999;margin-top:4px">Will count after deploy</div></div>
+          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">LIVE FOR</div><div id="dashLiveFor" style="font-size:18px;font-weight:800;margin-top:6px">--</div><div id="dashCreated" style="font-size:11px;color:#999;margin-top:4px"></div></div>
+          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">LAST EDITED</div><div id="dashEdited" style="font-size:14px;font-weight:700;margin-top:6px">--</div></div>
+          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">STATUS</div><div style="font-size:14px;font-weight:700;margin-top:6px;color:#059669">● Live</div></div>
+        </div>
+      </div>
+    </div>
     <div id="noProjects" style="padding:60px;text-align:center;color:#888;display:none"></div>
   </div>
 </div>
@@ -144,30 +187,20 @@ function refreshProfile(){
    profileBtn.textContent = '';
    profileBtn.style.backgroundImage = `url('${avatarUrl}')`;
    profileBtn.style.backgroundColor = '#fff';
-   profileBtn.style.backgroundSize = 'cover';
-   profileBtn.style.backgroundPosition = 'center';
    popupAvatar.textContent = '';
    popupAvatar.style.backgroundImage = `url('${avatarUrl}')`;
    popupAvatar.style.backgroundColor = '#fff';
-   popupAvatar.style.backgroundSize = 'cover';
-   popupAvatar.style.backgroundPosition = 'center';
  } else {
    profileBtn.textContent = letter;
-   profileBtn.style.backgroundImage = 'none';
-   profileBtn.style.backgroundColor = '#111';
    popupAvatar.textContent = letter;
-   popupAvatar.style.backgroundImage = 'none';
-   popupAvatar.style.backgroundColor = '#111';
  }
  document.getElementById('popupEmail').textContent = fullName || email || 'Login required';
  document.getElementById('popupGmail').textContent = email || 'Not logged in';
  document.getElementById('authBtn').textContent = email? 'Logout' : 'Sign in with Google';
- document.getElementById('authBtn').style.background = email? '#fff' : '#111';
- document.getElementById('authBtn').style.color = email? '#111' : '#fff';
 }
 async function handleAuth(){
  if(currentUser){
-  if(confirm('Logout?')){ await supa.auth.signOut(); currentUser=null; refreshProfile(); document.getElementById('profilePopup').classList.add('hidden'); document.getElementById('projectsGrid').innerHTML=''; }
+  if(confirm('Logout?')){ await supa.auth.signOut(); currentUser=null; refreshProfile(); document.getElementById('profilePopup').classList.add('hidden'); document.getElementById('projectsList').innerHTML=''; }
  } else {
   await supa.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: location.origin + location.pathname + '?key=webidex_91_x_mast3r_2026' } });
  }
@@ -177,15 +210,24 @@ function toggleProfile(e){
  document.getElementById('profilePopup').classList.toggle('hidden');
  refreshProfile();
 }
+function toggleNotif(e){
+ if(e) e.stopPropagation();
+ document.getElementById('notifPopup').classList.toggle('hidden');
+ document.getElementById('profilePopup').classList.add('hidden');
+}
 document.addEventListener('click', function(e){
  let popup=document.getElementById('profilePopup');
  let btn=document.getElementById('profileBtn');
  if(popup && btn &&!popup.contains(e.target) &&!btn.contains(e.target)){ popup.classList.add('hidden'); }
+ let nPopup=document.getElementById('notifPopup');
+ let nBtn=document.getElementById('notifBtn');
+ if(nPopup && nBtn &&!nPopup.contains(e.target) &&!nBtn.contains(e.target)){ nPopup.classList.add('hidden'); }
 });
 function drawStars(id,count){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');function rs(){c.width=innerWidth;c.height=innerHeight;ctx.clearRect(0,0,c.width,c.height);for(let i=0;i<count;i++){let x=Math.random()*c.width,y=Math.random()*c.height,r=Math.random()*2.2+0.3,a=Math.random()*0.9+0.15,gold=Math.random()>0.25;let col=gold?`rgba(255,${200+Math.random()*55},${Math.random()*80},${a})`:`rgba(255,255,255,${a*0.7})`;ctx.beginPath();ctx.arc(x,y,r,0,6.28);ctx.fillStyle=col;ctx.fill();if(Math.random()>0.90){ctx.beginPath();let s=r*3.5;ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);ctx.strokeStyle=col;ctx.lineWidth=0.6;ctx.stroke()}}}rs();addEventListener('resize',rs)}drawStars('starCanvas',600);drawStars('gateCanvas',280);
 const codeEl=document.getElementById('codeEditor'), gutter=document.getElementById('gutter'), preview=document.getElementById('preview'), siteEl=document.getElementById('siteName'), liveEl=document.getElementById('liveUrl'), savedBadge=document.getElementById('savedBadge'), saveNameBtn=document.getElementById('saveNameBtn'), deployBtn=document.getElementById('deployBtn'), deployHint=document.getElementById('deployHint'), saveBtn=document.getElementById('saveBtn');
 let isNameSaved=false, isCodeSaved=false;
 let currentProjects = [];
+let selectedProject = null;
 function updateGutter(){let l=codeEl.value.split('\n').length;if(l<15)l=15;let h='';for(let i=1;i<=l;i++)h+=i+'<br>';gutter.innerHTML=h}
 function checkDeployReady(){if(isNameSaved && isCodeSaved){deployBtn.disabled=false;deployHint.style.display='none'}else{deployBtn.disabled=true;deployHint.style.display='block'}}
 async function saveToCloud(name,code,liveUrl){
@@ -216,11 +258,9 @@ async function saveCodeFile(){
 }
 function loadLocalCurrent(){
  let s=localStorage.getItem('forge_current_project');
- if(s){try{let d=JSON.parse(s);codeEl.value=d.code||defaultCode();siteEl.value=d.name||'my-website';}catch{codeEl.value=defaultCode()}}
- else{codeEl.value=defaultCode(); siteEl.value='my-website';}
+ if(s){try{let d=JSON.parse(s);codeEl.value=d.code||'';siteEl.value=d.name||'my-website';}catch{codeEl.value=''}}else{codeEl.value='<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Site</title></head><body><h1>Hello, Webidex.</h1><p>Building something great.</p></body></html>'; siteEl.value='my-website';}
  updateGutter(); checkDeployReady();
 }
-function defaultCode(){ return `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Site</title></head><body><h1>Hello, Webidex.</h1><p>Building something great.</p></body></html>`; }
 function showCode(){codeEl.style.display='block';preview.style.display='none';document.getElementById('codeTab').classList.add('active');document.getElementById('previewTab').classList.remove('active')}
 function showPreview(){preview.srcdoc=codeEl.value;preview.style.display='block';codeEl.style.display='none';document.getElementById('previewTab').classList.add('active');document.getElementById('codeTab').classList.remove('active')}
 document.getElementById('codeTab').onclick=showCode;document.getElementById('previewTab').onclick=showPreview;
@@ -232,30 +272,67 @@ codeEl.addEventListener('input',()=>{updateGutter();savedBadge.textContent='● 
 function openProjectsPage(){
  document.getElementById('builderView').classList.add('hidden');
  document.getElementById('projectsPageView').classList.remove('hidden');
+ document.getElementById('projectsListWrap').classList.remove('hidden');
+ document.getElementById('projectDetailView').classList.add('hidden');
  renderProjects();
 }
 function closeProjectsPage(){
  document.getElementById('projectsPageView').classList.add('hidden');
  document.getElementById('builderView').classList.remove('hidden');
 }
+function formatLiveFor(dateStr){
+ if(!dateStr) return '--';
+ let diff = Date.now() - new Date(dateStr).getTime();
+ let days = Math.floor(diff/(1000*60*60*24));
+ if(days===0) return 'Today';
+ if(days===1) return '1 day';
+ return days+' days';
+}
+function backToList(){
+ document.getElementById('projectDetailView').classList.add('hidden');
+ document.getElementById('projectsListWrap').classList.remove('hidden');
+ selectedProject=null;
+}
+function showProjectDetail(id){
+ let p = currentProjects.find(x=>x.id===id);
+ if(!p) return;
+ selectedProject=p;
+ document.getElementById('projectsListWrap').classList.add('hidden');
+ document.getElementById('projectDetailView').classList.remove('hidden');
+ document.getElementById('detailName').textContent = p.name;
+ document.getElementById('detailDate').textContent = 'Created: ' + new Date(p.created_at).toLocaleString();
+ let url = p.live_url||'Not deployed yet';
+ document.getElementById('detailUrl').textContent = url;
+ document.getElementById('detailUrl').href = p.live_url||'#';
+ document.getElementById('dashViews').textContent = '--';
+ document.getElementById('dashLiveFor').textContent = formatLiveFor(p.created_at);
+ document.getElementById('dashCreated').textContent = new Date(p.created_at).toLocaleDateString();
+ document.getElementById('dashEdited').textContent = new Date(p.updated_at||p.created_at).toLocaleString();
+ document.getElementById('detailOpenBuilderBtn').onclick = ()=> openProject(p.id);
+ document.getElementById('detailOpenLiveBtn').onclick = ()=> { if(p.live_url) window.open(p.live_url,'_blank') };
+ document.getElementById('detailCopyBtn').onclick = ()=> { if(p.live_url){ navigator.clipboard.writeText(p.live_url); let b=document.getElementById('detailCopyBtn'); b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',1200); } };
+}
 async function renderProjects(){
- let grid=document.getElementById('projectsGrid');
+ let list=document.getElementById('projectsList');
  let empty=document.getElementById('noProjects');
+ let listWrap=document.getElementById('projectsListWrap');
  if(!currentUser){
-   grid.innerHTML=''; empty.style.display='block'; document.getElementById('projCount').textContent='0'; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">🔒</div><div style="font-weight:700">Login to see your projects</div><div style="font-size:13px;margin-top:6px">Projects are saved per Gmail in cloud, not browser. Close tab, login again, they will be here.</div><button onclick="toggleProfile()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;cursor:pointer">Login with Google</button>`;
+   list.innerHTML=''; empty.style.display='block'; listWrap.style.display='none'; document.getElementById('projCount').textContent='0'; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">🔒</div><div style="font-weight:700">Login to see your projects</div><div style="font-size:13px;margin-top:6px">Projects are saved per Gmail in cloud, not browser. Close tab, login again, they will be here.</div><button onclick="toggleProfile()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;cursor:pointer">Login with Google</button>`;
    return;
  }
- grid.innerHTML='<div style="padding:20px;opacity:.6">Loading your cloud projects...</div>';
+ list.innerHTML='<div style="padding:20px;opacity:.6">Loading your cloud projects...</div>';
+ listWrap.style.display='block';
  let { data, error } = await supa.from('projects').select('*').eq('user_id', currentUser.id).order('updated_at',{ascending:false});
- if(error){ grid.innerHTML=`<div style="color:red">Error: ${error.message}</div>`; return; }
+ if(error){ list.innerHTML=`<div style="color:red">Error: ${error.message}</div>`; return; }
  currentProjects = data || [];
  document.getElementById('projCount').textContent = currentProjects.length;
- if(currentProjects.length===0){ empty.style.display='block'; grid.style.display='none'; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">📁</div><div style="font-weight:700">No projects yet</div><div style="font-size:13px;margin-top:6px">Save a project name + code to see it here forever</div><button onclick="closeProjectsPage()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:white;font-weight:600;cursor:pointer">Create Project</button>`; }
- else { empty.style.display='none'; grid.style.display='grid'; grid.innerHTML='';
+ if(currentProjects.length===0){ empty.style.display='block'; list.innerHTML=''; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">📁</div><div style="font-weight:700">No projects yet</div><div style="font-size:13px;margin-top:6px">Save a project name + code to see it here forever</div><button onclick="closeProjectsPage()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:white;font-weight:600;cursor:pointer">Create Project</button>`; }
+ else { empty.style.display='none'; list.innerHTML='';
    currentProjects.forEach(p=>{
-     let div=document.createElement('div'); div.className='project-card';
-     div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px">${p.name}</div><div style="font-size:10px;background:#FFF3CD;border:1px solid #FFD700;padding:3px 8px;border-radius:999px;font-weight:700">REAL CLOUD</div></div><div style="font-size:11px;color:#888">Updated: ${new Date(p.updated_at||p.created_at).toLocaleString()}</div><div style="background:#FFFEFB;border:1px solid #EDE5D3;border-radius:10px;padding:8px;font-family:JetBrains Mono,monospace;font-size:10px;color:#555;height:60px;overflow:hidden;white-space:pre-wrap">${(p.code||'').substring(0,120).replace(/</g,'&lt;')}...</div><div style="font-size:11px;color:#2563EB;word-break:break-all">${p.live_url?`🔗 ${p.live_url}`:'Not deployed yet'}</div><div style="display:flex;gap:6px;margin-top:4px"><button onclick="openProject('${p.id}')" style="flex:1;padding:9px;border-radius:10px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:12px;cursor:pointer">Open</button><button onclick="deleteProject('${p.id}')" style="padding:9px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12px;cursor:pointer">🗑</button></div>`;
-     grid.appendChild(div);
+     let row=document.createElement('div'); row.className='proj-row';
+     row.onclick = ()=> showProjectDetail(p.id);
+     row.innerHTML=`<div><div class="proj-row-name">${p.name}</div><div class="proj-row-date">${new Date(p.updated_at||p.created_at).toLocaleString()}</div></div><div style="display:flex;align-items:center;gap:10px"><span style="font-size:11px;color:#888">${p.live_url?'Live':''}</span><span style="font-size:16px">›</span></div>`;
+     list.appendChild(row);
    });
  }
 }
@@ -264,11 +341,6 @@ async function openProject(id){
  siteEl.value=p.name; codeEl.value=p.code; liveEl.textContent=p.live_url||'Deploy to get URL'; liveEl.href=p.live_url||'#';
  isNameSaved=true;isCodeSaved=true;saveNameBtn.textContent='Saved ✓';saveNameBtn.classList.add('saved');savedBadge.textContent='✔ Saved';
  updateGutter();checkDeployReady();closeProjectsPage();showCode();
-}
-async function deleteProject(id){
- if(!confirm('Delete this project forever from cloud?')) return;
- let { error } = await supa.from('projects').delete().eq('id', id);
- if(error) alert(error.message); else renderProjects();
 }
 deployBtn.onclick=async()=>{
  if(!currentUser){ alert('Login with Google first!'); toggleProfile(); return; }
