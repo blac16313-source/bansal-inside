@@ -228,6 +228,7 @@ const codeEl=document.getElementById('codeEditor'), gutter=document.getElementBy
 let isNameSaved=false, isCodeSaved=false;
 let currentProjects = [];
 let selectedProject = null;
+let currentProject = null;
 function updateGutter(){let l=codeEl.value.split('\n').length;if(l<15)l=15;let h='';for(let i=1;i<=l;i++)h+=i+'<br>';gutter.innerHTML=h}
 function checkDeployReady(){if(isNameSaved && isCodeSaved){deployBtn.disabled=false;deployHint.style.display='none'}else{deployBtn.disabled=true;deployHint.style.display='block'}}
 async function saveToCloud(name,code,liveUrl){
@@ -292,11 +293,13 @@ function backToList(){
  document.getElementById('projectDetailView').classList.add('hidden');
  document.getElementById('projectsListWrap').classList.remove('hidden');
  selectedProject=null;
+ currentProject=null;
 }
 function showProjectDetail(id){
  let p = currentProjects.find(x=>x.id===id);
  if(!p) return;
  selectedProject=p;
+ currentProject=p;
  document.getElementById('projectsListWrap').classList.add('hidden');
  document.getElementById('projectDetailView').classList.remove('hidden');
  document.getElementById('detailName').textContent = p.name;
@@ -305,15 +308,14 @@ function showProjectDetail(id){
  document.getElementById('detailUrl').textContent = url;
  document.getElementById('detailUrl').href = p.live_url||'#';
  document.getElementById('dashViews').textContent = '--';
-let vb = document.getElementById('visBtn');
-vb.onclick = toggleVis;
-let isPub = p.is_public !== false;
-vb.textContent = isPub ? 'Public' : 'Private';
-vb.style.background = isPub ? '#111' : 'white';
-vb.style.color = isPub ? 'white' : '#111';
-document.getElementById('visHint').textContent = isPub ? 'Anyone can open' : 'Only you'; document.getElementById('dashLiveFor').textContent = formatLiveFor(p.created_at);
+ let vb = document.getElementById('visBtn');
+ let isPub = p.is_public!== false;
+ vb.textContent = isPub? '🌍 Public' : '🔒 Private';
+ vb.style.background = isPub? '#111' : 'white';
+ vb.style.color = isPub? 'white' : '#111';
+ document.getElementById('visHint').textContent = isPub? 'Anyone can open' : 'Only you';
+ document.getElementById('dashLiveFor').textContent = formatLiveFor(p.created_at);
  document.getElementById('dashCreated').textContent = new Date(p.created_at).toLocaleDateString();
- document.getElementById('dashEdited').textContent = new Date(p.updated_at||p.created_at).toLocaleString();
  document.getElementById('detailOpenBuilderBtn').onclick = ()=> openProject(p.id);
  document.getElementById('detailOpenLiveBtn').onclick = ()=> { if(p.live_url) window.open(p.live_url,'_blank') };
  document.getElementById('detailCopyBtn').onclick = ()=> { if(p.live_url){ navigator.clipboard.writeText(p.live_url); let b=document.getElementById('detailCopyBtn'); b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',1200); } };
@@ -367,18 +369,21 @@ document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(li
 loadLocalCurrent();
 initAuth();
 async function toggleVis(){
- if(!currentProject) return;
+ if(!selectedProject){ alert('No project selected'); return; }
  let btn = document.getElementById('visBtn');
- let newVal = currentProject.is_public === false ? true : false;
+ let newVal = selectedProject.is_public === false? true : false;
  btn.textContent = 'Saving...';
- const { error } = await supabase.from('projects').update({ is_public: newVal }).eq('id', currentProject.id);
- if(error){ alert('Error: '+error.message); btn.textContent = currentProject.is_public!==false ? 'Public' : 'Private'; return; }
- currentProject.is_public = newVal;
- let isPub = newVal !== false;
- btn.textContent = isPub ? 'Public' : 'Private';
- btn.style.background = isPub ? '#111' : 'white';
- btn.style.color = isPub ? 'white' : '#111';
- document.getElementById('visHint').textContent = isPub ? 'Anyone can open' : 'Only you';
+ const { error } = await supa.from('projects').update({ is_public: newVal }).eq('id', selectedProject.id);
+ if(error){ alert('Error: '+error.message+'\n\nRun this in Supabase SQL:\nDROP POLICY IF EXISTS "Users can update own projects" ON projects; CREATE POLICY "Users can update own projects" ON projects FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);'); btn.textContent = selectedProject.is_public!==false? '🌍 Public' : '🔒 Private'; return; }
+ selectedProject.is_public = newVal;
+ currentProject = selectedProject;
+ let idx = currentProjects.findIndex(x=>x.id===selectedProject.id);
+ if(idx>=0) currentProjects[idx].is_public = newVal;
+ let isPub = newVal!== false;
+ btn.textContent = isPub? '🌍 Public' : '🔒 Private';
+ btn.style.background = isPub? '#111' : 'white';
+ btn.style.color = isPub? 'white' : '#111';
+ document.getElementById('visHint').textContent = isPub? 'Anyone can open' : 'Only you';
 }
 </script>
 </body>
