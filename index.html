@@ -146,7 +146,7 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
       <div class="dash-section">
         <div style="font-size:16px;font-weight:800">Dashboard</div>
         <div class="dash-grid">
-          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">VIEWS</div><div id="dashViews" style="font-size:22px;font-weight:800;margin-top:6px">--</div><div style="font-size:11px;color:#999;margin-top:4px">Will count after deploy</div></div>
+          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">VIEWS</div><div id="dashViews" style="font-size:22px;font-weight:800;margin-top:6px">0</div><div style="font-size:11px;color:#999;margin-top:4px">Total views</div></div>
           <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">LIVE FOR</div><div id="dashLiveFor" style="font-size:18px;font-weight:800;margin-top:6px">--</div><div id="dashCreated" style="font-size:11px;color:#999;margin-top:4px"></div></div>
           <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">VISIBILITY</div><button id="visBtn" onclick="toggleVis()" style="margin-top:8px;padding:8px 14px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:12px;cursor:pointer">🌍 Public</button><div style="font-size:11px;color:#999;margin-top:4px" id="visHint">Anyone can open</div></div>
           <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">STATUS</div><div style="font-size:14px;font-weight:700;margin-top:6px;color:#059669">● Live</div></div>
@@ -307,7 +307,7 @@ function showProjectDetail(id){
  let url = p.live_url||'Not deployed yet';
  document.getElementById('detailUrl').textContent = url;
  document.getElementById('detailUrl').href = p.live_url||'#';
- document.getElementById('dashViews').textContent = '--';
+ document.getElementById('dashViews').textContent = p.views || 0;
  let vb = document.getElementById('visBtn');
  let isPub = p.is_public!== false;
  vb.textContent = isPub? '🌍 Public' : '🔒 Private';
@@ -374,7 +374,7 @@ async function toggleVis(){
  let newVal = selectedProject.is_public === false? true : false;
  btn.textContent = 'Saving...';
  const { error } = await supa.from('projects').update({ is_public: newVal }).eq('id', selectedProject.id);
- if(error){ alert('Error: '+error.message+'\n\nRun this in Supabase SQL:\nDROP POLICY IF EXISTS "Users can update own projects" ON projects; CREATE POLICY "Users can update own projects" ON projects FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);'); btn.textContent = selectedProject.is_public!==false? '🌍 Public' : '🔒 Private'; return; }
+ if(error){ alert('Error: '+error.message); btn.textContent = selectedProject.is_public!==false? '🌍 Public' : '🔒 Private'; return; }
  selectedProject.is_public = newVal;
  currentProject = selectedProject;
  let idx = currentProjects.findIndex(x=>x.id===selectedProject.id);
