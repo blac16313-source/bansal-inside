@@ -1,4 +1,5 @@
 import { list } from "@vercel/blob";
+import { supabase } from "../lib/supabase.js";
 
 export default async function handler(req, res) {
   try {
@@ -10,8 +11,9 @@ export default async function handler(req, res) {
 
     // clean id
     id = id.toLowerCase().trim();
+    const slug = id; // like test10420
 
-    const filePath = file? file : "index.html";
+    const filePath = file ? file : "index.html";
     const prefix = `websites/${id}/`;
 
     // List files for this site
@@ -35,6 +37,23 @@ export default async function handler(req, res) {
 
     const response = await fetch(targetBlob.url);
     let content = await response.text();
+
+    // --- VIEW COUNTER FIX ---
+    // Only count for main page, not css/js
+    if (filePath === "index.html") {
+      try {
+        // Find project whose live_url contains this slug
+        const { data: projects } = await supabase.from('projects').select('id, views, live_url').ilike('live_url', `%${slug}%`);
+        if (projects && projects.length > 0) {
+          for (let p of projects) {
+            await supabase.from('projects').update({ views: (p.views || 0) + 1 }).eq('id', p.id);
+          }
+        }
+      } catch (e) {
+        console.log("view count error", e.message);
+      }
+    }
+    // --- END FIX ---
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=60");
