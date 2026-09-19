@@ -1,16 +1,16 @@
 {
   "rewrites": [
+    { "source": "/s/:id", "destination": "/api/site?id=:id" },
+    { "source": "/s/:id/:file*", "destination": "/api/site?id=:id&file=:file*" },
     {
       "source": "/",
-      "has": [{ "type": "host", "value": "(?<id>[^.]+).webidex.in" }],
+      "has": [{ "type": "host", "value": "(?<id>(?!www)[^.]+).webidex.in" }],
       "destination": "/api/site?id=$id&file=index.html"
     },
     {
       "source": "/:file*",
-      "has": [{ "type": "host", "value": "(?<id>[^.]+).webidex.in" }],
+      "has": [{ "type": "host", "value": "(?<id>(?!www)[^.]+).webidex.in" }],
       "destination": "/api/site?id=$id&file=:file*"
-    },
-    { "source": "/s/:id", "destination": "/api/site?id=:id" },
-    { "source": "/s/:id/:file*", "destination": "/api/site?id=:id&file=:file*" }
+    }
   ]
 }
