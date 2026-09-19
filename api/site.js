@@ -1,66 +1,48 @@
 import { list } from "@vercel/blob";
-import { supabase } from "../lib/supabase.js";
+
+const SUPABASE_URL = 'https://trvmbblhssurxxoxlyus.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1iYmxoc3N1cnh4b3hseXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMTIyNTgsImV4cCI6MjEwNDg4ODI1OH0.psn7mm8NMTNuHQbAPMlw79gldt1Pdh_CejN4zJSeIeg';
 
 export default async function handler(req, res) {
   try {
     let { id, file } = req.query;
-
-    if (!id || id === "www") {
-      return res.status(404).send("Website not found - No ID");
-    }
-
-    // clean id
+    if (!id || id === "www") return res.status(404).send("Website not found - No ID");
     id = id.toLowerCase().trim();
-    const slug = id; // like test10420
-
+    const slug = id;
     const filePath = file ? file : "index.html";
     const prefix = `websites/${id}/`;
-
-    // List files for this site
     const { blobs } = await list({ prefix });
-
-    if (!blobs || blobs.length === 0) {
-      return res.status(404).send(`Website ${id} not found - no files in blob. Checked ${prefix}`);
-    }
-
-    // Find exact file
+    if (!blobs || blobs.length === 0) return res.status(404).send(`Website ${id} not found`);
     let targetBlob = blobs.find(b => b.pathname === `${prefix}${filePath}`);
-
-    // Fallback to index.html
-    if (!targetBlob) {
-      targetBlob = blobs.find(b => b.pathname === `${prefix}index.html`);
-    }
-
-    if (!targetBlob) {
-      return res.status(404).send(`File ${filePath} not found for ${id}`);
-    }
-
+    if (!targetBlob) targetBlob = blobs.find(b => b.pathname === `${prefix}index.html`);
+    if (!targetBlob) return res.status(404).send(`File ${filePath} not found`);
     const response = await fetch(targetBlob.url);
     let content = await response.text();
 
-    // --- VIEW COUNTER FIX ---
-    // Only count for main page, not css/js
+    // Count view - safe, never crashes site
     if (filePath === "index.html") {
       try {
-        // Find project whose live_url contains this slug
-        const { data: projects } = await supabase.from('projects').select('id, views, live_url').ilike('live_url', `%${slug}%`);
-        if (projects && projects.length > 0) {
+        const q = await fetch(`${SUPABASE_URL}/rest/v1/projects?live_url=ilike.*${slug}*&select=id,views`, {
+          headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
+        });
+        const projects = await q.json();
+        if (Array.isArray(projects)) {
           for (let p of projects) {
-            await supabase.from('projects').update({ views: (p.views || 0) + 1 }).eq('id', p.id);
+            await fetch(`${SUPABASE_URL}/rest/v1/projects?id=eq.${p.id}`, {
+              method: "PATCH",
+              headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json" },
+              body: JSON.stringify({ views: (p.views || 0) + 1 })
+            });
           }
         }
-      } catch (e) {
-        console.log("view count error", e.message);
-      }
+      } catch (e) { console.log("count fail", e.message); }
     }
-    // --- END FIX ---
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=60");
     return res.status(200).send(content);
-
   } catch (e) {
     console.error(e);
-    return res.status(500).send("Error loading site: " + e.message);
+    return res.status(500).send("Error: " + e.message);
   }
 }
