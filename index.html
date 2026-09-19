@@ -148,7 +148,7 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
         <div class="dash-grid">
           <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">VIEWS</div><div id="dashViews" style="font-size:22px;font-weight:800;margin-top:6px">--</div><div style="font-size:11px;color:#999;margin-top:4px">Will count after deploy</div></div>
           <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">LIVE FOR</div><div id="dashLiveFor" style="font-size:18px;font-weight:800;margin-top:6px">--</div><div id="dashCreated" style="font-size:11px;color:#999;margin-top:4px"></div></div>
-          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">LAST EDITED</div><div id="dashEdited" style="font-size:14px;font-weight:700;margin-top:6px">--</div></div>
+          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">VISIBILITY</div><button id="visBtn" onclick="toggleVis()" style="margin-top:8px;padding:8px 14px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:12px;cursor:pointer">🌍 Public</button><div style="font-size:11px;color:#999;margin-top:4px" id="visHint">Anyone can open</div></div>
           <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">STATUS</div><div style="font-size:14px;font-weight:700;margin-top:6px;color:#059669">● Live</div></div>
         </div>
       </div>
@@ -305,7 +305,12 @@ function showProjectDetail(id){
  document.getElementById('detailUrl').textContent = url;
  document.getElementById('detailUrl').href = p.live_url||'#';
  document.getElementById('dashViews').textContent = '--';
- document.getElementById('dashLiveFor').textContent = formatLiveFor(p.created_at);
+let vb = document.getElementById('visBtn');
+let isPub = p.is_public !== false;
+vb.textContent = isPub ? 'Public' : 'Private';
+vb.style.background = isPub ? '#111' : 'white';
+vb.style.color = isPub ? 'white' : '#111';
+document.getElementById('visHint').textContent = isPub ? 'Anyone can open' : 'Only you'; document.getElementById('dashLiveFor').textContent = formatLiveFor(p.created_at);
  document.getElementById('dashCreated').textContent = new Date(p.created_at).toLocaleDateString();
  document.getElementById('dashEdited').textContent = new Date(p.updated_at||p.created_at).toLocaleString();
  document.getElementById('detailOpenBuilderBtn').onclick = ()=> openProject(p.id);
