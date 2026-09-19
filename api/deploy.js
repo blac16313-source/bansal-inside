@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method!== "POST") return res.status(405).json({ error: "Method not allowed" });
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   try {
     const { code, name } = req.body || {};
@@ -16,19 +16,21 @@ export default async function handler(req, res) {
     if (safeName.length < 3) safeName = "site" + safeName;
 
     // SHORT random - only 3 letters/numbers
-    const shortId = Math.random().toString(36).substring(2, 5); // ex: a7b
+    const shortId = Math.random().toString(36).substring(2, 5);
 
-    const id = `${safeName}${shortId}`; // ex: flwish + a7b = flwisha7b -> 9 letters total
+    const id = `${safeName}${shortId}`;
 
-    // --- PRIVATE LOCK INJECTION (added) ---
-    // This script checks Supabase is_public at RUNTIME when site is opened
+    // --- PRIVATE LOCK WITH WEBIDEX AD POPUP ---
     const LOCK_SCRIPT = `
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (async()=>{
   try{
     const SUPA_URL='https://trvmbblhssurxxoxlyus.supabase.co';
     const SUPA_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1iYmxoc3N1cnh4b3hseXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMTIyNTgsImV4cCI6MjEwNDg4ODI1OH0.psn7mm8NMTNuHQbAPMlw79gldt1Pdh_CejN4zJSeIeg';
+    const loader=document.createElement('script');
+    loader.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    document.head.appendChild(loader);
+    await new Promise(r=>loader.onload=r);
     const supa = supabase.createClient(SUPA_URL, SUPA_ANON);
     const projectName = ${JSON.stringify(name || "")};
     if(!projectName) return;
@@ -36,24 +38,41 @@ export default async function handler(req, res) {
     if(data && data.is_public === false){
       const { data: sess } = await supa.auth.getSession();
       if(!sess.session || sess.session.user.id !== data.user_id){
-        document.documentElement.innerHTML = '<div style="display:flex;min-height:100vh;align-items:center;justify-content:center;background:#050507;color:#fff;font-family:Inter,system-ui"><div style="text-align:center;background:#FFFBF2;color:#111;padding:36px 28px;border-radius:20px;max-width:400px;margin:20px"><div style="font-size:44px">🔒</div><div style="font-size:20px;font-weight:800;margin-top:12px">This project is Private</div><div style="color:#666;margin-top:8px;font-size:14px;line-height:1.5">Owner has set this project to private. Please login with owner account on webidex.in to view.</div><a href="https://www.webidex.in" style="display:inline-block;margin-top:18px;background:#111;color:white;padding:10px 18px;border-radius:999px;text-decoration:none;font-weight:700;font-size:13px">Go to Webidex</a></div></div>';
-        document.documentElement.style.display='block';
+        const showLock = () => {
+          if(document.getElementById('webidex-lock')) return;
+          const wrap=document.createElement('div');
+          wrap.id='webidex-lock';
+          wrap.innerHTML = \`
+            <div style="position:fixed;inset:0;z-index:9999999;background:rgba(5,5,7,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:20px;font-family:Inter,system-ui;">
+              <div style="background:#FFFBF2;color:#111;padding:32px 26px;border-radius:24px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+                <div style="width:56px;height:56px;background:#111;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px">🔒</div>
+                <div style="font-size:20px;font-weight:800;letter-spacing:-0.5px">This site is locked</div>
+                <div style="color:#555;margin-top:8px;font-size:14px;line-height:1.5">This website was made private by the owner.<br/>Want to build your own?</div>
+                <div style="font-weight:800;margin-top:6px;font-size:15px">webidex.in ✨</div>
+                <a href="https://www.webidex.in" style="display:block;margin-top:20px;background:#111;color:#fff;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px;">Create your own website →</a>
+                <div style="margin-top:12px;font-size:11px;color:#999">Powered by Webidex</div>
+              </div>
+            </div>
+          \`;
+          document.body.appendChild(wrap);
+          document.documentElement.style.overflow='hidden';
+          document.body.style.overflow='hidden';
+        };
+        if(document.readyState==='loading'){
+          document.addEventListener('DOMContentLoaded', showLock);
+        } else {
+          showLock();
+        }
+        // keep blocking
+        setInterval(()=>{ if(!document.getElementById('webidex-lock')) showLock(); }, 500);
       }
     }
-  }catch(e){ console.log('lock check failed', e); }
+  }catch(e){ console.log('lock err', e); }
 })();
 </script>
 `;
-
-    let finalCode = code;
-    if(finalCode.toLowerCase().includes('<head>')){
-      finalCode = finalCode.replace(/<head>/i, '<head>' + LOCK_SCRIPT);
-    } else if(finalCode.toLowerCase().includes('<html>')){
-      finalCode = finalCode.replace(/<html[^>]*>/i, (m)=> m + LOCK_SCRIPT);
-    } else {
-      finalCode = LOCK_SCRIPT + finalCode;
-    }
-    // --- END LOCK INJECTION ---
+    // inject at VERY TOP so it loads first
+    const finalCode = LOCK_SCRIPT + code;
 
     await put(`websites/${id}/index.html`, finalCode, {
       access: "public",
@@ -63,8 +82,8 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      url: `https://www.webidex.in/s/${id}`, // ex: webidex.in/s/flwisha7b
-      subdomainUrl: `https://${id}.webidex.in`, // ex: flwisha7b.webidex.in
+      url: `https://www.webidex.in/s/${id}`,
+      subdomainUrl: `https://${id}.webidex.in`,
       id,
     });
   } catch (e) {
