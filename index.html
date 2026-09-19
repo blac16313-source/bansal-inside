@@ -365,6 +365,20 @@ deployBtn.onclick=async()=>{
 document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
 loadLocalCurrent();
 initAuth();
+async function toggleVis(){
+ if(!currentProject) return;
+ let btn = document.getElementById('visBtn');
+ let newVal = currentProject.is_public === false ? true : false;
+ btn.textContent = 'Saving...';
+ const { error } = await supabase.from('projects').update({ is_public: newVal }).eq('id', currentProject.id);
+ if(error){ alert('Error: '+error.message); btn.textContent = currentProject.is_public!==false ? 'Public' : 'Private'; return; }
+ currentProject.is_public = newVal;
+ let isPub = newVal !== false;
+ btn.textContent = isPub ? 'Public' : 'Private';
+ btn.style.background = isPub ? '#111' : 'white';
+ btn.style.color = isPub ? 'white' : '#111';
+ document.getElementById('visHint').textContent = isPub ? 'Anyone can open' : 'Only you';
+}
 </script>
 </body>
 </html>
