@@ -306,6 +306,7 @@ function showProjectDetail(id){
  document.getElementById('detailUrl').href = p.live_url||'#';
  document.getElementById('dashViews').textContent = '--';
 let vb = document.getElementById('visBtn');
+vb.onclick = toggleVis;
 let isPub = p.is_public !== false;
 vb.textContent = isPub ? 'Public' : 'Private';
 vb.style.background = isPub ? '#111' : 'white';
