@@ -3,31 +3,45 @@ import { list } from "@vercel/blob";
 export default async function handler(req, res) {
   try {
     let { id, file } = req.query;
-    if (!id) {
-      const host = req.headers.host || "";
-      const parts = host.split('.');
-      if (parts.length >= 3 && parts[0]!== 'www') id = parts[0];
-    }
-    if (!id) return res.status(400).send("Missing site ID");
-    if (!file || file === "/" || file === "") file = "index.html";
 
+    if (!id || id === "www") {
+      return res.status(404).send("Website not found - No ID");
+    }
+
+    // clean id
+    id = id.toLowerCase().trim();
+
+    const filePath = file? file : "index.html";
     const prefix = `websites/${id}/`;
+
+    // List files for this site
     const { blobs } = await list({ prefix });
 
-    let target = blobs.find(b => b.pathname === `websites/${id}/${file}`);
-    if (!target) target = blobs.find(b => b.pathname.endsWith("/index.html"));
+    if (!blobs || blobs.length === 0) {
+      return res.status(404).send(`Website ${id} not found - no files in blob. Checked ${prefix}`);
+    }
 
-    if (!target) return res.status(404).send(`Website ${id} not found`);
+    // Find exact file
+    let targetBlob = blobs.find(b => b.pathname === `${prefix}${filePath}`);
 
-    const html = await fetch(target.url).then(r => r.text());
+    // Fallback to index.html
+    if (!targetBlob) {
+      targetBlob = blobs.find(b => b.pathname === `${prefix}index.html`);
+    }
 
-    if (file.endsWith(".css")) res.setHeader("Content-Type", "text/css");
-    else if (file.endsWith(".js")) res.setHeader("Content-Type", "application/javascript");
-    else res.setHeader("Content-Type", "text/html; charset=utf-8");
+    if (!targetBlob) {
+      return res.status(404).send(`File ${filePath} not found for ${id}`);
+    }
 
-    return res.status(200).send(html);
+    const response = await fetch(targetBlob.url);
+    let content = await response.text();
+
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=60");
+    return res.status(200).send(content);
+
   } catch (e) {
     console.error(e);
-    return res.status(500).send("Failed: " + e.message);
+    return res.status(500).send("Error loading site: " + e.message);
   }
 }
