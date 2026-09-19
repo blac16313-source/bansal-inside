@@ -11,16 +11,13 @@ export default async function handler(req, res) {
     const { code, name } = req.body || {};
     if (!code) return res.status(400).json({ error: "Website code is required" });
 
-    // CLEAN SHORT NAME - max 6 letters
     let safeName = (name || "site").replace(/[^a-zA-Z0-9]/g, "").toLowerCase().slice(0, 6);
     if (safeName.length < 3) safeName = "site" + safeName;
 
-    // SHORT random - only 3 letters/numbers
     const shortId = Math.random().toString(36).substring(2, 5);
-
     const id = `${safeName}${shortId}`;
 
-    // --- PRIVATE LOCK WITH WEBIDEX AD POPUP ---
+    // --- 1. PRIVATE LOCK WITH WEBIDEX AD POPUP ---
     const LOCK_SCRIPT = `
 <script>
 (async()=>{
@@ -34,6 +31,9 @@ export default async function handler(req, res) {
     const supa = supabase.createClient(SUPA_URL, SUPA_ANON);
     const projectName = ${JSON.stringify(name || "")};
     if(!projectName) return;
+    window.__WEBIDEX_SUPA__ = supa;
+    window.__WEBIDEX_PROJECT__ = projectName;
+    window.__WEBIDEX_DEPLOYMENT__ = ${JSON.stringify(id)};
     const { data } = await supa.from('projects').select('is_public,user_id').eq('name', projectName).order('updated_at',{ascending:false}).limit(1).maybeSingle();
     if(data && data.is_public === false){
       const { data: sess } = await supa.auth.getSession();
@@ -60,19 +60,49 @@ export default async function handler(req, res) {
         };
         if(document.readyState==='loading'){
           document.addEventListener('DOMContentLoaded', showLock);
-        } else {
-          showLock();
-        }
-        // keep blocking
+        } else { showLock(); }
         setInterval(()=>{ if(!document.getElementById('webidex-lock')) showLock(); }, 500);
+        window.__WEBIDEX_IS_PRIVATE_LOCKED__ = true;
+        return;
       }
     }
   }catch(e){ console.log('lock err', e); }
 })();
 </script>
 `;
-    // inject at VERY TOP so it loads first
-    const finalCode = LOCK_SCRIPT + code;
+
+    // --- 2. ANALYTICS TRACKING SCRIPT ---
+    const TRACK_SCRIPT = `
+<script>
+(async()=>{
+  try{
+    // wait for supa from lock script
+    let tries=0;
+    while(!window.__WEBIDEX_SUPA__ && tries<50){ await new Promise(r=>setTimeout(r,100)); tries++; }
+    const supa = window.__WEBIDEX_SUPA__;
+    if(!supa) return;
+    if(window.__WEBIDEX_IS_PRIVATE_LOCKED__) return; // don't count views if locked
+    
+    const projectName = window.__WEBIDEX_PROJECT__ || ${JSON.stringify(name || "")};
+    const deploymentId = window.__WEBIDEX_DEPLOYMENT__ || ${JSON.stringify(id)};
+    
+    // avoid counting owner views (optional)
+    // const { data: sess } = await supa.auth.getSession();
+    // if(sess.session) return; // uncomment if you don't want to count owner
+
+    await supa.from('project_analytics').insert({
+      project_name: projectName,
+      deployment_id: deploymentId,
+      referrer: document.referrer || 'direct',
+      user_agent: navigator.userAgent.slice(0,200),
+      ip_hash: btoa(navigator.userAgent + Math.random()).slice(0,16)
+    });
+  }catch(e){ console.log('track err', e); }
+})();
+</script>
+`;
+
+    const finalCode = LOCK_SCRIPT + TRACK_SCRIPT + code;
 
     await put(`websites/${id}/index.html`, finalCode, {
       access: "public",
