@@ -9,9 +9,7 @@
 body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:hidden}
 #starCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
 .silk{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 800px 600px at 15% 20%,rgba(255,215,0,0.10),transparent 60%),radial-gradient(ellipse 600px 800px at 85% 30%,rgba(255,215,0,0.08),transparent 60%),radial-gradient(ellipse 1000px 500px at 50% 85%,rgba(212,175,55,0.07),transparent 70%)}
-.glass-shell{position:relative;z-index:2;width:min(1280px,96%);margin:20px auto 70px;background: linear-gradient(180deg, rgba(255,251,242,0.22) 0%, rgba(255,251,242,0.08) 100%);backdrop-filter: blur(32px) saturate(180%);-webkit-backdrop-filter: blur(32px) saturate(180%);border: 1px solid rgba(255,255,255,0.35);border-top: 1px solid rgba(255,255,255,0.75);border-radius:28px;padding:22px;box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.1), inset 0 0 30px rgba(255,255,255,0.12), 0 30px 90px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.15);}
-.glass-shell::before{content:"";position:absolute;top:0;left:1%;right:1%;height:55%;background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.12) 18%, rgba(255,255,255,0.02) 45%, transparent 70%);border-radius:28px 28px 100% 100% / 28px 28px 60% 60%;pointer-events:none}
-.glass-shell::after{content:"";position:absolute;top:0;left:10%;right:10%;height:1.5px;background: linear-gradient(90deg, transparent, rgba(255,255,255,1) 20%, rgba(255,255,255,0.9) 80%, transparent);pointer-events:none;filter: blur(0.2px)}
+.glass-shell{position:relative;z-index:2;width:min(1280px,96%);margin:20px auto 20px;background: linear-gradient(180deg, rgba(255,251,242,0.22) 0%, rgba(255,251,242,0.08) 100%);backdrop-filter: blur(32px) saturate(180%);-webkit-backdrop-filter: blur(32px) saturate(180%);border: 1px solid rgba(255,255,255,0.35);border-top: 1px solid rgba(255,255,255,0.75);border-radius:28px;padding:22px;box-shadow: inset 0 1px 1px rgba(255,255,255,0.9), inset 0 -1px 1px rgba(0,0,0,0.1), inset 0 0 30px rgba(255,255,255,0.12), 0 30px 90px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.15);}
 .waitlist-gate{position:fixed;inset:0;z-index:9999;background:#050507;display:flex;align-items:center;justify-content:center;padding:20px}
 .gate-card{position:relative;z-index:1;width:min(440px,92%);background:var(--cream);border:1px solid var(--border);border-radius:24px;padding:36px 28px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.8)}
 .topbar{width:100%;height:70px;background:var(--cream);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;box-shadow:0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.8)}
@@ -19,39 +17,37 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 .left-col{display:flex;flex-direction:column;gap:0}
 .code-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9);display:flex;flex-direction:column;height:640px}
 .deploy-panel{background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9);position:relative;overflow:hidden}
-.deploy-panel::before{content:"";position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 70%);pointer-events:none}
 .deploy-btn{position:relative;width:100%;background:#0F0F0F;color:white;border:0;border-radius:999px;padding:18px;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);transition:0.2s}
-.deploy-btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(0,0,0,0.5)}
-.deploy-btn:disabled{opacity:0.35;pointer-events:none}
-.deploy-btn::after{content:"✦";position:absolute;top:12px;right:24px;color:var(--gold);font-size:14px;animation:twinkle 2s infinite}
-.deploy-btn::before{content:"✦";position:absolute;bottom:14px;left:20px;color:var(--gold);font-size:10px;animation:twinkle 2.5s infinite reverse}
-@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
+.deploy-btn:hover{transform:translateY(-1px)}
+.deploy-btn:disabled{opacity:0.35;pointer-events:none;filter:grayscale(1)}
+.security-box{background:#FFF8EB;border:1.5px solid #E5DDC8;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.security-box label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;cursor:pointer;line-height:1.3}
+.security-box input{width:16px;height:16px;accent-color:#111}
+.footer-bar{width:min(1280px,96%);margin:0 auto 70px;background:rgba(255,251,242,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:14px 18px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;color:rgba(255,255,255,0.6);font-size:11px}
+.footer-bar button{background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);padding:6px 12px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer}
+.modal-bg{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:16px}
+.modal-card{width:min(640px,95%);max-height:85vh;overflow:auto;background:#FFFBF2;border:1px solid #E9E0C8;border-radius:20px;padding:22px;box-shadow:0 30px 90px rgba(0,0,0,0.6)}
 .hidden{display:none!important}
-.tab{padding:8px 16px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer;transition:0.15s}
-.tab.active{background:#111;color:white;border-color:#111;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.project-name-wrap{background:var(--cream);border:1px solid var(--border);border-radius:18px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.9)}
+.tab{padding:8px 16px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer}
+.tab.active{background:#111;color:white;border-color:#111}
+.project-name-wrap{background:var(--cream);border:1px solid var(--border);border-radius:18px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
 .project-name-wrap label{font-size:11px;font-weight:800;letter-spacing:0.8px;white-space:nowrap}
 .project-name-wrap input{flex:1;border:1.5px solid #E5DDC8;border-radius:10px;padding:10px 12px;font-weight:600;outline:none;background:white}
-.project-name-wrap input:focus{border-color:#111}
-.mini-save{padding:10px 16px;border-radius:10px;border:1px solid #111;background:#111;color:white;font-weight:800;font-size:12px;cursor:pointer;white-space:nowrap;transition:0.15s}
+.mini-save{padding:10px 16px;border-radius:10px;border:1px solid #111;background:#111;color:white;font-weight:800;font-size:12px;cursor:pointer}
 .mini-save.saved{background:white;color:#111}
-.projects-page{width:100%;min-height:500px;background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 16px 50px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.9)}
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:18px}
-.project-card{background:white;border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;transition:0.15s}
-.project-card:hover{border-color:#111;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.1)}
-@media(max-width:900px){.main{grid-template-columns:1fr}.code-panel{height:560px}.glass-shell{width:96%;padding:12px;border-radius:20px}}
-.notif-wrap{position:relative}
-.notif-popup{position:absolute;top:48px;right:0;width:300px;background:#FFFBF2;border:1px solid #E9E0C8;border-radius:16px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,0.4);z-index:9999}
+.projects-page{width:100%;min-height:500px;background:var(--cream);border:1px solid var(--border);border-radius:20px;padding:22px}
 .proj-list{margin-top:18px;background:white;border:1px solid #E9E0C8;border-radius:16px;overflow:hidden}
-.proj-row{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid #F0EAD8;cursor:pointer;transition:.12s;background:white}
+.proj-row{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid #F0EAD8;cursor:pointer;background:white}
 .proj-row:last-child{border-bottom:0}
-.proj-row:hover{background:#FFFEFB}
 .proj-row-name{font-weight:800;font-size:15px}
 .proj-row-date{font-size:12px;color:#888;margin-top:3px}
 .detail-card{background:white;border:1px solid #E9E0C8;border-radius:16px;padding:18px;margin-top:14px}
 .dash-section{margin-top:20px;background:white;border:1px solid #E9E0C8;border-radius:16px;padding:18px}
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
 .dash-item{background:#FFFEFB;border:1px solid #F0EAD8;border-radius:12px;padding:14px}
+@media(max-width:900px){.main{grid-template-columns:1fr}.code-panel{height:560px}.glass-shell{width:96%;padding:12px;border-radius:20px}}
+.notif-wrap{position:relative}
+.notif-popup{position:absolute;top:48px;right:0;width:300px;background:#FFFBF2;border:1px solid #E9E0C8;border-radius:16px;padding:14px;box-shadow:0 20px 60px rgba(0,0,0,0.4);z-index:9999}
 </style>
 </head>
 <body>
@@ -60,208 +56,149 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 <canvas id="gateCanvas" style="position:absolute;inset:0"></canvas>
 <div class="gate-card">
 <div style="width:56px;height:56px;background:#111;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:28px;margin:0 auto 18px">W</div>
-<div style="display:inline-block;background:#FFF3CD;border:1px solid #FFD700;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.5px">✨ LUXURY BUILDER</div>
-<h1 style="font-size:28px;font-weight:800;margin:14px 0 10px;line-height:1.2">Webidex is coming soon</h1>
-<p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:24px">First 30 users can get <b>free access forever</b></p>
+<div style="display:inline-block;background:#FFF3CD;border:1px solid #FFD700;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:800">✨ LUXURY BUILDER</div>
+<h1 style="font-size:28px;font-weight:800;margin:14px 0 10px">Webidex is coming soon</h1>
+<p style="font-size:14px;color:#666;margin-bottom:24px">First 30 users can get <b>free access forever</b></p>
 <a href="https://forms.gle/TVdL6k5CvrteFB4B8" target="_blank" style="display:block;width:100%;background:#111;color:white;padding:14px;border-radius:999px;text-decoration:none;font-weight:800">Join Waiting List →</a>
 </div>
 </div>
 <div id="newUI" class="hidden" style="width:100%;display:flex;justify-content:center">
 <div class="glass-shell">
 <header class="topbar">
-<div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,0.3)">W</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">Webidex</div><button onclick="openProjectsPage()" style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px;cursor:pointer">Your Projects</button></div>
+<div style="display:flex;align-items:center;gap:14px"><div style="width:42px;height:42px;background:#111;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#D4AF37;font-weight:900;font-size:22px">W</div><div style="font-size:26px;font-weight:800;letter-spacing:-0.5px">Webidex</div><button onclick="openProjectsPage()" style="padding:9px 18px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:14px;cursor:pointer">Your Projects</button></div>
 <div style="display:flex;align-items:center;gap:10px">
 <div class="notif-wrap">
 <button id="notifBtn" onclick="toggleNotif(event)" style="width:40px;height:40px;border-radius:50%;border:1px solid #E5DDC8;background:white;display:flex;align-items:center;justify-content:center;cursor:pointer">🔔</button>
-<div id="notifPopup" class="hidden notif-popup">
-<div style="font-weight:800;font-size:13px;margin-bottom:10px">Notifications</div>
-<div style="padding:18px 10px;text-align:center;background:white;border:1px solid #F0EAD8;border-radius:10px">
-<div style="font-size:22px">🔕</div>
-<div style="font-size:13px;font-weight:700;margin-top:6px">No notifications</div>
-<div style="font-size:11px;color:#888;margin-top:4px">You're all caught up!</div>
-</div>
-</div>
+<div id="notifPopup" class="hidden notif-popup"><div style="font-weight:800;font-size:13px;margin-bottom:10px">Notifications</div><div style="padding:18px 10px;text-align:center;background:white;border:1px solid #F0EAD8;border-radius:10px"><div style="font-size:22px">🔕</div><div style="font-size:13px;font-weight:700;margin-top:6px">No notifications</div></div></div>
 </div>
 <div style="position:relative">
-  <div id="profileBtn" onclick="toggleProfile(event)" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;cursor:pointer;background-size:cover;background-position:center">JK</div>
-  <div id="profilePopup" class="hidden" style="position:absolute;top:52px;right:0;width:280px;background:#FFFBF2;border:1px solid #E9E0C8;border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.9);z-index:9999">
-    <div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid #EDE5D3">
-      <div id="popupAvatar" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;background-size:cover;background-position:center">JK</div>
-      <div style="flex:1;overflow:hidden">
-        <div id="popupEmail" style="font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Login required</div>
-        <div style="font-size:11px;color:#888">Free Forever</div>
-      </div>
-    </div>
-    <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;gap:8px;padding:10px;background:white;border:1px solid #EDE5D3;border-radius:10px">
-        <span>📧</span><span id="popupGmail" style="font-size:12px;font-weight:600">Not logged in</span>
-      </div>
-      <button id="authBtn" onclick="handleAuth()" style="width:100%;padding:11px;border-radius:10px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:13px;cursor:pointer">Sign in with Google</button>
-    </div>
-  </div>
+<div id="profileBtn" onclick="toggleProfile(event)" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;cursor:pointer;background-size:cover">JK</div>
+<div id="profilePopup" class="hidden" style="position:absolute;top:52px;right:0;width:280px;background:#FFFBF2;border:1px solid #E9E0C8;border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,0.4);z-index:9999">
+<div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid #EDE5D3"><div id="popupAvatar" style="width:40px;height:40px;border-radius:50%;background:#111;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;background-size:cover">JK</div><div style="flex:1;overflow:hidden"><div id="popupEmail" style="font-size:13px;font-weight:700">Login required</div><div style="font-size:11px;color:#888">Free Forever</div></div></div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:8px;padding:10px;background:white;border:1px solid #EDE5D3;border-radius:10px"><span>📧</span><span id="popupGmail" style="font-size:12px;font-weight:600">Not logged in</span></div><button id="authBtn" onclick="handleAuth()" style="width:100%;padding:11px;border-radius:10px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:13px;cursor:pointer">Sign in with Google</button></div>
+</div>
 </div>
 <button onclick="localStorage.removeItem('webidex_admin');location.href=location.pathname" style="padding:9px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-size:12px">Exit</button></div>
 </header>
 <div id="builderView">
 <main class="main">
 <div class="left-col">
-  <div class="project-name-wrap">
-    <label>PROJECT NAME:</label>
-    <input id="siteName" placeholder="my-website" />
-    <button id="saveNameBtn" class="mini-save" onclick="saveProjectName()">Save</button>
-  </div>
-  <div class="code-panel">
-    <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #EDE5D3;background:linear-gradient(to bottom, #FFFDf7, #FFF8EB)"><div style="display:flex;align-items:center;gap:10px"><span style="font-weight:700;font-size:15px">index.html</span><span style="background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700">HTML</span><span id="savedBadge" style="display:flex;align-items:center;gap:5px;color:#059669;font-size:13px;font-weight:600">✔ Saved</span></div></div>
-    <div style="padding:12px 16px;display:flex;gap:8px;background:#FFF8EB;border-bottom:1px solid #EDE5D3"><button class="tab active" id="codeTab">Code</button><button class="tab" id="previewTab">Preview</button></div>
-    <div style="flex:1;position:relative;background:#FFFEFB;display:flex;overflow:hidden"><div id="gutter" style="width:48px;background:#FFF8EB;border-right:1px solid #EDE5D3;padding:12px 0;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#999;line-height:20px;user-select:none">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div><div style="flex:1;position:relative"><textarea id="codeEditor" spellcheck="false" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:20px;resize:none;outline:none;color:#1a1a1a;white-space:pre"></textarea><iframe id="preview" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:white;display:none" sandbox="allow-scripts allow-forms allow-same-origin"></iframe></div></div>
-    <div style="padding:12px 16px;background:#F5EEE0;border-top:1px solid #EDE5D3;display:flex;flex-direction:column;gap:10px"><div style="font-size:11px;font-weight:700;letter-spacing:0.5px;color:#8B7D60;background:#EDE5D3;padding:3px 8px;border-radius:999px;width:fit-content">CODE ACTIONS:</div><div style="display:flex;gap:8px"><button id="saveBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">💾 Save</button><button id="downloadBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">⬇ Download</button><button id="clearBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">🗑 Clear</button></div></div>
-  </div>
+<div class="project-name-wrap">
+<label>PROJECT NAME:</label>
+<input id="siteName" placeholder="my-website" />
+<button id="saveNameBtn" class="mini-save" onclick="saveProjectName()">Save</button>
+</div>
+<div class="code-panel">
+<div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #EDE5D3;background:linear-gradient(to bottom, #FFFDf7, #FFF8EB)"><div style="display:flex;align-items:center;gap:10px"><span style="font-weight:700;font-size:15px">index.html</span><span style="background:#10B981;color:white;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700">HTML</span><span id="savedBadge" style="display:flex;align-items:center;gap:5px;color:#059669;font-size:13px;font-weight:600">✔ Saved</span></div></div>
+<div style="padding:12px 16px;display:flex;gap:8px;background:#FFF8EB;border-bottom:1px solid #EDE5D3"><button class="tab active" id="codeTab">Code</button><button class="tab" id="previewTab">Preview</button></div>
+<div style="flex:1;position:relative;background:#FFFEFB;display:flex;overflow:hidden"><div id="gutter" style="width:48px;background:#FFF8EB;border-right:1px solid #EDE5D3;padding:12px 0;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:#999;line-height:20px">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div><div style="flex:1;position:relative"><textarea id="codeEditor" spellcheck="false" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:20px;resize:none;outline:none;color:#1a1a1a;white-space:pre"></textarea><iframe id="preview" style="position:absolute;inset:0;width:100%;height:100%;border:0;background:white;display:none" sandbox="allow-scripts allow-forms allow-same-origin"></iframe></div></div>
+<div style="padding:12px 16px;background:#F5EEE0;border-top:1px solid #EDE5D3;display:flex;flex-direction:column;gap:10px"><div style="font-size:11px;font-weight:700;letter-spacing:0.5px;color:#8B7D60;background:#EDE5D3;padding:3px 8px;border-radius:999px;width:fit-content">CODE ACTIONS:</div><div style="display:flex;gap:8px"><button id="saveBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">💾 Save</button><button id="downloadBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">⬇ Download</button><button id="clearBtn" style="padding:8px 14px;border-radius:10px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12.5px;cursor:pointer">🗑 Clear</button></div></div>
+</div>
 </div>
 <div class="deploy-panel">
 <button class="deploy-btn" id="deployBtn">Deploy</button>
+<div id="deployHint" style="text-align:center;font-size:11px;color:#D97706;font-weight:700;display:none">⚠️ Save Project Name & Code + Accept Terms/Privacy first</div>
+
+<!-- NEW SECURITY GATE -->
+<div class="security-box">
+<label><input type="checkbox" id="termsTick" onchange="checkDeployReady()"> I have read and agree to <span style="text-decoration:underline;cursor:pointer" onclick="openTerms()">Terms & Conditions</span></label>
+<label><input type="checkbox" id="privacyTick" onchange="checkDeployReady()"> I have read and agree to <span style="text-decoration:underline;cursor:pointer" onclick="openPrivacy()">Privacy Policy</span></label>
+<label><input type="checkbox" id="saveTick" disabled style="opacity:0.5"> Code Saved (auto)</label>
+</div>
+
 <div style="text-align:center;font-size:13.5px;line-height:1.4;color:#444">Ready to make your site live?<br><b>Go live on the internet in 1.2s</b></div>
-<div id="deployHint" style="text-align:center;font-size:11px;color:#D97706;font-weight:700;display:none">⚠️ Save Project Name & Code first</div>
-<div style="margin-top:4px"><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL</div><div style="display:flex;align-items:center;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">📋 Copy URL</button></div></div>
+<div style="margin-top:4px"><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL</div><div style="display:flex;align-items:center;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer">📋 Copy</button></div></div>
 <button onclick="openProjectsPage()" style="margin-top:6px;width:100%;padding:14px;border-radius:999px;border:1px solid #111;background:transparent;font-weight:600;font-size:14px;cursor:pointer">Go to Your Projects</button>
 </div>
 </main>
 </div>
 <div id="projectsPageView" class="hidden" style="width:100%;margin-top:18px">
-  <div class="projects-page">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div><div style="font-size:22px;font-weight:800">Your Projects</div><div style="font-size:13px;color:#666;margin-top:4px"><span id="projCount">0</span> projects • saved to cloud per Gmail</div></div>
-      <div style="display:flex;gap:8px"><button onclick="closeProjectsPage()" style="padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;font-size:13px;cursor:pointer">← Back to Builder</button></div>
-    </div>
-    <div id="projectsListWrap">
-      <div id="projectsList" class="proj-list"></div>
-    </div>
-    <div id="projectDetailView" class="hidden">
-      <button onclick="backToList()" style="margin-top:16px;padding:8px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12px;cursor:pointer">← Back to Projects</button>
-      <div class="detail-card">
-        <div id="detailName" style="font-size:20px;font-weight:800"></div>
-        <div id="detailDate" style="font-size:12px;color:#888;margin-top:6px"></div>
-        <div style="margin-top:14px"><div style="font-size:11px;font-weight:800;letter-spacing:.6px;color:#8B7D60">LIVE URL</div><div style="display:flex;gap:8px;align-items:center;margin-top:6px;background:#FFFEFB;border:1px solid #EDE5D3;border-radius:10px;padding:10px"><a id="detailUrl" href="#" target="_blank" style="flex:1;font-size:13px;color:#2563EB;word-break:break-all"></a><button id="detailCopyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer">Copy</button></div></div>
-        <div style="display:flex;gap:8px;margin-top:14px"><button id="detailOpenBuilderBtn" style="flex:1;padding:12px;border-radius:12px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:13px;cursor:pointer">Open in Builder</button><button id="detailOpenLiveBtn" style="padding:12px 18px;border-radius:12px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer">Open Live ↗</button></div>
-      </div>
-      <div class="dash-section">
-        <div style="font-size:16px;font-weight:800">Dashboard</div>
-        <div class="dash-grid">
-          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">VIEWS</div><div id="dashViews" style="font-size:22px;font-weight:800;margin-top:6px">0</div><div style="font-size:11px;color:#999;margin-top:4px">Total views</div></div>
-          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">LIVE FOR</div><div id="dashLiveFor" style="font-size:18px;font-weight:800;margin-top:6px">--</div><div id="dashCreated" style="font-size:11px;color:#999;margin-top:4px"></div></div>
-          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">VISIBILITY</div><button id="visBtn" onclick="toggleVis()" style="margin-top:8px;padding:8px 14px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:12px;cursor:pointer">🌍 Public</button><div style="font-size:11px;color:#999;margin-top:4px" id="visHint">Anyone can open</div></div>
-          <div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60;letter-spacing:.5px">STATUS</div><div style="font-size:14px;font-weight:700;margin-top:6px;color:#059669">● Live</div></div>
-        </div>
-      </div>
-    </div>
-    <div id="noProjects" style="padding:60px;text-align:center;color:#888;display:none"></div>
-  </div>
+<div class="projects-page">
+<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:22px;font-weight:800">Your Projects</div><div style="font-size:13px;color:#666;margin-top:4px"><span id="projCount">0</span> projects • saved to cloud per Gmail</div></div><div style="display:flex;gap:8px"><button onclick="closeProjectsPage()" style="padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;font-size:13px;cursor:pointer">← Back to Builder</button></div></div>
+<div id="projectsListWrap"><div id="projectsList" class="proj-list"></div></div>
+<div id="projectDetailView" class="hidden">
+<button onclick="backToList()" style="margin-top:16px;padding:8px 14px;border-radius:999px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:12px;cursor:pointer">← Back to Projects</button>
+<div class="detail-card"><div id="detailName" style="font-size:20px;font-weight:800"></div><div id="detailDate" style="font-size:12px;color:#888;margin-top:6px"></div><div style="margin-top:14px"><div style="font-size:11px;font-weight:800;letter-spacing:.6px;color:#8B7D60">LIVE URL</div><div style="display:flex;gap:8px;align-items:center;margin-top:6px;background:#FFFEFB;border:1px solid #EDE5D3;border-radius:10px;padding:10px"><a id="detailUrl" href="#" target="_blank" style="flex:1;font-size:13px;color:#2563EB;word-break:break-all"></a><button id="detailCopyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer">Copy</button></div></div><div style="display:flex;gap:8px;margin-top:14px"><button id="detailOpenBuilderBtn" style="flex:1;padding:12px;border-radius:12px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:13px;cursor:pointer">Open in Builder</button><button id="detailOpenLiveBtn" style="padding:12px 18px;border-radius:12px;border:1px solid #E5DDC8;background:white;font-weight:600;font-size:13px;cursor:pointer">Open Live ↗</button></div></div>
+<div class="dash-section"><div style="font-size:16px;font-weight:800">Dashboard</div><div class="dash-grid"><div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60">VIEWS</div><div id="dashViews" style="font-size:22px;font-weight:800;margin-top:6px">0</div></div><div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60">LIVE FOR</div><div id="dashLiveFor" style="font-size:18px;font-weight:800;margin-top:6px">--</div><div id="dashCreated" style="font-size:11px;color:#999;margin-top:4px"></div></div><div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60">VISIBILITY</div><button id="visBtn" onclick="toggleVis()" style="margin-top:8px;padding:8px 14px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:700;font-size:12px;cursor:pointer">🌍 Public</button><div style="font-size:11px;color:#999;margin-top:4px" id="visHint">Anyone can open</div></div><div class="dash-item"><div style="font-size:11px;font-weight:700;color:#8B7D60">STATUS</div><div style="font-size:14px;font-weight:700;margin-top:6px;color:#059669">● Live</div></div></div></div>
+</div>
+<div id="noProjects" style="padding:60px;text-align:center;color:#888;display:none"></div>
 </div>
 </div>
 </div>
+</div>
+<!-- FOOTER -->
+<div class="footer-bar" style="position:relative;z-index:2">
+<div>© 2026 Webidex • Permanent URL for now • Custom domain coming soon</div>
+<div style="display:flex;gap:8px;align-items:center"><button onclick="openTerms()">Terms of Service</button><button onclick="openPrivacy()">Privacy Policy</button><span style="opacity:0.5">• Report abuse via [!] button on sites</span></div>
+</div>
+
+<!-- TERMS POPUP -->
+<div id="termsModal" class="modal-bg" onclick="if(event.target===this)closeTerms()"><div class="modal-card">
+<div style="display:flex;justify-content:space-between;align-items:center"><h2 style="font-size:20px;font-weight:800">Terms of Service</h2><button onclick="closeTerms()" style="width:32px;height:32px;border-radius:50%;border:1px solid #E5DDC8;background:white;cursor:pointer">✕</button></div>
+<div style="margin-top:16px;font-size:13px;line-height:1.7;color:#333">
+<p><b>1. No Harmful Content:</b> You cannot create sites for scam, fraud, phishing, spam, abuse, hate, adult, gambling, illegal drugs, weapons, or any harmful content.</p>
+<p style="margin-top:12px"><b>2. Ban & Report:</b> If we find harmful site, your account + site will be <b>banned instantly</b> and reported to authorities if needed. Your URL will be blacklisted.</p>
+<p style="margin-top:12px"><b>3. Removal Policy:</b> Any site reported for harmful content will be reviewed and <b>removed within 36 hours after report confirmation</b>.</p>
+<p style="margin-top:12px"><b>4. Permanent URL:</b> The URL you get from Webidex is <b>permanent for now</b>. You cannot change to custom domain yet. Custom domains coming soon.</p>
+<p style="margin-top:12px"><b>5. Report Button:</b> Every site has a Report button. Users can report abuse. We act within 36h.</p>
+<p style="margin-top:12px"><b>6. Your Responsibility:</b> You are fully responsible for content you publish. Webidex is not liable for your site content.</p>
+<p style="margin-top:12px"><b>7. We can remove:</b> We reserve right to remove any site without notice if violates terms.</p>
+<div style="margin-top:20px;padding:12px;background:#FFF3CD;border:1px solid #FFD700;border-radius:10px;font-size:12px">By ticking checkbox, you agree to all terms. Violation = ban + site removal in 36h.</div>
+</div>
+<div style="margin-top:16px;display:flex;gap:8px"><button onclick="acceptTerms()" style="flex:1;padding:12px;border-radius:12px;background:#111;color:white;font-weight:700;border:1px solid #111;cursor:pointer">Accept & Continue</button></div>
+</div></div>
+
+<!-- PRIVACY POPUP -->
+<div id="privacyModal" class="modal-bg" onclick="if(event.target===this)closePrivacy()"><div class="modal-card">
+<div style="display:flex;justify-content:space-between;align-items:center"><h2 style="font-size:20px;font-weight:800">Privacy Policy</h2><button onclick="closePrivacy()" style="width:32px;height:32px;border-radius:50%;border:1px solid #E5DDC8;background:white;cursor:pointer">✕</button></div>
+<div style="margin-top:16px;font-size:13px;line-height:1.7;color:#333">
+<p><b>What we collect:</b> Email (via Google login), project name, code, live URLs, views count. We store in Supabase per your Gmail.</p>
+<p style="margin-top:12px"><b>What we don't do:</b> We don't sell your data. We don't track you with ads.</p>
+<p style="margin-top:12px"><b>Site data:</b> Sites you create are public if you set Public. Private means only you can see in builder but live URL still works if someone has link.</p>
+<p style="margin-top:12px"><b>Reports:</b> When someone reports a site, we log reported URL + reason + timestamp to review abuse.</p>
+<p style="margin-top:12px"><b>Cookies:</b> Only auth cookies for login.</p>
+<p style="margin-top:12px"><b>Deletion:</b> Email hello@webidex.in to delete account + projects.</p>
+<div style="margin-top:20px;padding:12px;background:#E0F2FE;border:1px solid #7DD3FC;border-radius:10px;font-size:12px">By using Webidex you consent to this privacy policy.</div>
+</div>
+<div style="margin-top:16px;display:flex;gap:8px"><button onclick="acceptPrivacy()" style="flex:1;padding:12px;border-radius:12px;background:#111;color:white;font-weight:700;border:1px solid #111;cursor:pointer">Accept & Continue</button></div>
+</div></div>
+
 <script>
 const SUPABASE_URL = 'https://trvmbblhssurxxoxlyus.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1iYmxoc3N1cnh4b3hseXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMTIyNTgsImV4cCI6MjEwNDg4ODI1OH0.psn7mm8NMTNuHQbAPMlw79gldt1Pdh_CejN4zJSeIeg';
 let supa = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 let currentUser = null;
+// CHANGE THIS TO YOUR GOOGLE APPS SCRIPT URL FOR REPORTS + SITES LOG
+const REPORT_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_ID/exec';
+
 (function(){let p=new URLSearchParams(location.search);if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname)}let a=localStorage.getItem('webidex_admin')==='yes';document.getElementById('gate').classList.toggle('hidden',a);document.getElementById('newUI').classList.toggle('hidden',!a)})();
-async function initAuth(){
- const { data } = await supa.auth.getSession();
- if(data.session){ currentUser = data.session.user; }
- supa.auth.onAuthStateChange(async (e, session)=>{
-   currentUser = session?.user || null;
-   refreshProfile();
-   if(currentUser) renderProjects();
- });
- refreshProfile();
- if(currentUser) renderProjects();
-}
-function refreshProfile(){
- let email = currentUser?.email || null;
- let meta = currentUser?.user_metadata || {};
- let avatarUrl = meta.avatar_url || meta.picture || null;
- let fullName = meta.full_name || meta.name || '';
- let letter = fullName? fullName[0].toUpperCase() : (email? email[0].toUpperCase() : 'JK');
- let profileBtn = document.getElementById('profileBtn');
- let popupAvatar = document.getElementById('popupAvatar');
- if(avatarUrl){
-   profileBtn.textContent = '';
-   profileBtn.style.backgroundImage = `url('${avatarUrl}')`;
-   profileBtn.style.backgroundColor = '#fff';
-   popupAvatar.textContent = '';
-   popupAvatar.style.backgroundImage = `url('${avatarUrl}')`;
-   popupAvatar.style.backgroundColor = '#fff';
- } else {
-   profileBtn.textContent = letter;
-   popupAvatar.textContent = letter;
- }
- document.getElementById('popupEmail').textContent = fullName || email || 'Login required';
- document.getElementById('popupGmail').textContent = email || 'Not logged in';
- document.getElementById('authBtn').textContent = email? 'Logout' : 'Sign in with Google';
-}
-async function handleAuth(){
- if(currentUser){
-  if(confirm('Logout?')){ await supa.auth.signOut(); currentUser=null; refreshProfile(); document.getElementById('profilePopup').classList.add('hidden'); document.getElementById('projectsList').innerHTML=''; }
- } else {
-  await supa.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: location.origin + location.pathname + '?key=webidex_91_x_mast3r_2026' } });
- }
-}
-function toggleProfile(e){
- if(e) e.stopPropagation();
- document.getElementById('profilePopup').classList.toggle('hidden');
- refreshProfile();
-}
-function toggleNotif(e){
- if(e) e.stopPropagation();
- document.getElementById('notifPopup').classList.toggle('hidden');
- document.getElementById('profilePopup').classList.add('hidden');
-}
-document.addEventListener('click', function(e){
- let popup=document.getElementById('profilePopup');
- let btn=document.getElementById('profileBtn');
- if(popup && btn &&!popup.contains(e.target) &&!btn.contains(e.target)){ popup.classList.add('hidden'); }
- let nPopup=document.getElementById('notifPopup');
- let nBtn=document.getElementById('notifBtn');
- if(nPopup && nBtn &&!nPopup.contains(e.target) &&!nBtn.contains(e.target)){ nPopup.classList.add('hidden'); }
-});
+async function initAuth(){const { data } = await supa.auth.getSession(); if(data.session){ currentUser = data.session.user; } supa.auth.onAuthStateChange(async (e, session)=>{currentUser = session?.user || null; refreshProfile(); if(currentUser) renderProjects();}); refreshProfile(); if(currentUser) renderProjects();}
+function refreshProfile(){let email=currentUser?.email||null;let meta=currentUser?.user_metadata||{};let avatarUrl=meta.avatar_url||meta.picture||null;let fullName=meta.full_name||meta.name||'';let letter=fullName?fullName[0].toUpperCase():(email?email[0].toUpperCase():'JK');let profileBtn=document.getElementById('profileBtn');let popupAvatar=document.getElementById('popupAvatar');if(avatarUrl){profileBtn.textContent='';profileBtn.style.backgroundImage=`url('${avatarUrl}')`;popupAvatar.textContent='';popupAvatar.style.backgroundImage=`url('${avatarUrl}')`;}else{profileBtn.textContent=letter;popupAvatar.textContent=letter;}document.getElementById('popupEmail').textContent=fullName||email||'Login required';document.getElementById('popupGmail').textContent=email||'Not logged in';document.getElementById('authBtn').textContent=email?'Logout':'Sign in with Google';}
+async function handleAuth(){if(currentUser){if(confirm('Logout?')){await supa.auth.signOut();currentUser=null;refreshProfile();document.getElementById('profilePopup').classList.add('hidden');document.getElementById('projectsList').innerHTML='';}}else{await supa.auth.signInWithOAuth({ provider:'google', options:{ redirectTo: location.origin + location.pathname + '?key=webidex_91_x_mast3r_2026' } });}}
+function toggleProfile(e){if(e)e.stopPropagation();document.getElementById('profilePopup').classList.toggle('hidden');refreshProfile();}
+function toggleNotif(e){if(e)e.stopPropagation();document.getElementById('notifPopup').classList.toggle('hidden');document.getElementById('profilePopup').classList.add('hidden');}
+document.addEventListener('click',function(e){let popup=document.getElementById('profilePopup');let btn=document.getElementById('profileBtn');if(popup&&btn&&!popup.contains(e.target)&&!btn.contains(e.target)){popup.classList.add('hidden');}let nPopup=document.getElementById('notifPopup');let nBtn=document.getElementById('notifBtn');if(nPopup&&nBtn&&!nPopup.contains(e.target)&&!nBtn.contains(e.target)){nPopup.classList.add('hidden');}});
+// SECURITY MODALS
+function openTerms(){document.getElementById('termsModal').style.display='flex'}function closeTerms(){document.getElementById('termsModal').style.display='none'}
+function openPrivacy(){document.getElementById('privacyModal').style.display='flex'}function closePrivacy(){document.getElementById('privacyModal').style.display='none'}
+function acceptTerms(){document.getElementById('termsTick').checked=true;closeTerms();checkDeployReady()}
+function acceptPrivacy(){document.getElementById('privacyTick').checked=true;closePrivacy();checkDeployReady()}
 function drawStars(id,count){let c=document.getElementById(id);if(!c)return;let ctx=c.getContext('2d');function rs(){c.width=innerWidth;c.height=innerHeight;ctx.clearRect(0,0,c.width,c.height);for(let i=0;i<count;i++){let x=Math.random()*c.width,y=Math.random()*c.height,r=Math.random()*2.2+0.3,a=Math.random()*0.9+0.15,gold=Math.random()>0.25;let col=gold?`rgba(255,${200+Math.random()*55},${Math.random()*80},${a})`:`rgba(255,255,255,${a*0.7})`;ctx.beginPath();ctx.arc(x,y,r,0,6.28);ctx.fillStyle=col;ctx.fill();if(Math.random()>0.90){ctx.beginPath();let s=r*3.5;ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);ctx.strokeStyle=col;ctx.lineWidth=0.6;ctx.stroke()}}}rs();addEventListener('resize',rs)}drawStars('starCanvas',600);drawStars('gateCanvas',280);
 const codeEl=document.getElementById('codeEditor'), gutter=document.getElementById('gutter'), preview=document.getElementById('preview'), siteEl=document.getElementById('siteName'), liveEl=document.getElementById('liveUrl'), savedBadge=document.getElementById('savedBadge'), saveNameBtn=document.getElementById('saveNameBtn'), deployBtn=document.getElementById('deployBtn'), deployHint=document.getElementById('deployHint'), saveBtn=document.getElementById('saveBtn');
 let isNameSaved=false, isCodeSaved=false;
-let currentProjects = [];
-let selectedProject = null;
-let currentProject = null;
+let currentProjects=[], selectedProject=null, currentProject=null;
 function updateGutter(){let l=codeEl.value.split('\n').length;if(l<15)l=15;let h='';for(let i=1;i<=l;i++)h+=i+'<br>';gutter.innerHTML=h}
-function checkDeployReady(){if(isNameSaved && isCodeSaved){deployBtn.disabled=false;deployHint.style.display='none'}else{deployBtn.disabled=true;deployHint.style.display='block'}}
-async function saveToCloud(name,code,liveUrl){
- if(!currentUser){ alert('Login with Google first to save forever. Click JK top-right → Sign in with Google'); toggleProfile(); return false; }
- let { data: existing } = await supa.from('projects').select('id').eq('user_id', currentUser.id).eq('name', name).maybeSingle();
- if(existing){
-   let { error } = await supa.from('projects').update({ code, live_url: liveUrl || null, updated_at: new Date().toISOString() }).eq('id', existing.id);
-   if(error) { alert(error.message); return false; }
- } else {
-   let { error } = await supa.from('projects').insert({ user_id: currentUser.id, name, code, live_url: liveUrl || null });
-   if(error){ alert(error.message); return false; }
- }
- return true;
+function checkDeployReady(){
+ let terms=document.getElementById('termsTick').checked;
+ let privacy=document.getElementById('privacyTick').checked;
+ let saveTick=document.getElementById('saveTick');
+ if(isCodeSaved && isNameSaved) saveTick.checked=true; else saveTick.checked=false;
+ if(isNameSaved && isCodeSaved && terms && privacy){deployBtn.disabled=false;deployHint.style.display='none'}else{deployBtn.disabled=true;deployHint.style.display='block';deployHint.innerText =!isNameSaved||!isCodeSaved?'⚠️ Save Project Name & Code first':(!terms||!privacy?'⚠️ Accept Terms & Privacy to Deploy':'');}
 }
-async function saveProjectName(){
- if(!siteEl.value.trim()){alert('Enter a project name');return}
- isNameSaved=true; saveNameBtn.textContent='Saving...';
- let ok = await saveToCloud(siteEl.value.trim(), codeEl.value, liveEl.textContent.includes('http')?liveEl.textContent:'');
- if(ok){ saveNameBtn.textContent='Saved ✓'; saveNameBtn.classList.add('saved'); checkDeployReady(); renderProjects(); }
- else { saveNameBtn.textContent='Save'; }
-}
-async function saveCodeFile(){
- let ok = await saveToCloud(siteEl.value.trim()||'my-website', codeEl.value, liveEl.textContent.includes('http')?liveEl.textContent:'');
- if(!ok) return;
- isCodeSaved=true; savedBadge.textContent='✔ Saved to cloud'; savedBadge.style.color='#059669';
- saveBtn.textContent='💾 Saved ✓'; setTimeout(()=>saveBtn.textContent='💾 Save',2000);
- updateGutter(); checkDeployReady(); renderProjects();
-}
-function loadLocalCurrent(){
- let s=localStorage.getItem('forge_current_project');
- if(s){try{let d=JSON.parse(s);codeEl.value=d.code||'';siteEl.value=d.name||'my-website';}catch{codeEl.value=''}}else{codeEl.value='<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Site</title></head><body><h1>Hello, Webidex.</h1><p>Building something great.</p></body></html>'; siteEl.value='my-website';}
- updateGutter(); checkDeployReady();
-}
+async function saveToCloud(name,code,liveUrl){if(!currentUser){ alert('Login with Google first to save forever. Click JK top-right → Sign in with Google'); toggleProfile(); return false; }let { data: existing } = await supa.from('projects').select('id').eq('user_id', currentUser.id).eq('name', name).maybeSingle();if(existing){let { error } = await supa.from('projects').update({ code, live_url: liveUrl || null, updated_at: new Date().toISOString() }).eq('id', existing.id);if(error) { alert(error.message); return false; }}else{let { error } = await supa.from('projects').insert({ user_id: currentUser.id, name, code, live_url: liveUrl || null });if(error){ alert(error.message); return false; }}return true;}
+async function saveProjectName(){if(!siteEl.value.trim()){alert('Enter a project name');return}isNameSaved=true; saveNameBtn.textContent='Saving...';let ok = await saveToCloud(siteEl.value.trim(), codeEl.value, liveEl.textContent.includes('http')?liveEl.textContent:'');if(ok){ saveNameBtn.textContent='Saved ✓'; saveNameBtn.classList.add('saved'); checkDeployReady(); renderProjects(); }else { saveNameBtn.textContent='Save'; }}
+async function saveCodeFile(){let ok = await saveToCloud(siteEl.value.trim()||'my-website', codeEl.value, liveEl.textContent.includes('http')?liveEl.textContent:'');if(!ok) return;isCodeSaved=true; savedBadge.textContent='✔ Saved to cloud'; savedBadge.style.color='#059669'; saveBtn.textContent='💾 Saved ✓'; setTimeout(()=>saveBtn.textContent='💾 Save',2000); updateGutter(); checkDeployReady(); renderProjects();}
+function loadLocalCurrent(){let s=localStorage.getItem('forge_current_project');if(s){try{let d=JSON.parse(s);codeEl.value=d.code||'';siteEl.value=d.name||'my-website';}catch{codeEl.value=''}}else{codeEl.value='<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Site</title></head><body><h1>Hello, Webidex.</h1><p>Building something great.</p></body></html>'; siteEl.value='my-website';}updateGutter(); checkDeployReady();}
 function showCode(){codeEl.style.display='block';preview.style.display='none';document.getElementById('codeTab').classList.add('active');document.getElementById('previewTab').classList.remove('active')}
 function showPreview(){preview.srcdoc=codeEl.value;preview.style.display='block';codeEl.style.display='none';document.getElementById('previewTab').classList.add('active');document.getElementById('codeTab').classList.remove('active')}
 document.getElementById('codeTab').onclick=showCode;document.getElementById('previewTab').onclick=showPreview;
@@ -270,121 +207,83 @@ document.getElementById('downloadBtn').onclick=()=>{let b=new Blob([codeEl.value
 document.getElementById('clearBtn').onclick=()=>{if(confirm('Clear code?')){codeEl.value='';isCodeSaved=false;updateGutter();showCode();checkDeployReady()}};
 siteEl.addEventListener('input',()=>{isNameSaved=false;saveNameBtn.textContent='Save';saveNameBtn.classList.remove('saved');checkDeployReady()});
 codeEl.addEventListener('input',()=>{updateGutter();savedBadge.textContent='● Unsaved (not in cloud)';savedBadge.style.color='#D97706';isCodeSaved=false;checkDeployReady()});
-function openProjectsPage(){
- document.getElementById('builderView').classList.add('hidden');
- document.getElementById('projectsPageView').classList.remove('hidden');
- document.getElementById('projectsListWrap').classList.remove('hidden');
- document.getElementById('projectDetailView').classList.add('hidden');
- renderProjects();
+function openProjectsPage(){document.getElementById('builderView').classList.add('hidden');document.getElementById('projectsPageView').classList.remove('hidden');document.getElementById('projectsListWrap').classList.remove('hidden');document.getElementById('projectDetailView').classList.add('hidden');renderProjects();}
+function closeProjectsPage(){document.getElementById('projectsPageView').classList.add('hidden');document.getElementById('builderView').classList.remove('hidden');}
+function formatLiveFor(dateStr){if(!dateStr) return '--';let diff=Date.now()-new Date(dateStr).getTime();let days=Math.floor(diff/(1000*60*60*24));if(days===0) return 'Today';if(days===1) return '1 day';return days+' days';}
+function backToList(){document.getElementById('projectDetailView').classList.add('hidden');document.getElementById('projectsListWrap').classList.remove('hidden');selectedProject=null;currentProject=null;}
+function showProjectDetail(id){let p=currentProjects.find(x=>x.id===id);if(!p)return;selectedProject=p;currentProject=p;document.getElementById('projectsListWrap').classList.add('hidden');document.getElementById('projectDetailView').classList.remove('hidden');document.getElementById('detailName').textContent=p.name;document.getElementById('detailDate').textContent='Created: '+new Date(p.created_at).toLocaleString();let url=p.live_url||'Not deployed yet';document.getElementById('detailUrl').textContent=url;document.getElementById('detailUrl').href=p.live_url||'#';document.getElementById('dashViews').textContent=p.views||0;let vb=document.getElementById('visBtn');let isPub=p.is_public!==false;vb.textContent=isPub?'🌍 Public':'🔒 Private';vb.style.background=isPub?'#111':'white';vb.style.color=isPub?'white':'#111';document.getElementById('visHint').textContent=isPub?'Anyone can open':'Only you';document.getElementById('dashLiveFor').textContent=formatLiveFor(p.created_at);document.getElementById('dashCreated').textContent=new Date(p.created_at).toLocaleDateString();document.getElementById('detailOpenBuilderBtn').onclick=()=>openProject(p.id);document.getElementById('detailOpenLiveBtn').onclick=()=>{if(p.live_url)window.open(p.live_url,'_blank')};document.getElementById('detailCopyBtn').onclick=()=>{if(p.live_url){navigator.clipboard.writeText(p.live_url);let b=document.getElementById('detailCopyBtn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy',1200);}};}
+async function renderProjects(){let list=document.getElementById('projectsList');let empty=document.getElementById('noProjects');let listWrap=document.getElementById('projectsListWrap');if(!currentUser){list.innerHTML='';empty.style.display='block';listWrap.style.display='none';document.getElementById('projCount').textContent='0';empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">🔒</div><div style="font-weight:700">Login to see your projects</div><div style="font-size:13px;margin-top:6px">Projects are saved per Gmail in cloud, not browser.</div><button onclick="toggleProfile()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;cursor:pointer">Login with Google</button>`;return;}list.innerHTML='<div style="padding:20px;opacity:.6">Loading...</div>';listWrap.style.display='block';let { data, error } = await supa.from('projects').select('*').eq('user_id', currentUser.id).order('updated_at',{ascending:false});if(error){ list.innerHTML=`<div style="color:red">Error: ${error.message}</div>`; return; }currentProjects=data||[];document.getElementById('projCount').textContent=currentProjects.length;if(currentProjects.length===0){ empty.style.display='block'; list.innerHTML=''; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">📁</div><div style="font-weight:700">No projects yet</div><div style="font-size:13px;margin-top:6px">Save a project name + code to see it here forever</div><button onclick="closeProjectsPage()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:white;font-weight:600;cursor:pointer">Create Project</button>`; }else { empty.style.display='none'; list.innerHTML=''; currentProjects.forEach(p=>{let row=document.createElement('div');row.className='proj-row';row.onclick=()=>showProjectDetail(p.id);row.innerHTML=`<div><div class="proj-row-name">${p.name}</div><div class="proj-row-date">${new Date(p.updated_at||p.created_at).toLocaleString()}</div></div><div style="display:flex;align-items:center;gap:10px"><span style="font-size:11px;color:#888">${p.live_url?'Live':''}</span><span style="font-size:16px">›</span></div>`;list.appendChild(row);});}}
+async function openProject(id){let p=currentProjects.find(x=>x.id===id);if(!p)return;siteEl.value=p.name;codeEl.value=p.code;liveEl.textContent=p.live_url||'Deploy to get URL';liveEl.href=p.live_url||'#';isNameSaved=true;isCodeSaved=true;saveNameBtn.textContent='Saved ✓';saveNameBtn.classList.add('saved');savedBadge.textContent='✔ Saved';updateGutter();checkDeployReady();closeProjectsPage();showCode();}
+
+// INJECT REPORT + BANNED CHECK INTO USER SITE BEFORE DEPLOY
+function injectSecurityToCode(rawCode, siteId){
+ let injection = `
+<!-- WEBIDEX SECURITY FOOTER -->
+<div id="webidex-footer" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:white;padding:6px 12px;display:flex;justify-content:space-between;align-items:center;font-size:10px;z-index:9999;font-family:Inter,sans-serif">
+<span>Built on Webidex • URL permanent for now • Custom domain soon</span>
+<button id="wx-report-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.3);color:white;padding:4px 10px;border-radius:999px;font-size:10px;cursor:pointer">! Report this site</button>
+</div>
+<div id="wx-report-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:10000;align-items:center;justify-content:center">
+<div style="background:#111;color:white;width:min(400px,92%);border-radius:16px;padding:20px;border:1px solid #333">
+<h3 style="font-weight:800">Report this site?</h3>
+<p style="font-size:12px;opacity:0.6;margin-top:6px">If scam/abuse/harmful, we will review and remove within 36 hours.</p>
+<select id="wx-reason" style="width:100%;margin-top:14px;height:42px;background:black;color:white;border:1px solid #333;border-radius:10px;padding:0 10px">
+<option>Scam / Fraud</option><option>Spam / Abuse</option><option>Harmful / Illegal</option><option>Other</option>
+</select>
+<div style="display:flex;gap:8px;margin-top:14px"><button onclick="document.getElementById('wx-report-modal').style.display='none'" style="flex:1;height:40px;border-radius:10px;border:1px solid #333;background:transparent;color:white">Cancel</button><button id="wx-confirm-report" style="flex:1;height:40px;border-radius:10px;background:white;color:black;font-weight:700;border:0">Confirm Report</button></div>
+<p id="wx-report-status" style="font-size:11px;text-align:center;margin-top:10px;opacity:0.7"></p>
+</div>
+</div>
+<script>
+(function(){
+ const SITE_ID = "${siteId}";
+ const SCRIPT_URL = "${REPORT_SCRIPT_URL}";
+ const btn = document.getElementById('wx-report-btn');
+ const modal = document.getElementById('wx-report-modal');
+ if(btn) btn.onclick = ()=> modal.style.display='flex';
+ const confirmBtn = document.getElementById('wx-confirm-report');
+ if(confirmBtn) confirmBtn.onclick = async ()=>{
+   const reason = document.getElementById('wx-reason').value;
+   document.getElementById('wx-report-status').innerText='Sending...';
+   try{ await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'report',url:location.href,id:SITE_ID,reason:reason})}); }catch(e){}
+   document.getElementById('wx-report-status').innerText='Reported. We will review within 36 hours.';
+   setTimeout(()=>{modal.style.display='none';document.getElementById('wx-report-status').innerText='';},1500);
+ };
+ fetch(SCRIPT_URL+"?check="+SITE_ID).then(r=>r.json()).then(d=>{
+   if(d.banned){
+     document.body.innerHTML='<div style="background:black;color:white;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;font-family:sans-serif;padding:24px"><div><h1 style="font-size:32px;font-weight:900">SITE REMOVED</h1><p style="margin-top:12px;opacity:0.5;font-size:13px">This site was removed for violating Terms.<br>Removed within 36 hours of report.</p></div></div>';
+   }
+ }).catch(()=>{});
+})();
+<\/script>
+`;
+ if(rawCode.includes('</body>')) return rawCode.replace('</body>', injection + '</body>');
+ else return rawCode + injection;
 }
-function closeProjectsPage(){
- document.getElementById('projectsPageView').classList.add('hidden');
- document.getElementById('builderView').classList.remove('hidden');
-}
-function formatLiveFor(dateStr){
- if(!dateStr) return '--';
- let diff = Date.now() - new Date(dateStr).getTime();
- let days = Math.floor(diff/(1000*60*60*24));
- if(days===0) return 'Today';
- if(days===1) return '1 day';
- return days+' days';
-}
-function backToList(){
- document.getElementById('projectDetailView').classList.add('hidden');
- document.getElementById('projectsListWrap').classList.remove('hidden');
- selectedProject=null;
- currentProject=null;
-}
-function showProjectDetail(id){
- let p = currentProjects.find(x=>x.id===id);
- if(!p) return;
- selectedProject=p;
- currentProject=p;
- document.getElementById('projectsListWrap').classList.add('hidden');
- document.getElementById('projectDetailView').classList.remove('hidden');
- document.getElementById('detailName').textContent = p.name;
- document.getElementById('detailDate').textContent = 'Created: ' + new Date(p.created_at).toLocaleString();
- let url = p.live_url||'Not deployed yet';
- document.getElementById('detailUrl').textContent = url;
- document.getElementById('detailUrl').href = p.live_url||'#';
- document.getElementById('dashViews').textContent = p.views || 0;
- let vb = document.getElementById('visBtn');
- let isPub = p.is_public!== false;
- vb.textContent = isPub? '🌍 Public' : '🔒 Private';
- vb.style.background = isPub? '#111' : 'white';
- vb.style.color = isPub? 'white' : '#111';
- document.getElementById('visHint').textContent = isPub? 'Anyone can open' : 'Only you';
- document.getElementById('dashLiveFor').textContent = formatLiveFor(p.created_at);
- document.getElementById('dashCreated').textContent = new Date(p.created_at).toLocaleDateString();
- document.getElementById('detailOpenBuilderBtn').onclick = ()=> openProject(p.id);
- document.getElementById('detailOpenLiveBtn').onclick = ()=> { if(p.live_url) window.open(p.live_url,'_blank') };
- document.getElementById('detailCopyBtn').onclick = ()=> { if(p.live_url){ navigator.clipboard.writeText(p.live_url); let b=document.getElementById('detailCopyBtn'); b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',1200); } };
-}
-async function renderProjects(){
- let list=document.getElementById('projectsList');
- let empty=document.getElementById('noProjects');
- let listWrap=document.getElementById('projectsListWrap');
- if(!currentUser){
-   list.innerHTML=''; empty.style.display='block'; listWrap.style.display='none'; document.getElementById('projCount').textContent='0'; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">🔒</div><div style="font-weight:700">Login to see your projects</div><div style="font-size:13px;margin-top:6px">Projects are saved per Gmail in cloud, not browser. Close tab, login again, they will be here.</div><button onclick="toggleProfile()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;cursor:pointer">Login with Google</button>`;
-   return;
- }
- list.innerHTML='<div style="padding:20px;opacity:.6">Loading your cloud projects...</div>';
- listWrap.style.display='block';
- let { data, error } = await supa.from('projects').select('*').eq('user_id', currentUser.id).order('updated_at',{ascending:false});
- if(error){ list.innerHTML=`<div style="color:red">Error: ${error.message}</div>`; return; }
- currentProjects = data || [];
- document.getElementById('projCount').textContent = currentProjects.length;
- if(currentProjects.length===0){ empty.style.display='block'; list.innerHTML=''; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">📁</div><div style="font-weight:700">No projects yet</div><div style="font-size:13px;margin-top:6px">Save a project name + code to see it here forever</div><button onclick="closeProjectsPage()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:white;font-weight:600;cursor:pointer">Create Project</button>`; }
- else { empty.style.display='none'; list.innerHTML='';
-   currentProjects.forEach(p=>{
-     let row=document.createElement('div'); row.className='proj-row';
-     row.onclick = ()=> showProjectDetail(p.id);
-     row.innerHTML=`<div><div class="proj-row-name">${p.name}</div><div class="proj-row-date">${new Date(p.updated_at||p.created_at).toLocaleString()}</div></div><div style="display:flex;align-items:center;gap:10px"><span style="font-size:11px;color:#888">${p.live_url?'Live':''}</span><span style="font-size:16px">›</span></div>`;
-     list.appendChild(row);
-   });
- }
-}
-async function openProject(id){
- let p = currentProjects.find(x=>x.id===id); if(!p) return;
- siteEl.value=p.name; codeEl.value=p.code; liveEl.textContent=p.live_url||'Deploy to get URL'; liveEl.href=p.live_url||'#';
- isNameSaved=true;isCodeSaved=true;saveNameBtn.textContent='Saved ✓';saveNameBtn.classList.add('saved');savedBadge.textContent='✔ Saved';
- updateGutter();checkDeployReady();closeProjectsPage();showCode();
-}
+
 deployBtn.onclick=async()=>{
  if(!currentUser){ alert('Login with Google first!'); toggleProfile(); return; }
+ let terms=document.getElementById('termsTick').checked; let privacy=document.getElementById('privacyTick').checked;
  if(!isNameSaved ||!isCodeSaved){alert('Please save Project Name and Code first');return}
+ if(!terms ||!privacy){alert('Please accept Terms & Privacy first.'); return}
  let code=codeEl.value,name=siteEl.value||'my-website';if(!code.trim())return alert('Enter code first');
  deployBtn.textContent='Deploying...';deployBtn.disabled=true;
  try{
-   let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,name})});
+   let siteId = name.toLowerCase().replace(/[^a-z0-9]/g,'-') + '-' + Math.random().toString(36).slice(2,6);
+   let finalCode = injectSecurityToCode(code, siteId);
+   let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:finalCode,name})});
    let d=await r.json();if(!r.ok)throw new Error(d.error||'Deploy failed');
    liveEl.textContent=d.url;liveEl.href=d.url;
+   try{ fetch(REPORT_SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'new_site',id:siteId,url:d.url,owner:currentUser.email,name:name})}); }catch(e){}
    await saveToCloud(name,code,d.url);
    renderProjects();
-   alert('Deployed! Live URL:\n' + d.url);
+   alert('Deployed! ' + d.url);
    window.open(d.url,'_blank');
- }catch(e){console.error(e);alert('Deploy failed: ' + (e.message||e));}finally{deployBtn.textContent='Deploy';checkDeployReady()}
+ }catch(e){alert('Deploy failed: ' + e.message);}finally{deployBtn.textContent='Deploy';checkDeployReady()}
 };
 document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
-loadLocalCurrent();
-initAuth();
-async function toggleVis(){
- if(!selectedProject){ alert('No project selected'); return; }
- let btn = document.getElementById('visBtn');
- let newVal = selectedProject.is_public === false? true : false;
- btn.textContent = 'Saving...';
- const { error } = await supa.from('projects').update({ is_public: newVal }).eq('id', selectedProject.id);
- if(error){ alert('Error: '+error.message); btn.textContent = selectedProject.is_public!==false? '🌍 Public' : '🔒 Private'; return; }
- selectedProject.is_public = newVal;
- currentProject = selectedProject;
- let idx = currentProjects.findIndex(x=>x.id===selectedProject.id);
- if(idx>=0) currentProjects[idx].is_public = newVal;
- let isPub = newVal!== false;
- btn.textContent = isPub? '🌍 Public' : '🔒 Private';
- btn.style.background = isPub? '#111' : 'white';
- btn.style.color = isPub? 'white' : '#111';
- document.getElementById('visHint').textContent = isPub? 'Anyone can open' : 'Only you';
-}
+loadLocalCurrent();initAuth();
+async function toggleVis(){if(!selectedProject) return; let btn=document.getElementById('visBtn');let newVal=selectedProject.is_public===false? true:false;btn.textContent='Saving...';const { error } = await supa.from('projects').update({ is_public: newVal }).eq('id', selectedProject.id);if(error){ alert(error.message); return;}selectedProject.is_public=newVal;let isPub=newVal!==false;btn.textContent=isPub?'🌍 Public':'🔒 Private';btn.style.background=isPub?'#111':'white';btn.style.color=isPub?'white':'#111';document.getElementById('visHint').textContent=isPub?'Anyone can open':'Only you';}
 </script>
 </body>
 </html>
