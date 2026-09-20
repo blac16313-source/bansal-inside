@@ -98,14 +98,11 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 <div class="deploy-panel">
 <button class="deploy-btn" id="deployBtn">Deploy</button>
 <div id="deployHint" style="text-align:center;font-size:11px;color:#D97706;font-weight:700;display:none">⚠️ Save Project Name & Code + Accept Terms/Privacy first</div>
-
-<!-- NEW SECURITY GATE -->
 <div class="security-box">
 <label><input type="checkbox" id="termsTick" onchange="checkDeployReady()"> I have read and agree to <span style="text-decoration:underline;cursor:pointer" onclick="openTerms()">Terms & Conditions</span></label>
 <label><input type="checkbox" id="privacyTick" onchange="checkDeployReady()"> I have read and agree to <span style="text-decoration:underline;cursor:pointer" onclick="openPrivacy()">Privacy Policy</span></label>
 <label><input type="checkbox" id="saveTick" disabled style="opacity:0.5"> Code Saved (auto)</label>
 </div>
-
 <div style="text-align:center;font-size:13.5px;line-height:1.4;color:#444">Ready to make your site live?<br><b>Go live on the internet in 1.2s</b></div>
 <div style="margin-top:4px"><div style="font-size:12px;font-weight:600;color:#555;margin-bottom:6px">Live URL</div><div style="display:flex;align-items:center;gap:8px;background:#FFF8EB;border:1px solid #EDE5D3;border-radius:10px;padding:8px 10px"><a id="liveUrl" href="#" target="_blank" style="flex:1;font-size:12px;color:#2563EB;word-break:break-all;text-decoration:none">Deploy to get URL</a><button id="copyBtn" style="padding:6px 10px;border-radius:8px;border:1px solid #E5DDC8;background:white;font-size:11px;font-weight:600;cursor:pointer">📋 Copy</button></div></div>
 <button onclick="openProjectsPage()" style="margin-top:6px;width:100%;padding:14px;border-radius:999px;border:1px solid #111;background:transparent;font-weight:600;font-size:14px;cursor:pointer">Go to Your Projects</button>
@@ -126,50 +123,36 @@ body{min-height:100vh;background:#050507;font-family:Inter,system-ui;overflow-x:
 </div>
 </div>
 </div>
-<!-- FOOTER -->
 <div class="footer-bar" style="position:relative;z-index:2">
 <div>© 2026 Webidex • Permanent URL for now • Custom domain coming soon</div>
 <div style="display:flex;gap:8px;align-items:center"><button onclick="openTerms()">Terms of Service</button><button onclick="openPrivacy()">Privacy Policy</button><span style="opacity:0.5">• Report abuse via [!] button on sites</span></div>
 </div>
-
-<!-- TERMS POPUP -->
 <div id="termsModal" class="modal-bg" onclick="if(event.target===this)closeTerms()"><div class="modal-card">
 <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="font-size:20px;font-weight:800">Terms of Service</h2><button onclick="closeTerms()" style="width:32px;height:32px;border-radius:50%;border:1px solid #E5DDC8;background:white;cursor:pointer">✕</button></div>
 <div style="margin-top:16px;font-size:13px;line-height:1.7;color:#333">
-<p><b>1. No Harmful Content:</b> You cannot create sites for scam, fraud, phishing, spam, abuse, hate, adult, gambling, illegal drugs, weapons, or any harmful content.</p>
-<p style="margin-top:12px"><b>2. Ban & Report:</b> If we find harmful site, your account + site will be <b>banned instantly</b> and reported to authorities if needed. Your URL will be blacklisted.</p>
-<p style="margin-top:12px"><b>3. Removal Policy:</b> Any site reported for harmful content will be reviewed and <b>removed within 36 hours after report confirmation</b>.</p>
-<p style="margin-top:12px"><b>4. Permanent URL:</b> The URL you get from Webidex is <b>permanent for now</b>. You cannot change to custom domain yet. Custom domains coming soon.</p>
-<p style="margin-top:12px"><b>5. Report Button:</b> Every site has a Report button. Users can report abuse. We act within 36h.</p>
-<p style="margin-top:12px"><b>6. Your Responsibility:</b> You are fully responsible for content you publish. Webidex is not liable for your site content.</p>
-<p style="margin-top:12px"><b>7. We can remove:</b> We reserve right to remove any site without notice if violates terms.</p>
-<div style="margin-top:20px;padding:12px;background:#FFF3CD;border:1px solid #FFD700;border-radius:10px;font-size:12px">By ticking checkbox, you agree to all terms. Violation = ban + site removal in 36h.</div>
+<p><b>1. No Harmful Content:</b> No scam, fraud, phishing, spam, abuse, hate, adult, gambling, illegal content.</p>
+<p style="margin-top:12px"><b>2. Ban & Report:</b> Harmful site = account + site banned instantly.</p>
+<p style="margin-top:12px"><b>3. Removal:</b> Reported site removed within 36 hours after confirmation.</p>
+<p style="margin-top:12px"><b>4. Permanent URL:</b> URL is permanent for now. Custom domain soon.</p>
+<div style="margin-top:20px;padding:12px;background:#FFF3CD;border:1px solid #FFD700;border-radius:10px;font-size:12px">By ticking, you agree. Violation = ban + removal in 36h.</div>
 </div>
 <div style="margin-top:16px;display:flex;gap:8px"><button onclick="acceptTerms()" style="flex:1;padding:12px;border-radius:12px;background:#111;color:white;font-weight:700;border:1px solid #111;cursor:pointer">Accept & Continue</button></div>
 </div></div>
-
-<!-- PRIVACY POPUP -->
 <div id="privacyModal" class="modal-bg" onclick="if(event.target===this)closePrivacy()"><div class="modal-card">
 <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="font-size:20px;font-weight:800">Privacy Policy</h2><button onclick="closePrivacy()" style="width:32px;height:32px;border-radius:50%;border:1px solid #E5DDC8;background:white;cursor:pointer">✕</button></div>
 <div style="margin-top:16px;font-size:13px;line-height:1.7;color:#333">
-<p><b>What we collect:</b> Email (via Google login), project name, code, live URLs, views count. We store in Supabase per your Gmail.</p>
-<p style="margin-top:12px"><b>What we don't do:</b> We don't sell your data. We don't track you with ads.</p>
-<p style="margin-top:12px"><b>Site data:</b> Sites you create are public if you set Public. Private means only you can see in builder but live URL still works if someone has link.</p>
-<p style="margin-top:12px"><b>Reports:</b> When someone reports a site, we log reported URL + reason + timestamp to review abuse.</p>
-<p style="margin-top:12px"><b>Cookies:</b> Only auth cookies for login.</p>
-<p style="margin-top:12px"><b>Deletion:</b> Email hello@webidex.in to delete account + projects.</p>
-<div style="margin-top:20px;padding:12px;background:#E0F2FE;border:1px solid #7DD3FC;border-radius:10px;font-size:12px">By using Webidex you consent to this privacy policy.</div>
+<p><b>What we collect:</b> Email, project name, code, live URLs per Gmail.</p>
+<p style="margin-top:12px"><b>Reports:</b> URL + reason + timestamp logged to review abuse.</p>
+<div style="margin-top:20px;padding:12px;background:#E0F2FE;border:1px solid #7DD3FC;border-radius:10px;font-size:12px">By using Webidex you consent.</div>
 </div>
 <div style="margin-top:16px;display:flex;gap:8px"><button onclick="acceptPrivacy()" style="flex:1;padding:12px;border-radius:12px;background:#111;color:white;font-weight:700;border:1px solid #111;cursor:pointer">Accept & Continue</button></div>
 </div></div>
-
 <script>
 const SUPABASE_URL = 'https://trvmbblhssurxxoxlyus.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1iYmxoc3N1cnh4b3hseXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMTIyNTgsImV4cCI6MjEwNDg4ODI1OH0.psn7mm8NMTNuHQbAPMlw79gldt1Pdh_CejN4zJSeIeg';
 let supa = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 let currentUser = null;
-// CHANGE THIS TO YOUR GOOGLE APPS SCRIPT URL FOR REPORTS + SITES LOG
-const REPORT_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_ID/exec';
+const REPORT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwF9ELr8hU9ZdYui3VKQZGCb5p3hZgr8dIP-JerIMrl-98AgfakLP-BRHqq5w1Ga3Ly/exec';
 
 (function(){let p=new URLSearchParams(location.search);if(p.get('key')==='webidex_91_x_mast3r_2026'){localStorage.setItem('webidex_admin','yes');history.replaceState({},'',location.pathname)}let a=localStorage.getItem('webidex_admin')==='yes';document.getElementById('gate').classList.toggle('hidden',a);document.getElementById('newUI').classList.toggle('hidden',!a)})();
 async function initAuth(){const { data } = await supa.auth.getSession(); if(data.session){ currentUser = data.session.user; } supa.auth.onAuthStateChange(async (e, session)=>{currentUser = session?.user || null; refreshProfile(); if(currentUser) renderProjects();}); refreshProfile(); if(currentUser) renderProjects();}
@@ -178,7 +161,6 @@ async function handleAuth(){if(currentUser){if(confirm('Logout?')){await supa.au
 function toggleProfile(e){if(e)e.stopPropagation();document.getElementById('profilePopup').classList.toggle('hidden');refreshProfile();}
 function toggleNotif(e){if(e)e.stopPropagation();document.getElementById('notifPopup').classList.toggle('hidden');document.getElementById('profilePopup').classList.add('hidden');}
 document.addEventListener('click',function(e){let popup=document.getElementById('profilePopup');let btn=document.getElementById('profileBtn');if(popup&&btn&&!popup.contains(e.target)&&!btn.contains(e.target)){popup.classList.add('hidden');}let nPopup=document.getElementById('notifPopup');let nBtn=document.getElementById('notifBtn');if(nPopup&&nBtn&&!nPopup.contains(e.target)&&!nBtn.contains(e.target)){nPopup.classList.add('hidden');}});
-// SECURITY MODALS
 function openTerms(){document.getElementById('termsModal').style.display='flex'}function closeTerms(){document.getElementById('termsModal').style.display='none'}
 function openPrivacy(){document.getElementById('privacyModal').style.display='flex'}function closePrivacy(){document.getElementById('privacyModal').style.display='none'}
 function acceptTerms(){document.getElementById('termsTick').checked=true;closeTerms();checkDeployReady()}
@@ -215,28 +197,30 @@ function showProjectDetail(id){let p=currentProjects.find(x=>x.id===id);if(!p)re
 async function renderProjects(){let list=document.getElementById('projectsList');let empty=document.getElementById('noProjects');let listWrap=document.getElementById('projectsListWrap');if(!currentUser){list.innerHTML='';empty.style.display='block';listWrap.style.display='none';document.getElementById('projCount').textContent='0';empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">🔒</div><div style="font-weight:700">Login to see your projects</div><div style="font-size:13px;margin-top:6px">Projects are saved per Gmail in cloud, not browser.</div><button onclick="toggleProfile()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:#111;color:white;font-weight:600;cursor:pointer">Login with Google</button>`;return;}list.innerHTML='<div style="padding:20px;opacity:.6">Loading...</div>';listWrap.style.display='block';let { data, error } = await supa.from('projects').select('*').eq('user_id', currentUser.id).order('updated_at',{ascending:false});if(error){ list.innerHTML=`<div style="color:red">Error: ${error.message}</div>`; return; }currentProjects=data||[];document.getElementById('projCount').textContent=currentProjects.length;if(currentProjects.length===0){ empty.style.display='block'; list.innerHTML=''; empty.innerHTML=`<div style="font-size:42px;margin-bottom:12px">📁</div><div style="font-weight:700">No projects yet</div><div style="font-size:13px;margin-top:6px">Save a project name + code to see it here forever</div><button onclick="closeProjectsPage()" style="margin-top:16px;padding:10px 18px;border-radius:999px;border:1px solid #111;background:white;font-weight:600;cursor:pointer">Create Project</button>`; }else { empty.style.display='none'; list.innerHTML=''; currentProjects.forEach(p=>{let row=document.createElement('div');row.className='proj-row';row.onclick=()=>showProjectDetail(p.id);row.innerHTML=`<div><div class="proj-row-name">${p.name}</div><div class="proj-row-date">${new Date(p.updated_at||p.created_at).toLocaleString()}</div></div><div style="display:flex;align-items:center;gap:10px"><span style="font-size:11px;color:#888">${p.live_url?'Live':''}</span><span style="font-size:16px">›</span></div>`;list.appendChild(row);});}}
 async function openProject(id){let p=currentProjects.find(x=>x.id===id);if(!p)return;siteEl.value=p.name;codeEl.value=p.code;liveEl.textContent=p.live_url||'Deploy to get URL';liveEl.href=p.live_url||'#';isNameSaved=true;isCodeSaved=true;saveNameBtn.textContent='Saved ✓';saveNameBtn.classList.add('saved');savedBadge.textContent='✔ Saved';updateGutter();checkDeployReady();closeProjectsPage();showCode();}
 
-// INJECT REPORT + BANNED CHECK INTO USER SITE BEFORE DEPLOY
-function injectSecurityToCode(rawCode, siteId){
+// FIXED - NOW CAPTURES SITE NAME + URL AUTOMATICALLY
+function injectSecurityToCode(rawCode, siteId, siteName){
+ let safeName = siteName.replace(/"/g,'\\"').replace(/'/g,"\\'");
  let injection = `
 <!-- WEBIDEX SECURITY FOOTER -->
-<div id="webidex-footer" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:white;padding:6px 12px;display:flex;justify-content:space-between;align-items:center;font-size:10px;z-index:9999;font-family:Inter,sans-serif">
-<span>Built on Webidex • URL permanent for now • Custom domain soon</span>
-<button id="wx-report-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.3);color:white;padding:4px 10px;border-radius:999px;font-size:10px;cursor:pointer">! Report this site</button>
+<div id="webidex-footer" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.85);color:white;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:11px;z-index:9999;font-family:Inter,sans-serif">
+<span>Built on Webidex • URL permanent for now</span>
+<button id="wx-report-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.3);color:white;padding:5px 12px;border-radius:999px;font-size:11px;cursor:pointer">! Report</button>
 </div>
-<div id="wx-report-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:10000;align-items:center;justify-content:center">
-<div style="background:#111;color:white;width:min(400px,92%);border-radius:16px;padding:20px;border:1px solid #333">
-<h3 style="font-weight:800">Report this site?</h3>
-<p style="font-size:12px;opacity:0.6;margin-top:6px">If scam/abuse/harmful, we will review and remove within 36 hours.</p>
-<select id="wx-reason" style="width:100%;margin-top:14px;height:42px;background:black;color:white;border:1px solid #333;border-radius:10px;padding:0 10px">
-<option>Scam / Fraud</option><option>Spam / Abuse</option><option>Harmful / Illegal</option><option>Other</option>
+<div id="wx-report-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:10000;align-items:center;justify-content:center">
+<div style="background:#111;color:white;width:min(400px,92%);border-radius:16px;padding:22px;border:1px solid #333">
+<h3 style="font-weight:800;font-size:18px">Report this site?</h3>
+<p style="font-size:12px;opacity:0.6;margin-top:6px">URL & site name will be auto-sent. We review in 36h.</p>
+<select id="wx-reason" style="width:100%;margin-top:14px;height:44px;background:black;color:white;border:1px solid #333;border-radius:10px;padding:0 12px">
+<option>Scam / Fraud</option><option>Spam / Abuse</option><option>Harmful / Illegal</option><option>Copyright</option><option>Other</option>
 </select>
-<div style="display:flex;gap:8px;margin-top:14px"><button onclick="document.getElementById('wx-report-modal').style.display='none'" style="flex:1;height:40px;border-radius:10px;border:1px solid #333;background:transparent;color:white">Cancel</button><button id="wx-confirm-report" style="flex:1;height:40px;border-radius:10px;background:white;color:black;font-weight:700;border:0">Confirm Report</button></div>
-<p id="wx-report-status" style="font-size:11px;text-align:center;margin-top:10px;opacity:0.7"></p>
+<div style="display:flex;gap:8px;margin-top:16px"><button onclick="document.getElementById('wx-report-modal').style.display='none'" style="flex:1;height:42px;border-radius:10px;border:1px solid #333;background:transparent;color:white;cursor:pointer">Cancel</button><button id="wx-confirm-report" style="flex:1;height:42px;border-radius:10px;background:white;color:black;font-weight:800;border:0;cursor:pointer">Confirm Report</button></div>
+<p id="wx-report-status" style="font-size:11px;text-align:center;margin-top:12px;opacity:0.7"></p>
 </div>
 </div>
 <script>
 (function(){
  const SITE_ID = "${siteId}";
+ const SITE_NAME = "${safeName}";
  const SCRIPT_URL = "${REPORT_SCRIPT_URL}";
  const btn = document.getElementById('wx-report-btn');
  const modal = document.getElementById('wx-report-modal');
@@ -244,14 +228,26 @@ function injectSecurityToCode(rawCode, siteId){
  const confirmBtn = document.getElementById('wx-confirm-report');
  if(confirmBtn) confirmBtn.onclick = async ()=>{
    const reason = document.getElementById('wx-reason').value;
-   document.getElementById('wx-report-status').innerText='Sending...';
-   try{ await fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'report',url:location.href,id:SITE_ID,reason:reason})}); }catch(e){}
-   document.getElementById('wx-report-status').innerText='Reported. We will review within 36 hours.';
-   setTimeout(()=>{modal.style.display='none';document.getElementById('wx-report-status').innerText='';},1500);
+   document.getElementById('wx-report-status').innerText='Sending report...';
+   try{
+     await fetch(SCRIPT_URL,{
+       method:'POST',
+       mode:'no-cors',
+       body:JSON.stringify({
+         type:'report',
+         url: location.href,
+         id: SITE_ID,
+         siteName: SITE_NAME,
+         reason: reason
+       })
+     });
+   }catch(e){}
+   document.getElementById('wx-report-status').innerText='✓ Reported. Review in 36h.';
+   setTimeout(()=>{modal.style.display='none';document.getElementById('wx-report-status').innerText='';},1800);
  };
  fetch(SCRIPT_URL+"?check="+SITE_ID).then(r=>r.json()).then(d=>{
    if(d.banned){
-     document.body.innerHTML='<div style="background:black;color:white;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;font-family:sans-serif;padding:24px"><div><h1 style="font-size:32px;font-weight:900">SITE REMOVED</h1><p style="margin-top:12px;opacity:0.5;font-size:13px">This site was removed for violating Terms.<br>Removed within 36 hours of report.</p></div></div>';
+     document.body.innerHTML='<div style="background:black;color:white;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;font-family:sans-serif;padding:24px"><div><h1 style="font-size:32px;font-weight:900">SITE REMOVED</h1><p style="margin-top:12px;opacity:0.6;font-size:13px">This site was removed for violating Terms.<br>Removed within 36 hours of report.</p></div></div>';
    }
  }).catch(()=>{});
 })();
@@ -270,20 +266,43 @@ deployBtn.onclick=async()=>{
  deployBtn.textContent='Deploying...';deployBtn.disabled=true;
  try{
    let siteId = name.toLowerCase().replace(/[^a-z0-9]/g,'-') + '-' + Math.random().toString(36).slice(2,6);
-   let finalCode = injectSecurityToCode(code, siteId);
+   let finalCode = injectSecurityToCode(code, siteId, name);
    let r=await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:finalCode,name})});
    let d=await r.json();if(!r.ok)throw new Error(d.error||'Deploy failed');
    liveEl.textContent=d.url;liveEl.href=d.url;
    try{ fetch(REPORT_SCRIPT_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'new_site',id:siteId,url:d.url,owner:currentUser.email,name:name})}); }catch(e){}
    await saveToCloud(name,code,d.url);
    renderProjects();
-   alert('Deployed! ' + d.url);
+   alert('Deployed! Live URL:\\n' + d.url);
    window.open(d.url,'_blank');
- }catch(e){alert('Deploy failed: ' + e.message);}finally{deployBtn.textContent='Deploy';checkDeployReady()}
+ }catch(e){console.error(e);alert('Deploy failed: ' + (e.message||e));}finally{deployBtn.textContent='Deploy';checkDeployReady()}
 };
 document.getElementById('copyBtn').onclick=()=>{navigator.clipboard.writeText(liveEl.textContent);let b=document.getElementById('copyBtn');b.textContent='✅ Copied';setTimeout(()=>b.textContent='📋 Copy URL',1500)};
 loadLocalCurrent();initAuth();
-async function toggleVis(){if(!selectedProject) return; let btn=document.getElementById('visBtn');let newVal=selectedProject.is_public===false? true:false;btn.textContent='Saving...';const { error } = await supa.from('projects').update({ is_public: newVal }).eq('id', selectedProject.id);if(error){ alert(error.message); return;}selectedProject.is_public=newVal;let isPub=newVal!==false;btn.textContent=isPub?'🌍 Public':'🔒 Private';btn.style.background=isPub?'#111':'white';btn.style.color=isPub?'white':'#111';document.getElementById('visHint').textContent=isPub?'Anyone can open':'Only you';}
+async function toggleVis(){
+  if(!selectedProject){
+    alert('No project selected');
+    return;
+  }
+  let btn=document.getElementById('visBtn');
+  let newVal=selectedProject.is_public===false? true:false;
+  btn.textContent='Saving...';
+  const { error } = await supa.from('projects').update({ is_public: newVal }).eq('id', selectedProject.id);
+  if(error){
+    alert('Error: '+error.message);
+    btn.textContent=selectedProject.is_public!==false?'🌍 Public':'🔒 Private';
+    return;
+  }
+  selectedProject.is_public=newVal;
+  currentProject=selectedProject;
+  let idx=currentProjects.findIndex(x=>x.id===selectedProject.id);
+  if(idx>=0) currentProjects[idx].is_public=newVal;
+  let isPub=newVal!==false;
+  btn.textContent=isPub?'🌍 Public':'🔒 Private';
+  btn.style.background=isPub?'#111':'white';
+  btn.style.color=isPub?'white':'#111';
+  document.getElementById('visHint').textContent=isPub?'Anyone can open':'Only you';
+}
 </script>
 </body>
 </html>
