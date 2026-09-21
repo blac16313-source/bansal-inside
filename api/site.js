@@ -6,6 +6,40 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 export default async function handler(req, res) {
   try {
     let { id, file } = req.query;
+
+    // --- NEW CUSTOM DOMAIN BRIDGE LOGIC ---
+    // If there is no 'id' parameter in the query, it means someone is visiting a custom domain
+    if (!id) {
+      const hostname = req.headers.host || ''; // e.g., "mybrand.com" or "://mybrand.com"
+      const cleanHost = hostname.replace('www.', '').toLowerCase().trim();
+
+      // Skip your main domain so it doesn't break
+      if (cleanHost === 'webidex.in' || cleanHost === 'localhost:3000') {
+        return res.status(404).send("Website not found");
+      }
+
+      // Check your existing Supabase projects table to see which project matches this domain
+      try {
+        const domainQuery = await fetch(`${SUPABASE_URL}/rest/v1/projects?custom_domain=eq.${encodeURIComponent(cleanHost)}&select=live_url`, {
+          headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
+        });
+        const matchedProjects = await domainQuery.json();
+        
+        if (Array.isArray(matchedProjects) && matchedProjects.length > 0) {
+          // Extract the unique slug/id from your existing live_url string
+          // E.g., if live_url is "webidex.in/s/webefy", it extracts "webefy"
+          const liveUrl = matchedProjects[0].live_url || '';
+          const parts = liveUrl.split('/s/');
+          if (parts.length > 1) {
+            id = parts[1].split('?')[0].split('#')[0].toLowerCase().trim();
+          }
+        }
+      } catch (domainErr) {
+        console.log("Domain mapping lookup failed", domainErr.message);
+      }
+    }
+    // --- END OF CUSTOM DOMAIN BRIDGE LOGIC ---
+
     if (!id || id === "www") return res.status(404).send("Website not found");
     id = id.toLowerCase().trim();
     const slug = id;
