@@ -1,44 +1,36 @@
 import { list } from "@vercel/blob";
 
-const SUPABASE_URL = 'https://trvmbblhssurxxoxlyus.supabase.co';
+const SUPABASE_URL = 'https://supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRydm1iYmxoc3N1cnh4b3hseXVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMTIyNTgsImV4cCI6MjEwNDg4ODI1OH0.psn7mm8NMTNuHQbAPMlw79gldt1Pdh_CejN4zJSeIeg';
 
 export default async function handler(req, res) {
   try {
     let { id, file } = req.query;
 
-    // --- NEW CUSTOM DOMAIN BRIDGE LOGIC ---
-    // If there is no 'id' parameter in the query, it means someone is visiting a custom domain
+    // --- CUSTOM DOMAIN CHECK (BECH MEIN CRASH NAHI HOGA) ---
     if (!id) {
-      const hostname = req.headers.host || ''; // e.g., "mybrand.com" or "://mybrand.com"
+      const hostname = req.headers.host || ''; 
       const cleanHost = hostname.replace('www.', '').toLowerCase().trim();
 
-      // Skip your main domain so it doesn't break
-      if (cleanHost === 'webidex.in' || cleanHost === 'localhost:3000') {
-        return res.status(404).send("Website not found");
-      }
-
-      // Check your existing Supabase projects table to see which project matches this domain
-      try {
-        const domainQuery = await fetch(`${SUPABASE_URL}/rest/v1/projects?custom_domain=eq.${encodeURIComponent(cleanHost)}&select=live_url`, {
-          headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
-        });
-        const matchedProjects = await domainQuery.json();
-        
-        if (Array.isArray(matchedProjects) && matchedProjects.length > 0) {
-          // Extract the unique slug/id from your existing live_url string
-          // E.g., if live_url is "webidex.in/s/webefy", it extracts "webefy"
-          const liveUrl = matchedProjects[0].live_url || '';
-          const parts = liveUrl.split('/s/');
-          if (parts.length > 1) {
-            id = parts[1].split('?')[0].split('#')[0].toLowerCase().trim();
+      if (cleanHost !== 'webidex.in' && cleanHost !== 'localhost:3000') {
+        try {
+          const domainQuery = await fetch(`${SUPABASE_URL}/rest/v1/projects?custom_domain=eq.${encodeURIComponent(cleanHost)}&select=live_url`, {
+            headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
+          });
+          const matchedProjects = await domainQuery.json();
+          
+          if (Array.isArray(matchedProjects) && matchedProjects.length > 0) {
+            const liveUrl = matchedProjects[0].live_url || '';
+            const parts = liveUrl.split('/s/');
+            if (parts.length > 1) {
+              id = parts[1].split('?')[0].split('#')[0];
+            }
           }
+        } catch (domainErr) {
+          console.log("Domain lookup fail", domainErr.message);
         }
-      } catch (domainErr) {
-        console.log("Domain mapping lookup failed", domainErr.message);
       }
     }
-    // --- END OF CUSTOM DOMAIN BRIDGE LOGIC ---
 
     if (!id || id === "www") return res.status(404).send("Website not found");
     id = id.toLowerCase().trim();
