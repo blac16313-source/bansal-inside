@@ -6,32 +6,6 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 export default async function handler(req, res) {
   try {
     let { id, file } = req.query;
-
-    // --- CUSTOM DOMAIN CHECK (BECH MEIN CRASH NAHI HOGA) ---
-    if (!id) {
-      const hostname = req.headers.host || ''; 
-      const cleanHost = hostname.replace('www.', '').toLowerCase().trim();
-
-      if (cleanHost !== 'webidex.in' && cleanHost !== 'localhost:3000') {
-        try {
-          const domainQuery = await fetch(`${SUPABASE_URL}/rest/v1/projects?custom_domain=eq.${encodeURIComponent(cleanHost)}&select=live_url`, {
-            headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
-          });
-          const matchedProjects = await domainQuery.json();
-          
-          if (Array.isArray(matchedProjects) && matchedProjects.length > 0) {
-            const liveUrl = matchedProjects[0].live_url || '';
-            const parts = liveUrl.split('/s/');
-            if (parts.length > 1) {
-              id = parts[1].split('?')[0].split('#')[0];
-            }
-          }
-        } catch (domainErr) {
-          console.log("Domain lookup fail", domainErr.message);
-        }
-      }
-    }
-
     if (!id || id === "www") return res.status(404).send("Website not found");
     id = id.toLowerCase().trim();
     const slug = id;
